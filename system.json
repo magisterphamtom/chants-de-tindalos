@@ -1,0 +1,32 @@
+{
+  "id": "chants-de-tindalos",
+  "title": "Les Chants de Tindalos",
+  "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13.351"
+  },
+  "authors": [
+    {
+      "name": "Walpurgis Éditions",
+      "url": "https://chantsdetindalos.fr"
+    }
+  ],
+  "esmodules": [
+    "module/chants-de-tindalos.js"
+  ],
+"styles": [
+    "css/chants-de-tindalos.css"
+],
+  "languages": [
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
+    }
+  ],
+  "socket": false,
+  "url": "",
+  "license": "All rights reserved - Walpurgis Éditions"
+}

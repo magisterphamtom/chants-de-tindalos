@@ -1,0 +1,45 @@
+<div class="tab" data-tab="competences" data-group="sheet" role="tabpanel">
+
+  <div class="section-title">Compétences Socle</div>
+  <div class="competences-list">
+    {{#each system.competences.socle as |comp id|}}
+    <div class="competence-row comp-socle rollable"
+         data-action="jetComp" data-comp="{{id}}" data-type="socle">
+      <span class="comp-carac">
+        {{#if (eq comp.caracLiee "savoir")}}📚{{/if}}
+        {{#if (eq comp.caracLiee "perception")}}👁️{{/if}}
+        {{#if (eq comp.caracLiee "charisme")}}🗣️{{/if}}
+        {{#if (eq comp.caracLiee "agilite")}}⚡{{/if}}
+        {{#if (eq comp.caracLiee "vigueur")}}💪{{/if}}
+        {{comp.caracLiee}}
+      </span>
+      <span class="comp-name">{{comp.label}}</span>
+      <input type="number" class="comp-value"
+             name="system.competences.socle.{{id}}.valeur"
+             value="{{comp.valeur}}" min="0" max="5" />
+    </div>
+    {{/each}}
+  </div>
+
+  <div class="section-title">Compétences de Spécialité</div>
+  <div class="competences-list">
+    {{#each system.competences.specialite as |comp id|}}
+    <div class="competence-row comp-specialite rollable"
+         data-action="jetComp" data-comp="{{id}}" data-type="specialite">
+      <span class="comp-carac">
+        {{#if (eq comp.caracLiee "savoir")}}📚{{/if}}
+        {{#if (eq comp.caracLiee "perception")}}👁️{{/if}}
+        {{#if (eq comp.caracLiee "charisme")}}🗣️{{/if}}
+        {{#if (eq comp.caracLiee "agilite")}}⚡{{/if}}
+        {{#if (eq comp.caracLiee "vigueur")}}💪{{/if}}
+        {{comp.caracLiee}}
+      </span>
+      <span class="comp-name">{{comp.label}}</span>
+      <input type="number" class="comp-value"
+             name="system.competences.specialite.{{id}}.valeur"
+             value="{{comp.valeur}}" min="0" max="5" />
+    </div>
+    {{/each}}
+  </div>
+
+</div>

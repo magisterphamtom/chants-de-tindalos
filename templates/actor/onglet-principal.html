@@ -1,0 +1,229 @@
+<div class="tab active" data-tab="principal" data-group="sheet" role="tabpanel">
+
+  <!-- CARACTÉRISTIQUES -->
+  <div class="section-title">Caractéristiques</div>
+  <div class="caracteristiques">
+    <div class="carac-box rollable" data-carac="savoir">
+      <span class="carac-icone">📚</span>
+      <span class="carac-label">Savoir</span>
+      <input type="number" name="system.caracteristiques.savoir.valeur"
+             value="{{system.caracteristiques.savoir.valeur}}" min="1" max="5" />
+      <div class="carac-sous">
+        <span title="Coût">C:{{system.caracteristiques.savoir.cout}}</span>
+        <span title="Défense">D:{{system.caracteristiques.savoir.defense}}</span>
+      </div>
+    </div>
+    <div class="carac-box rollable" data-carac="perception">
+      <span class="carac-icone">👁️</span>
+      <span class="carac-label">Perception</span>
+      <input type="number" name="system.caracteristiques.perception.valeur"
+             value="{{system.caracteristiques.perception.valeur}}" min="1" max="5" />
+      <div class="carac-sous">
+        <span title="Coût">C:{{system.caracteristiques.perception.cout}}</span>
+        <span title="Défense">D:{{system.caracteristiques.perception.defense}}</span>
+      </div>
+    </div>
+    <div class="carac-box rollable" data-carac="charisme">
+      <span class="carac-icone">🗣️</span>
+      <span class="carac-label">Charisme</span>
+      <input type="number" name="system.caracteristiques.charisme.valeur"
+             value="{{system.caracteristiques.charisme.valeur}}" min="1" max="5" />
+      <div class="carac-sous">
+        <span title="Coût">C:{{system.caracteristiques.charisme.cout}}</span>
+        <span title="Défense">D:{{system.caracteristiques.charisme.defense}}</span>
+      </div>
+    </div>
+    <div class="carac-box rollable" data-carac="agilite">
+      <span class="carac-icone">⚡</span>
+      <span class="carac-label">Agilité</span>
+      <input type="number" name="system.caracteristiques.agilite.valeur"
+             value="{{system.caracteristiques.agilite.valeur}}" min="1" max="5" />
+      <div class="carac-sous">
+        <span title="Coût">C:{{system.caracteristiques.agilite.cout}}</span>
+        <span title="Défense">D:{{system.caracteristiques.agilite.defense}}</span>
+      </div>
+    </div>
+    <div class="carac-box rollable" data-carac="vigueur">
+      <span class="carac-icone">💪</span>
+      <span class="carac-label">Vigueur</span>
+      <input type="number" name="system.caracteristiques.vigueur.valeur"
+             value="{{system.caracteristiques.vigueur.valeur}}" min="1" max="5" />
+      <div class="carac-sous">
+        <span title="Coût">C:{{system.caracteristiques.vigueur.cout}}</span>
+        <span title="Défense">D:{{system.caracteristiques.vigueur.defense}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- VARIABLES -->
+  <div class="section-title">Variables</div>
+  <div class="variables-grid">
+    <div class="variable-box">
+      <span class="variable-icone">🧘</span>
+      <label>Maîtrise</label>
+      <input type="number" name="system.variables.maitrise"
+             value="{{system.variables.maitrise}}" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">🔮</span>
+      <label>Intuition</label>
+      <input type="number" name="system.variables.intuition"
+             value="{{system.variables.intuition}}" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">🏃</span>
+      <label>Vitesse</label>
+      <input type="number" name="system.variables.vitesse"
+             value="{{system.variables.vitesse}}" readonly />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">😴</span>
+      <label>Sommeil</label>
+      <input type="number" name="system.variables.sommeil"
+             value="{{system.variables.sommeil}}" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">💤</span>
+      <label>Dettes Sommeil</label>
+      <input type="number" name="system.variables.dettesSommeil"
+             value="{{system.variables.dettesSommeil}}" min="0" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">💰</span>
+      <label>Richesse</label>
+      <input type="number" name="system.rangRichesse"
+             value="{{system.rangRichesse}}" min="0" max="10" />
+    </div>
+  </div>
+
+  <!-- JAUGES -->
+  <div class="section-title">Jauges</div>
+  <div class="jauges">
+
+    <!-- Rangée 1 : Réserve, Angoisse, Blessures -->
+    <div class="jauge-box">
+      <span class="jauge-icone">🔋</span>
+      <span class="jauge-label">Réserve</span>
+      <input type="number" name="system.jauges.reserve.valeur"
+             value="{{system.jauges.reserve.valeur}}" min="0" max="20" />
+      <span class="jauge-max">/ {{system.jauges.reserve.max}}</span>
+    </div>
+    <div class="jauge-box">
+      <span class="jauge-icone">😰</span>
+      <span class="jauge-label">Angoisse</span>
+      <input type="number" name="system.jauges.angoisse.valeur"
+             value="{{system.jauges.angoisse.valeur}}" />
+    </div>
+    <div class="jauge-box">
+      <span class="jauge-icone">🩹</span>
+      <span class="jauge-label">Blessures</span>
+      <input type="text" name="system.jauges.blessures"
+             value="{{system.jauges.blessures}}" />
+    </div>
+
+    <!-- Rangée 2 : Espoir et Folie centrés -->
+    <div class="jauges-xp-row">
+
+      <!-- ESPOIR avec XP -->
+      <div class="jauge-box jauge-xp">
+        <span class="jauge-icone">🕯️</span>
+        <span class="jauge-label">Espoir</span>
+        <input type="number" name="system.jauges.espoir.valeur"
+               value="{{system.jauges.espoir.valeur}}" min="0" max="8" />
+        <div class="xp-barre">
+          <span class="xp-label">XP Espoir</span>
+          <div class="xp-cases" id="xp-espoir-cases"
+               data-xp="{{system.jauges.espoir.xp}}"
+               data-type="espoir">
+            <div class="xp-case" data-valeur="1"></div>
+            <div class="xp-case" data-valeur="2"></div>
+            <div class="xp-case" data-valeur="3"></div>
+            <div class="xp-case" data-valeur="4"></div>
+            <div class="xp-case" data-valeur="5"></div>
+            <div class="xp-case" data-valeur="6"></div>
+            <div class="xp-case" data-valeur="7"></div>
+            <div class="xp-case" data-valeur="8"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FOLIE avec XP -->
+      <div class="jauge-box jauge-xp">
+        <span class="jauge-icone">🌀</span>
+        <span class="jauge-label">Folie</span>
+        <input type="number" name="system.jauges.folie.valeur"
+               value="{{system.jauges.folie.valeur}}" min="0" max="8" />
+        <div class="xp-barre">
+          <span class="xp-label">XP Folie</span>
+          <div class="xp-cases" id="xp-folie-cases"
+               data-xp="{{system.jauges.folie.xp}}"
+               data-type="folie">
+            <div class="xp-case" data-valeur="1"></div>
+            <div class="xp-case" data-valeur="2"></div>
+            <div class="xp-case" data-valeur="3"></div>
+            <div class="xp-case" data-valeur="4"></div>
+            <div class="xp-case" data-valeur="5"></div>
+            <div class="xp-case" data-valeur="6"></div>
+            <div class="xp-case" data-valeur="7"></div>
+            <div class="xp-case" data-valeur="8"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BARRE DE TENSION -->
+  <div class="section-title">
+    Tension
+    <span class="tension-valeur-label" id="tension-label">
+      {{system.jauges.tension.valeur}} / 20
+    </span>
+  </div>
+  <div class="tension-barre-wrapper">
+    <div class="tension-cases" id="tension-cases"
+         data-tension="{{system.jauges.tension.valeur}}">
+      <div class="tension-case" data-valeur="1"></div>
+      <div class="tension-case" data-valeur="2"></div>
+      <div class="tension-case" data-valeur="3"></div>
+      <div class="tension-case" data-valeur="4"></div>
+      <div class="tension-case" data-valeur="5"></div>
+      <div class="tension-case" data-valeur="6"></div>
+      <div class="tension-case" data-valeur="7"></div>
+      <div class="tension-case" data-valeur="8"></div>
+      <div class="tension-case" data-valeur="9"></div>
+      <div class="tension-case" data-valeur="10"></div>
+      <div class="tension-case palier" data-valeur="11"></div>
+      <div class="tension-case" data-valeur="12"></div>
+      <div class="tension-case" data-valeur="13"></div>
+      <div class="tension-case palier" data-valeur="14"></div>
+      <div class="tension-case" data-valeur="15"></div>
+      <div class="tension-case" data-valeur="16"></div>
+      <div class="tension-case palier" data-valeur="17"></div>
+      <div class="tension-case" data-valeur="18"></div>
+      <div class="tension-case" data-valeur="19"></div>
+      <div class="tension-case palier mort" data-valeur="20"></div>
+    </div>
+    <input type="hidden" name="system.jauges.tension.valeur"
+           id="tension-input" value="{{system.jauges.tension.valeur}}" />
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="section-title">Actions</div>
+  <div class="actions-barre">
+    <div class="sd-box">
+      <span class="jauge-label">Seuil de Difficulté</span>
+      <span class="sd-valeur">{{system.seuilDifficulte}}+</span>
+    </div>
+    <button type="button" class="btn-jet-maitrise">
+      🎲 Jet de Maîtrise (1d20)
+    </button>
+    <button type="button" class="btn-jet-defensif">
+      🛡️ Jet Défensif
+    </button>
+    <button type="button" class="btn-jet-sommeil">
+      😴 Jet de Sommeil
+    </button>
+  </div>
+
+</div>

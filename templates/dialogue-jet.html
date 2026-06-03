@@ -1,0 +1,31 @@
+<div class="cdt-dialogue-jet">
+
+  <div class="dialogue-info">
+    <div class="dialogue-action">🎲 {{nomAction}}</div>
+    <div class="dialogue-base">
+      Dés de base : <b>{{nbDesBase}}</b>
+      — Seuil : <b>{{sd}}+</b>
+    </div>
+  </div>
+
+  <div class="dialogue-options">
+
+    <div class="dialogue-ligne">
+      <label>Dés bonus (coût en Réserve : {{cout}} par dé)</label>
+      <input type="number" id="des-bonus" name="desBonus"
+             value="0" min="0" max="2" />
+    </div>
+
+    <div class="dialogue-ligne">
+      <label>Dés bonus du MJ</label>
+      <input type="number" id="des-mj" name="desMJ"
+             value="0" min="0" />
+    </div>
+
+    <div class="dialogue-total">
+      Total : <span id="total-des">{{nbDesBase}}</span> dés
+    </div>
+
+  </div>
+
+</div>

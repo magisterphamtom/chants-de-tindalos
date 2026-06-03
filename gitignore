@@ -1,0 +1,18 @@
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editeurs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Foundry VTT
+*.db
+*.db-journal
+packs/*.db
+
+# Node
+node_modules/

@@ -1,0 +1,1260 @@
+/* ================================
+   Les Chants de Tindalos - Styles
+   ================================ */
+
+/* --- GÉNÉRAL --- */
+.chants-de-tindalos {
+  font-family: "Georgia", serif;
+  color: #2c1810;
+  background: #f4e8d0;
+}
+
+/* --- SCROLLBAR STYLISÉE --- */
+.chants-de-tindalos .tab::-webkit-scrollbar,
+.app.sheet::-webkit-scrollbar,
+.window-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chants-de-tindalos .tab::-webkit-scrollbar-track,
+.app.sheet::-webkit-scrollbar-track,
+.window-content::-webkit-scrollbar-track {
+  background: #ede0c4;
+}
+
+.chants-de-tindalos .tab::-webkit-scrollbar-thumb,
+.app.sheet::-webkit-scrollbar-thumb,
+.window-content::-webkit-scrollbar-thumb {
+  background: #8b4513;
+  border-radius: 3px;
+}
+
+.chants-de-tindalos .tab::-webkit-scrollbar-thumb:hover,
+.app.sheet::-webkit-scrollbar-thumb:hover,
+.window-content::-webkit-scrollbar-thumb:hover {
+  background: #c8a882;
+}
+
+.chants-de-tindalos .sheet-header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: #2c1810;
+  min-height: 180px;
+}
+
+.chants-de-tindalos .sheet-header img {
+  width: 160px;
+  height: 160px;
+  border: 2px solid #8b4513;
+  border-radius: 4px;
+  cursor: pointer;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+.chants-de-tindalos .sheet-header img:hover {
+  border-color: #c8a882;
+  opacity: 0.85;
+}
+
+.chants-de-tindalos .header-infos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.chants-de-tindalos .header-infos input.name {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #f4e8d0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  width: 100%;
+  font-family: "Georgia", serif;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.chants-de-tindalos .identite-ligne {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.chants-de-tindalos .identite-champ {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chants-de-tindalos .identite-champ label {
+  color: #c8a882;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.chants-de-tindalos .identite-champ input {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #f4e8d0;
+  font-family: "Georgia", serif;
+  font-size: 20px;
+  padding: 2px 4px;
+  width: 100%;
+}
+
+/* --- ONGLETS --- */
+.chants-de-tindalos .sheet-tabs {
+  display: flex;
+  flex-direction: row;
+  background: #3d2010;
+  padding: 0 10px;
+  border-top: 1px solid #8b4513;
+}
+
+.chants-de-tindalos .sheet-tabs .item {
+  color: #c8a882;
+  padding: 8px 12px;
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.chants-de-tindalos .sheet-tabs .item:hover {
+  color: #f4e8d0;
+}
+
+.chants-de-tindalos .sheet-tabs .item.active {
+  color: #f4e8d0;
+  border-bottom: 3px solid #c8a882;
+  font-weight: bold;
+}
+
+/* --- CORPS --- */
+.chants-de-tindalos .tab {
+  padding: 12px 14px;
+  background: #f4e8d0;
+  overflow-y: auto;
+  max-height: 520px;
+}
+
+/* --- TITRES DE SECTION --- */
+.chants-de-tindalos .section-title {
+  font-size: 0.78em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #2c1810;
+  border-bottom: 1px solid #8b4513;
+  margin: 14px 0 8px 0;
+  padding-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chants-de-tindalos .section-title:first-child {
+  margin-top: 4px;
+}
+
+/* --- CARACTÉRISTIQUES --- */
+.chants-de-tindalos .caracteristiques {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.chants-de-tindalos .carac-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2c1810;
+  color: #f4e8d0;
+  border: 1px solid #5c3010;
+  border-radius: 5px;
+  padding: 6px 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .carac-box:hover {
+  background: #5c3010;
+  border-color: #c8a882;
+}
+
+.chants-de-tindalos .carac-box .carac-label {
+  font-size: 0.62em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #c8a882;
+  margin-bottom: 4px;
+}
+
+.chants-de-tindalos .carac-box input {
+  width: 40px;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  background: transparent;
+  color: #f4e8d0;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  font-family: "Georgia", serif;
+  pointer-events: none;
+}
+
+.chants-de-tindalos .carac-sous {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.65em;
+  color: #a07850;
+}
+
+.chants-de-tindalos .carac-icone {
+  font-size: 1.2em;
+  margin-bottom: 2px;
+}
+
+.chants-de-tindalos .variable-icone {
+  font-size: 1.1em;
+  margin-bottom: 2px;
+}
+
+.chants-de-tindalos .jauge-icone {
+  font-size: 1.1em;
+  margin-bottom: 2px;
+}
+
+/* --- VARIABLES --- */
+.chants-de-tindalos .variables-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.chants-de-tindalos .variable-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.chants-de-tindalos .variable-box label {
+  font-size: 0.68em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c3010;
+  margin-bottom: 4px;
+}
+
+.chants-de-tindalos .variable-box input {
+  width: 50px;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+}
+
+.chants-de-tindalos .variable-box input[readonly] {
+  color: #888;
+  cursor: default;
+}
+
+/* --- JAUGES --- */
+.chants-de-tindalos .jauges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.chants-de-tindalos .jauges-xp-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  max-width: 66%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.chants-de-tindalos .jauge-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.chants-de-tindalos .jauge-label {
+  font-size: 0.68em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c3010;
+  margin-bottom: 4px;
+}
+
+.chants-de-tindalos .jauge-box input {
+  width: 50px;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+}
+
+.chants-de-tindalos .jauge-max {
+  font-size: 0.75em;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* --- XP FOLIE ET ESPOIR --- */
+.chants-de-tindalos .jauge-xp {
+  grid-column: span 1;
+}
+
+.chants-de-tindalos .xp-barre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.chants-de-tindalos .xp-label {
+  font-size: 0.6em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c3010;
+}
+
+.chants-de-tindalos .xp-cases {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 2px;
+  width: 100%;
+}
+
+.chants-de-tindalos .xp-case {
+  height: 10px;
+  border-radius: 2px;
+  border: 1px solid #c8a882;
+  background: #f0e8d8;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.chants-de-tindalos .xp-case:hover {
+  opacity: 0.75;
+}
+
+.chants-de-tindalos #xp-espoir-cases .xp-case.active {
+  background: #c8a020;
+  border-color: #a07810;
+}
+
+.chants-de-tindalos #xp-folie-cases .xp-case.active {
+  background: #6a1a7c;
+  border-color: #5a0a6a;
+}
+
+.chants-de-tindalos .xp-cases .xp-case:nth-child(4) {
+  border-right: 2px solid #8b4513;
+}
+
+/* --- BARRE DE TENSION --- */
+.chants-de-tindalos .tension-valeur-label {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: #8b4513;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.chants-de-tindalos .tension-barre-wrapper {
+  margin: 4px 0 10px 0;
+}
+
+.chants-de-tindalos .tension-cases {
+  display: grid;
+  grid-template-columns: repeat(20, 1fr);
+  gap: 2px;
+  width: 100%;
+}
+
+.chants-de-tindalos .tension-case {
+  height: 24px;
+  border-radius: 3px;
+  border: 1px solid #c8a882;
+  background: #f0e8d8;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.chants-de-tindalos .tension-case:hover {
+  opacity: 0.75;
+}
+
+.chants-de-tindalos .tension-case.palier {
+  border-left: 2px solid #8b4513;
+}
+
+.chants-de-tindalos .tension-case.mort {
+  border-left: 2px solid #8b0000;
+}
+
+.chants-de-tindalos .tension-cases:not(.onirisme-cases) .tension-case:nth-child(-n+10).active {
+  background: #4a7c4a;
+  border-color: #2d6a2d;
+}
+
+.chants-de-tindalos .tension-cases:not(.onirisme-cases) .tension-case:nth-child(n+11):nth-child(-n+13).active {
+  background: #c87010;
+  border-color: #a05808;
+}
+
+.chants-de-tindalos .tension-cases:not(.onirisme-cases) .tension-case:nth-child(n+14):nth-child(-n+16).active {
+  background: #c84010;
+  border-color: #a02808;
+}
+
+.chants-de-tindalos .tension-cases:not(.onirisme-cases) .tension-case:nth-child(n+17):nth-child(-n+19).active {
+  background: #8b0000;
+  border-color: #600000;
+}
+
+.chants-de-tindalos .tension-cases:not(.onirisme-cases) .tension-case:nth-child(20).active {
+  background: #1a0000;
+  border-color: #8b0000;
+}
+
+.chants-de-tindalos .onirisme-cases .tension-case:nth-child(-n+10).active {
+  background: #2a4a7c;
+  border-color: #1a3a6a;
+}
+
+.chants-de-tindalos .onirisme-cases .tension-case:nth-child(n+11):nth-child(-n+13).active {
+  background: #4a2a7c;
+  border-color: #3a1a6a;
+}
+
+.chants-de-tindalos .onirisme-cases .tension-case:nth-child(n+14):nth-child(-n+16).active {
+  background: #6a1a7c;
+  border-color: #5a0a6a;
+}
+
+.chants-de-tindalos .onirisme-cases .tension-case:nth-child(n+17):nth-child(-n+19).active {
+  background: #7c0a5a;
+  border-color: #6a0a4a;
+}
+
+.chants-de-tindalos .onirisme-cases .tension-case:nth-child(20).active {
+  background: #1a0a2a;
+  border-color: #7c0a5a;
+}
+
+/* --- ACTIONS --- */
+.chants-de-tindalos .actions-barre {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.chants-de-tindalos .sd-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chants-de-tindalos .sd-valeur {
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #8b4513;
+}
+
+.chants-de-tindalos .btn-jet-maitrise {
+  background: #2c1810;
+  color: #f4e8d0;
+  border: 1px solid #8b4513;
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-size: 0.9em;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .btn-jet-maitrise:hover {
+  background: #8b4513;
+  border-color: #c8a882;
+}
+
+.chants-de-tindalos .btn-jet-defensif {
+  background: #1a3a1a;
+  color: #f4e8d0;
+  border: 1px solid #2d6a2d;
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-size: 0.9em;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .btn-jet-defensif:hover {
+  background: #2d6a2d;
+  border-color: #c8a882;
+}
+
+.chants-de-tindalos .btn-jet-sommeil {
+  background: #1a1a3a;
+  color: #f4e8d0;
+  border: 1px solid #4a4a8a;
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-size: 0.9em;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .btn-jet-sommeil:hover {
+  background: #4a4a8a;
+  border-color: #c8a882;
+}
+
+/* --- COMPÉTENCES --- */
+.chants-de-tindalos .competences-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.chants-de-tindalos .competence-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  border-bottom: 1px dotted #c8a882;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.chants-de-tindalos .competence-row:hover {
+  background: #e8d4b0;
+}
+
+.chants-de-tindalos .comp-carac {
+  font-size: 0.68em;
+  text-transform: uppercase;
+  color: #8b4513;
+  width: 70px;
+  flex-shrink: 0;
+  font-style: italic;
+}
+
+.chants-de-tindalos .comp-name {
+  flex: 1;
+  font-size: 0.9em;
+}
+
+.chants-de-tindalos .comp-value {
+  width: 36px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 3px;
+  color: #2c1810;
+  padding: 2px;
+  font-family: "Georgia", serif;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);
+}
+
+/* --- MILIEUX --- */
+.chants-de-tindalos .milieux-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.chants-de-tindalos .milieu-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px 10px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.chants-de-tindalos .milieu-row label {
+  flex: 1;
+  font-size: 0.85em;
+  color: #2c1810;
+}
+
+.chants-de-tindalos .milieu-row input {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1em;
+  background: white;
+  border: 1px solid #8b4513;
+  border-radius: 3px;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  padding: 2px;
+}
+
+.chants-de-tindalos .milieu-icone {
+  font-size: 1.2em;
+  width: 24px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* --- COMBAT --- */
+.chants-de-tindalos .armes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.chants-de-tindalos .arme-row {
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.chants-de-tindalos .arme-infos {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.chants-de-tindalos .arme-nom {
+  flex: 1;
+  min-width: 120px;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #2c1810;
+  font-size: 0.95em;
+  padding: 2px 4px;
+}
+
+.chants-de-tindalos .arme-nom::placeholder {
+  color: #a07850;
+  font-style: italic;
+}
+
+.chants-de-tindalos .arme-nom::placeholder {
+  color: #a07850;
+  font-style: italic;
+}
+
+.chants-de-tindalos .arme-type,
+.chants-de-tindalos .arme-portee {
+  font-size: 0.75em;
+  background: #f4e8d0;
+  border: 1px solid #c8a882;
+  border-radius: 3px;
+  color: #2c1810;
+  padding: 2px 4px;
+}
+
+.chants-de-tindalos .arme-stats {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chants-de-tindalos .arme-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.chants-de-tindalos .arme-stat label {
+  font-size: 0.65em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c3010;
+}
+
+.chants-de-tindalos .arme-stat input {
+  width: 45px;
+  text-align: center;
+  font-weight: bold;
+  background: #f4e8d0;
+  border: 1px solid #c8a882;
+  border-radius: 3px;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  padding: 2px;
+}
+
+.chants-de-tindalos .arme-stat select {
+  font-size: 0.75em;
+  background: #f4e8d0;
+  border: 1px solid #c8a882;
+  border-radius: 3px;
+  color: #2c1810;
+  padding: 2px;
+}
+
+.chants-de-tindalos .btn-attaquer {
+  background: #8b0000;
+  color: #f4e8d0;
+  border: 1px solid #600000;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 0.85em;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: auto;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .btn-attaquer:hover {
+  background: #600000;
+}
+
+.chants-de-tindalos .btn-arret-cardiaque {
+  background: #1a0000;
+  color: #f4e8d0;
+  border: 1px solid #8b0000;
+  border-radius: 4px;
+  padding: 7px 16px;
+  font-size: 0.9em;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .btn-arret-cardiaque:hover {
+  background: #8b0000;
+}
+
+.chants-de-tindalos .declencheurs-box input {
+  width: 100%;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: "Georgia", serif;
+  color: #2c1810;
+  box-sizing: border-box;
+}
+
+/* --- RÉVÉLATIONS COMPACTES --- */
+.chants-de-tindalos .revelations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chants-de-tindalos .revelation-row {
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.chants-de-tindalos .revelation-header {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.chants-de-tindalos .revelation-nom {
+  flex: 1;
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #2c1810;
+  font-size: 0.9em;
+}
+
+.chants-de-tindalos .revelation-nom::placeholder {
+  color: #a07850;
+  font-style: italic;
+}
+
+.chants-de-tindalos .revelation-effet {
+  flex: 1;
+  font-family: "Georgia", serif;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #c8a882;
+  color: #5c3010;
+  font-size: 0.82em;
+  font-style: italic;
+}
+
+.chants-de-tindalos .revelation-effet::placeholder {
+  color: #b09070;
+}
+
+.chants-de-tindalos .revelation-description {
+  width: 100%;
+  min-height: 24px;
+  max-height: 40px;
+  background: transparent;
+  border: none;
+  border-top: 1px dotted #c8a882;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  font-size: 0.78em;
+  resize: vertical;
+  padding-top: 3px;
+  box-sizing: border-box;
+}
+
+.chants-de-tindalos .revelation-description::placeholder {
+  color: #a07850;
+  font-style: italic;
+}
+
+/* --- ARCANES --- */
+.chants-de-tindalos .arcanes-wrapper {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.chants-de-tindalos .arcanes-des-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2c1810;
+  color: #f4e8d0;
+  border-radius: 4px;
+  padding: 10px;
+  gap: 6px;
+  min-width: 90px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .arcanes-des-box label {
+  font-size: 0.65em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #c8a882;
+}
+
+.chants-de-tindalos .arcanes-des-select {
+  background: #3d2010;
+  color: #f4e8d0;
+  border: 1px solid #8b4513;
+  border-radius: 3px;
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 2px 4px;
+  text-align: center;
+}
+
+.chants-de-tindalos .arcanes-des-select option {
+  background: #2c1810;
+  color: #f4e8d0;
+}
+
+.chants-de-tindalos .btn-jet-arcanes {
+  background: #2a0a4a;
+  color: #f4e8d0;
+  border: 1px solid #6a2a8a;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 0.85em;
+  font-family: "Georgia", serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 6px;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.chants-de-tindalos .btn-jet-arcanes:hover {
+  background: #6a2a8a;
+  border-color: #c8a882;
+}
+.chants-de-tindalos .arcanes-ecoles {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chants-de-tindalos .arcane-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px 8px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.chants-de-tindalos .arcane-ecole {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  font-size: 0.9em;
+}
+
+.chants-de-tindalos .arcane-modif-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.chants-de-tindalos .arcane-modif-box label {
+  font-size: 0.62em;
+  text-transform: uppercase;
+  color: #5c3010;
+}
+
+.chants-de-tindalos .arcane-modif {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+  background: #f4e8d0;
+  border: 1px solid #c8a882;
+  border-radius: 3px;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  padding: 2px;
+}
+
+/* --- CONTACTS --- */
+.chants-de-tindalos .contacts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.chants-de-tindalos .contact-milieu-box {
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.chants-de-tindalos .contact-milieu-nom {
+  font-weight: bold;
+  font-family: "Georgia", serif;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #2c1810;
+  font-size: 0.9em;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.chants-de-tindalos .contact-ligne {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chants-de-tindalos .contact-ligne input[type="text"] {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dotted #c8a882;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  font-size: 0.82em;
+}
+
+.chants-de-tindalos .contact-ligne input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* --- POSSESSIONS --- */
+.chants-de-tindalos .possessions-box textarea {
+  width: 100%;
+  min-height: 80px;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 8px;
+  font-family: "Georgia", serif;
+  color: #2c1810;
+  font-size: 0.9em;
+  resize: vertical;
+  box-sizing: border-box;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* --- PNJ --- */
+.chants-de-tindalos.pnj .sheet-header {
+  background: #1a0a0a;
+}
+
+.chants-de-tindalos.pnj .pnj-body {
+  padding: 12px 14px;
+  background: #f4e8d0;
+}
+
+/* --- DIALOGUE DE JET --- */
+.cdt-dialogue-jet {
+  font-family: "Georgia", serif;
+  color: #2c1810;
+  padding: 6px;
+}
+
+.cdt-dialogue-jet .dialogue-info {
+  background: #2c1810;
+  color: #f4e8d0;
+  padding: 10px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.cdt-dialogue-jet .dialogue-action {
+  font-size: 1.15em;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.cdt-dialogue-jet .dialogue-base {
+  font-size: 0.85em;
+  color: #c8a882;
+}
+
+.cdt-dialogue-jet .dialogue-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cdt-dialogue-jet .dialogue-ligne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cdt-dialogue-jet .dialogue-ligne label {
+  font-size: 0.85em;
+  color: #5c3010;
+  flex: 1;
+}
+
+.cdt-dialogue-jet .dialogue-ligne input {
+  width: 55px;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+  background: #f4e8d0;
+  border: 1px solid #8b4513;
+  border-radius: 3px;
+  color: #2c1810;
+  font-family: "Georgia", serif;
+  padding: 3px;
+}
+
+.cdt-dialogue-jet .dialogue-total {
+  text-align: center;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #2c1810;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 6px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+/* --- FICHE PNJ --- */
+.chants-de-tindalos.pnj .pnj-body {
+  padding: 0;
+  background: #f4e8d0;
+  overflow-y: auto;
+  max-height: 650px;
+}
+
+.chants-de-tindalos.pnj .pnj-body > .section-title,
+.chants-de-tindalos.pnj .pnj-body > .caracteristiques,
+.chants-de-tindalos.pnj .pnj-body > .variables-grid,
+.chants-de-tindalos.pnj .pnj-body > .jauges,
+.chants-de-tindalos.pnj .pnj-body > .pnj-possessions,
+.chants-de-tindalos.pnj .pnj-body > .armes-list,
+.chants-de-tindalos.pnj .pnj-body > .declencheurs-box,
+.chants-de-tindalos.pnj .pnj-body > .actions-barre,
+.chants-de-tindalos.pnj .pnj-body > .notes-box {
+  padding: 0 14px;
+}
+
+.chants-de-tindalos.pnj .pnj-niveau-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chants-de-tindalos.pnj .pnj-niveau-box label {
+  color: #c8a882;
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.chants-de-tindalos.pnj .pnj-niveau-box input {
+  width: 50px;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: bold;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid #8b4513;
+  border-radius: 4px;
+  color: #f4e8d0;
+  font-family: "Georgia", serif;
+  padding: 2px 4px;
+}
+
+/* --- POSSESSIONS PNJ --- */
+.chants-de-tindalos .pnj-possessions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chants-de-tindalos .pnj-possession-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: #ede0c4;
+  border: 2px solid #c8a882;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-width: 60px;
+}
+
+.chants-de-tindalos .pnj-possession-item input[type="checkbox"] {
+  display: none;
+}
+
+.chants-de-tindalos .pnj-possession-item.active {
+  background: #2c1810;
+  border-color: #c8a882;
+}
+
+.chants-de-tindalos .pnj-possession-item.active .pnj-poss-label {
+  color: #f4e8d0;
+}
+
+.chants-de-tindalos .pnj-possession-item:hover {
+  border-color: #8b4513;
+  opacity: 0.85;
+}
+
+.chants-de-tindalos .pnj-poss-icone {
+  font-size: 1.4em;
+}
+
+.chants-de-tindalos .pnj-poss-label {
+  font-size: 0.6em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5c3010;
+}
+
+/* --- NOTES PNJ --- */
+.chants-de-tindalos .notes-box textarea {
+  width: 100%;
+  min-height: 60px;
+  background: #ede0c4;
+  border: 1px solid #c8a882;
+  border-radius: 4px;
+  padding: 8px;
+  font-family: "Georgia", serif;
+  color: #2c1810;
+  font-size: 0.9em;
+  resize: vertical;
+  box-sizing: border-box;
+}

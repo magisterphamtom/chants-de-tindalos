@@ -1,0 +1,62 @@
+{
+  "CDT.NomPersonnage": "Nom du personnage",
+  "CDT.Profession": "Profession",
+  "CDT.Origine": "Origine",
+
+  "CDT.Caracteristiques": "Caractéristiques",
+  "CDT.Savoir": "Savoir",
+  "CDT.Perception": "Perception",
+  "CDT.Charisme": "Charisme",
+  "CDT.Agilite": "Agilité",
+  "CDT.Vigueur": "Vigueur",
+  "CDT.Cout": "Coût",
+  "CDT.Defense": "Défense",
+
+  "CDT.Variables": "Variables",
+  "CDT.Maitrise": "Maîtrise",
+  "CDT.Intuition": "Intuition",
+  "CDT.Vitesse": "Vitesse",
+  "CDT.Sommeil": "Sommeil",
+
+  "CDT.Jauges": "Jauges",
+  "CDT.Reserve": "Réserve",
+  "CDT.Tension": "Tension",
+  "CDT.Angoisse": "Angoisse",
+  "CDT.Espoir": "Espoir",
+  "CDT.Folie": "Folie",
+  "CDT.Blessures": "Blessures",
+
+  "CDT.Competences": "Compétences",
+  "CDT.CompetencesSocle": "Compétences Socle",
+  "CDT.CompetencesSpecialite": "Compétences de Spécialité",
+  "CDT.Valeur": "Valeur",
+
+  "CDT.Milieux": "Milieux",
+  "CDT.Academie": "Académie",
+  "CDT.Commerce": "Commerce",
+  "CDT.Culture": "Culture",
+  "CDT.Itinerant": "Itinérant",
+  "CDT.Laborieux": "Laborieux",
+  "CDT.Louche": "Louche",
+  "CDT.Occulte": "Occulte",
+  "CDT.Ordre": "Ordre",
+  "CDT.Politique": "Politique",
+  "CDT.Sante": "Santé",
+
+  "CDT.Jets": "Jets de dés",
+  "CDT.JetCarac": "Jet de caractéristique",
+  "CDT.JetMaitrise": "Jet de maîtrise",
+  "CDT.Reussites": "réussite(s)",
+  "CDT.Echec": "Échec",
+
+  "CDT.SeuilDifficulte": "Seuil de difficulté",
+  "CDT.NbDes": "Nombre de dés",
+
+  "CDT.Onglets.Principal": "Principal",
+  "CDT.Onglets.Competences": "Compétences",
+  "CDT.Onglets.Milieux": "Milieux",
+  "CDT.Onglets.Notes": "Notes"
+  ,
+  "TYPES.Actor.personnage": "Personnage",
+  "TYPES.Actor.pnj": "PNJ"
+}

@@ -1,0 +1,31 @@
+<div class="sheet-header-wrapper">
+
+  <header class="sheet-header">
+    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+    <div class="header-infos">
+      <input class="name" type="text" name="name" value="{{actor.name}}" />
+      <div class="identite-ligne">
+        <div class="identite-champ">
+          <label>Profession</label>
+          <input type="text" name="system.identite.profession"
+                 value="{{system.identite.profession}}" />
+        </div>
+        <div class="identite-champ">
+          <label>Origine</label>
+          <input type="text" name="system.identite.origine"
+                 value="{{system.identite.origine}}" />
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sheet-tabs" data-group="sheet">
+    <a class="item" data-tab="principal" data-group="sheet">Principal</a>
+    <a class="item" data-tab="competences" data-group="sheet">Compétences</a>
+    <a class="item" data-tab="milieux" data-group="sheet">Milieux</a>
+    <a class="item" data-tab="combat" data-group="sheet">Combat</a>
+    <a class="item" data-tab="avance" data-group="sheet">Avancé</a>
+    <a class="item" data-tab="notes" data-group="sheet">Notes</a>
+  </nav>
+
+</div>

@@ -1,0 +1,245 @@
+<div class="pnj-body">
+
+  <!-- EN-TÊTE PNJ -->
+  <header class="sheet-header">
+    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+    <div class="header-infos">
+      <input class="name" type="text" name="name" value="{{actor.name}}" />
+      <div class="pnj-niveau-box">
+        <label>Niveau</label>
+        <input type="number" name="system.niveau"
+               value="{{system.niveau}}" min="1" max="5" />
+      </div>
+    </div>
+  </header>
+
+  <!-- STATS COMPACTES -->
+  <div class="section-title">Caractéristiques</div>
+  <div class="caracteristiques">
+    <div class="carac-box rollable" data-carac="savoir">
+      <span class="carac-icone">📚</span>
+      <span class="carac-label">Savoir</span>
+      <input type="number" name="system.caracteristiques.savoir.valeur"
+             value="{{system.caracteristiques.savoir.valeur}}" min="0" max="5" />
+    </div>
+    <div class="carac-box rollable" data-carac="perception">
+      <span class="carac-icone">👁️</span>
+      <span class="carac-label">Perception</span>
+      <input type="number" name="system.caracteristiques.perception.valeur"
+             value="{{system.caracteristiques.perception.valeur}}" min="0" max="5" />
+    </div>
+    <div class="carac-box rollable" data-carac="charisme">
+      <span class="carac-icone">🗣️</span>
+      <span class="carac-label">Charisme</span>
+      <input type="number" name="system.caracteristiques.charisme.valeur"
+             value="{{system.caracteristiques.charisme.valeur}}" min="0" max="5" />
+    </div>
+    <div class="carac-box rollable" data-carac="agilite">
+      <span class="carac-icone">⚡</span>
+      <span class="carac-label">Agilité</span>
+      <input type="number" name="system.caracteristiques.agilite.valeur"
+             value="{{system.caracteristiques.agilite.valeur}}" min="0" max="5" />
+    </div>
+    <div class="carac-box rollable" data-carac="vigueur">
+      <span class="carac-icone">💪</span>
+      <span class="carac-label">Vigueur</span>
+      <input type="number" name="system.caracteristiques.vigueur.valeur"
+             value="{{system.caracteristiques.vigueur.valeur}}" min="0" max="5" />
+    </div>
+  </div>
+
+  <!-- VARIABLES -->
+  <div class="section-title">Variables</div>
+  <div class="variables-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="variable-box">
+      <span class="variable-icone">🧘</span>
+      <label>Maîtrise</label>
+      <input type="number" name="system.variables.maitrise"
+             value="{{system.variables.maitrise}}" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">🏃</span>
+      <label>Vitesse</label>
+      <input type="number" name="system.variables.vitesse"
+             value="{{system.variables.vitesse}}" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">💰</span>
+      <label>Richesse</label>
+      <input type="number" name="system.variables.richesse"
+             value="{{system.variables.richesse}}" min="0" max="10" />
+    </div>
+  </div>
+
+  <!-- JAUGES -->
+  <div class="section-title">Jauges</div>
+  <div class="jauges">
+    <div class="jauge-box">
+      <span class="jauge-icone">🔋</span>
+      <span class="jauge-label">Réserve</span>
+      <input type="number" name="system.jauges.reserve.valeur"
+             value="{{system.jauges.reserve.valeur}}" min="0" max="20" />
+      <span class="jauge-max">/ {{system.jauges.reserve.max}}</span>
+    </div>
+    <div class="jauge-box">
+      <span class="jauge-icone">⚡</span>
+      <span class="jauge-label">Tension</span>
+      <input type="number" name="system.jauges.tension.valeur"
+             value="{{system.jauges.tension.valeur}}" min="0" max="20" />
+    </div>
+    <div class="jauge-box">
+      <span class="jauge-icone">🩹</span>
+      <span class="jauge-label">Blessures</span>
+      <input type="text" name="system.jauges.blessures"
+             value="{{system.jauges.blessures}}" />
+    </div>
+  </div>
+
+  <!-- POSSESSIONS PICTOGRAMMES -->
+  <div class="section-title">Possessions</div>
+  <div class="pnj-possessions">
+    <label class="pnj-possession-item {{#if system.possessions.telephone}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.telephone"
+             {{#if system.possessions.telephone}}checked{{/if}} />
+      <span class="pnj-poss-icone">📞</span>
+      <span class="pnj-poss-label">Téléphone</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.arme}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.arme"
+             {{#if system.possessions.arme}}checked{{/if}} />
+      <span class="pnj-poss-icone">🔫</span>
+      <span class="pnj-poss-label">Arme</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.velo}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.velo"
+             {{#if system.possessions.velo}}checked{{/if}} />
+      <span class="pnj-poss-icone">🚲</span>
+      <span class="pnj-poss-label">Vélo</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.moto}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.moto"
+             {{#if system.possessions.moto}}checked{{/if}} />
+      <span class="pnj-poss-icone">🏍️</span>
+      <span class="pnj-poss-label">Moto</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.voiture}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.voiture"
+             {{#if system.possessions.voiture}}checked{{/if}} />
+      <span class="pnj-poss-icone">🚗</span>
+      <span class="pnj-poss-label">Voiture</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.camion}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.camion"
+             {{#if system.possessions.camion}}checked{{/if}} />
+      <span class="pnj-poss-icone">🚛</span>
+      <span class="pnj-poss-label">Camion</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.bateau}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.bateau"
+             {{#if system.possessions.bateau}}checked{{/if}} />
+      <span class="pnj-poss-icone">⛵</span>
+      <span class="pnj-poss-label">Bateau</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.cheval}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.cheval"
+             {{#if system.possessions.cheval}}checked{{/if}} />
+      <span class="pnj-poss-icone">🐴</span>
+      <span class="pnj-poss-label">Cheval</span>
+    </label>
+    <label class="pnj-possession-item {{#if system.possessions.chien}}active{{/if}}">
+      <input type="checkbox" name="system.possessions.chien"
+             {{#if system.possessions.chien}}checked{{/if}} />
+      <span class="pnj-poss-icone">🐕</span>
+      <span class="pnj-poss-label">Chien</span>
+    </label>
+  </div>
+
+  <!-- ARME -->
+  <div class="section-title">Arme</div>
+  <div class="armes-list">
+    <div class="arme-row">
+      <div class="arme-infos">
+        <input type="text" class="arme-nom"
+               name="system.armes.arme1.nom"
+               value="{{system.armes.arme1.nom}}"
+               placeholder="Nom de l'arme" />
+        <select name="system.armes.arme1.type" class="arme-type">
+          <option value="corpsacorps"
+            {{#if (eq system.armes.arme1.type "corpsacorps")}}selected{{/if}}>
+            CaC (VIG)
+          </option>
+          <option value="distance"
+            {{#if (eq system.armes.arme1.type "distance")}}selected{{/if}}>
+            Distance (AGI)
+          </option>
+        </select>
+      </div>
+      <div class="arme-stats">
+        <div class="arme-stat">
+          <label>Létalité</label>
+          <input type="number" name="system.armes.arme1.letalite"
+                 value="{{system.armes.arme1.letalite}}" min="1" />
+        </div>
+        <div class="arme-stat">
+          <label>Blessure</label>
+          <select name="system.armes.arme1.blessure">
+            <option value="Superficielle"
+              {{#if (eq system.armes.arme1.blessure "Superficielle")}}selected{{/if}}>
+              Superficielle
+            </option>
+            <option value="Legere"
+              {{#if (eq system.armes.arme1.blessure "Legere")}}selected{{/if}}>
+              Légère
+            </option>
+            <option value="Moderee"
+              {{#if (eq system.armes.arme1.blessure "Moderee")}}selected{{/if}}>
+              Modérée
+            </option>
+            <option value="Serieuse"
+              {{#if (eq system.armes.arme1.blessure "Serieuse")}}selected{{/if}}>
+              Sérieuse
+            </option>
+          </select>
+        </div>
+        <button type="button" class="btn-attaquer" data-arme="arme1">
+          ⚔️ Attaquer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPÉTENCES CLÉS -->
+  <div class="section-title">Compétences clés</div>
+  <div class="declencheurs-box">
+    <input type="text" name="system.competencesCles"
+           value="{{system.competencesCles}}"
+           placeholder="Ex: Enquête 2, Corps-à-corps 1..." />
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="section-title">Actions</div>
+  <div class="actions-barre">
+    <div class="sd-box">
+      <span class="jauge-label">SD</span>
+      <span class="sd-valeur">{{system.seuilDifficulte}}+</span>
+    </div>
+    <button type="button" class="btn-jet-maitrise">
+      🎲 Jet de Maîtrise
+    </button>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="section-title">Description</div>
+  <div class="notes-box">
+    <textarea name="system.description"
+              placeholder="Description du PNJ...">{{system.description}}</textarea>
+  </div>
+
+  <!-- NOTES -->
+  <div class="section-title">Notes</div>
+  <div class="notes-box">
+    <textarea name="system.notes"
+              placeholder="Notes du MJ...">{{system.notes}}</textarea>
+  </div>
+
+</div>

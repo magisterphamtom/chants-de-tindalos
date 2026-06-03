@@ -1,0 +1,144 @@
+<div class="tab" data-tab="avance" data-group="sheet" role="tabpanel">
+
+  <!-- BARRE D'ONIRISME -->
+  <div class="section-title">
+    Onirisme
+    <span class="tension-valeur-label" id="onirisme-label">
+      {{system.jauges.onirisme.valeur}} / 20
+    </span>
+  </div>
+  <div class="tension-barre-wrapper">
+    <div class="tension-cases onirisme-cases" id="onirisme-cases"
+         data-onirisme="{{system.jauges.onirisme.valeur}}">
+      <div class="tension-case onirisme-case" data-valeur="1"></div>
+      <div class="tension-case onirisme-case" data-valeur="2"></div>
+      <div class="tension-case onirisme-case" data-valeur="3"></div>
+      <div class="tension-case onirisme-case" data-valeur="4"></div>
+      <div class="tension-case onirisme-case" data-valeur="5"></div>
+      <div class="tension-case onirisme-case" data-valeur="6"></div>
+      <div class="tension-case onirisme-case" data-valeur="7"></div>
+      <div class="tension-case onirisme-case" data-valeur="8"></div>
+      <div class="tension-case onirisme-case" data-valeur="9"></div>
+      <div class="tension-case onirisme-case" data-valeur="10"></div>
+      <div class="tension-case onirisme-case palier" data-valeur="11"></div>
+      <div class="tension-case onirisme-case" data-valeur="12"></div>
+      <div class="tension-case onirisme-case" data-valeur="13"></div>
+      <div class="tension-case onirisme-case palier" data-valeur="14"></div>
+      <div class="tension-case onirisme-case" data-valeur="15"></div>
+      <div class="tension-case onirisme-case" data-valeur="16"></div>
+      <div class="tension-case onirisme-case palier" data-valeur="17"></div>
+      <div class="tension-case onirisme-case" data-valeur="18"></div>
+      <div class="tension-case onirisme-case" data-valeur="19"></div>
+      <div class="tension-case onirisme-case palier mort" data-valeur="20"></div>
+    </div>
+  </div>
+
+  <!-- RÉVÉLATIONS -->
+  <div class="section-title">Révélations
+    <span class="tension-valeur-label">Niveau : {{system.niveauRevelation}}</span>
+  </div>
+  <div class="revelations-list">
+    {{#each system.revelations as |rev id|}}
+    <div class="revelation-row">
+      <div class="revelation-header">
+        <input type="text" class="revelation-nom"
+               name="system.revelations.{{id}}.nom"
+               value="{{rev.nom}}"
+               placeholder="Nom de la révélation" />
+        <input type="text" class="revelation-effet"
+               name="system.revelations.{{id}}.effet"
+               value="{{rev.effet}}"
+               placeholder="Effet" />
+      </div>
+      <textarea class="revelation-description"
+                name="system.revelations.{{id}}.description"
+                placeholder="Description...">{{rev.description}}</textarea>
+    </div>
+    {{/each}}
+  </div>
+
+ <!-- ARCANES -->
+  <div class="section-title">Arcanes</div>
+  <div class="arcanes-wrapper">
+    <div class="arcanes-des-box">
+      <label>Dés d'Arcanes</label>
+      <select name="system.desArcanes" class="arcanes-des-select">
+        <option value="1d6"  {{#if (eq system.desArcanes "1d6")}}selected{{/if}}>1d6</option>
+        <option value="1d8"  {{#if (eq system.desArcanes "1d8")}}selected{{/if}}>1d8</option>
+        <option value="1d10" {{#if (eq system.desArcanes "1d10")}}selected{{/if}}>1d10</option>
+        <option value="1d12" {{#if (eq system.desArcanes "1d12")}}selected{{/if}}>1d12</option>
+        <option value="2d6"  {{#if (eq system.desArcanes "2d6")}}selected{{/if}}>2d6</option>
+        <option value="2d8"  {{#if (eq system.desArcanes "2d8")}}selected{{/if}}>2d8</option>
+        <option value="2d8+1d12" {{#if (eq system.desArcanes "2d8+1d12")}}selected{{/if}}>2d8+1d12</option>
+        <option value="2d12" {{#if (eq system.desArcanes "2d12")}}selected{{/if}}>2d12</option>
+      </select>
+      <button type="button" class="btn-jet-arcanes">
+        🔮 Jet
+      </button>
+    </div>
+    <div class="arcanes-ecoles">
+      {{#each system.arcanes as |arc id|}}
+      <div class="arcane-row">
+        <input type="text" class="arcane-ecole"
+               name="system.arcanes.{{id}}.ecole"
+               value="{{arc.ecole}}"
+               placeholder="École de magie" />
+        <div class="arcane-modif-box">
+          <label>Modif.</label>
+          <input type="number" class="arcane-modif"
+                 name="system.arcanes.{{id}}.modif"
+                 value="{{arc.modif}}" />
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  <!-- CONTACTS ET RESSOURCES -->
+  <div class="section-title">Contacts et Ressources</div>
+  <div class="contacts-grid">
+    {{#each system.contacts as |milieu id|}}
+    <div class="contact-milieu-box">
+      <input type="text" class="contact-milieu-nom"
+             name="system.contacts.{{id}}.milieu"
+             value="{{milieu.milieu}}"
+             placeholder="Milieu" />
+      <div class="contact-ligne">
+        <input type="checkbox"
+               name="system.contacts.{{id}}.contact1actif"
+               {{#if milieu.contact1actif}}checked{{/if}} />
+        <input type="text"
+               name="system.contacts.{{id}}.contact1"
+               value="{{milieu.contact1}}"
+               placeholder="Contact..." />
+      </div>
+      <div class="contact-ligne">
+        <input type="checkbox"
+               name="system.contacts.{{id}}.contact2actif"
+               {{#if milieu.contact2actif}}checked{{/if}} />
+        <input type="text"
+               name="system.contacts.{{id}}.contact2"
+               value="{{milieu.contact2}}"
+               placeholder="Contact..." />
+      </div>
+      <div class="contact-ligne">
+        <input type="checkbox"
+               name="system.contacts.{{id}}.contact3actif"
+               {{#if milieu.contact3actif}}checked{{/if}} />
+        <input type="text"
+               name="system.contacts.{{id}}.contact3"
+               value="{{milieu.contact3}}"
+               placeholder="Contact..." />
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <!-- POSSESSIONS -->
+  <div class="section-title">Possessions</div>
+  <div class="possessions-box">
+    <textarea name="system.possessions"
+              placeholder="Appareil photo, carnet de notes...">{{system.possessions}}</textarea>
+  </div>
+
+</div>
