@@ -1826,7 +1826,10 @@ async function chargerTemplates() {
 async function initialiserWiki() {
   const NOM_JOURNAL = "📖 Wiki — Les Chants de Tindalos";
   const journalExistant = game.journal.find(j => j.name === NOM_JOURNAL);
-  if (journalExistant) return;
+  if (journalExistant) {
+    // Supprimer l'ancien pour le recréer à jour
+    await journalExistant.delete();
+  }
 
   console.log("CDT | Création du Wiki...");
 
@@ -1849,21 +1852,34 @@ async function initialiserWiki() {
 </ul>
 <h2>🖱️ Éléments cliquables</h2>
 <ul>
-<li><strong>Caractéristiques</strong> → jet de dés</li>
-<li><strong>Compétences</strong> → jet de dés</li>
-<li><strong>Milieux</strong> → jet de Charisme + dés bonus</li>
-<li><strong>Barre de Tension</strong> → modifier la tension</li>
-<li><strong>Barre d'Onirisme</strong> → modifier l'onirisme</li>
-<li><strong>Cases XP Espoir/Folie</strong> → ajouter un XP</li>
-<li><strong>Portrait</strong> → changer l'image</li>
+<li><strong>Caractéristiques</strong> → lance un jet de dés</li>
+<li><strong>Compétences socle et spécialité</strong> → lance un jet de dés</li>
+<li><strong>Milieux</strong> → jet de Charisme + dés de milieu bonus</li>
+<li><strong>Barre de Tension</strong> → cliquez une case pour modifier la tension</li>
+<li><strong>Barre d'Onirisme</strong> → cliquez une case pour modifier l'onirisme</li>
+<li><strong>Cases XP Espoir / Folie</strong> → ajouter un XP (montée automatique à 8)</li>
+<li><strong>Portrait</strong> → cliquez pour changer l'image</li>
 </ul>
-<h2>🎲 Boutons d'action</h2>
+<h2>🎲 Boutons d'action (onglet Principal)</h2>
 <ul>
 <li><strong>Jet de Maîtrise</strong> — 1d20 + Maîtrise vs Tension</li>
 <li><strong>Jet Défensif</strong> — dés de Vigueur contre les attaques</li>
-<li><strong>Jet de Sommeil</strong> — résolution de la nuit (1d12 + Sommeil)</li>
-<li><strong>Jet d'Arcanes</strong> — magie (dés d'arcanes + modificateurs)</li>
+<li><strong>Jet de Sommeil</strong> — résolution de la nuit (1d12 + Sommeil + Dettes×5)</li>
 </ul>
+<h2>🗡️ Fiche PNJ</h2>
+<p>Les PNJ ont leur propre fiche compacte avec :</p>
+<ul>
+<li>Possessions sous forme de <strong>pictogrammes cliquables</strong> (toggle ON/OFF)</li>
+<li>Section Arme avec bouton <strong>Attaquer</strong> (jet + létalité dans le chat)</li>
+<li>Jet de Maîtrise et SD calculé automatiquement</li>
+</ul>
+<h2>👥 Personnages prétirés</h2>
+<p>4 personnages du kit de découverte sont inclus. Pour les importer dans Foundry :</p>
+<pre>const noms = ["nora-haddad","delphine-malesherbes","archie-hunter","genevieve-de-bouvines"];
+for (const nom of noms) {
+  const data = await fetch("systems/chants-de-tindalos/packs/" + nom + ".json").then(r => r.json());
+  await Actor.create(data);
+}</pre>
         `
       }
     },
@@ -2151,10 +2167,20 @@ async function initialiserWiki() {
 </ol>
 <h2>Variables de départ</h2>
 <p>12 points à répartir. Vitesse = AGI + VIG + 2 (auto). Sommeil = 12 - Angoisse.</p>
-<h2>Personnage prétiré</h2>
-<p>Nora Haddad (Photographe d'Art) est incluse. Pour l'importer :</p>
-<pre>const data = await fetch("systems/chants-de-tindalos/packs/nora-haddad.json").then(r => r.json());
-await Actor.create(data);</pre>
+<h2>Personnages prétirés</h2>
+<p>4 personnages du kit de découverte sont inclus :</p>
+<ul>
+<li><strong>Nora Haddad</strong> — Photographe d'Art (PER 4)</li>
+<li><strong>Delphine Malesherbes</strong> — Journaliste d'investigation (SAV 3)</li>
+<li><strong>Archie Hunter</strong> — Chercheur d'épaves (VIG 4)</li>
+<li><strong>Geneviève de Bouvines</strong> — Pilleuse de tombes (PER 3)</li>
+</ul>
+<p>Pour les importer tous d'un coup :</p>
+<pre>const noms = ["nora-haddad","delphine-malesherbes","archie-hunter","genevieve-de-bouvines"];
+for (const nom of noms) {
+  const data = await fetch("systems/chants-de-tindalos/packs/" + nom + ".json").then(r => r.json());
+  await Actor.create(data);
+}</pre>
         `
       }
     },
