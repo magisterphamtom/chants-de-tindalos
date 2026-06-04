@@ -33,31 +33,7 @@
     </div>
   </div>
 
-  <!-- RÉVÉLATIONS -->
-  <div class="section-title">Révélations
-    <span class="tension-valeur-label">Niveau : {{system.niveauRevelation}}</span>
-  </div>
-  <div class="revelations-list">
-    {{#each system.revelations as |rev id|}}
-    <div class="revelation-row">
-      <div class="revelation-header">
-        <input type="text" class="revelation-nom"
-               name="system.revelations.{{id}}.nom"
-               value="{{rev.nom}}"
-               placeholder="Nom de la révélation" />
-        <input type="text" class="revelation-effet"
-               name="system.revelations.{{id}}.effet"
-               value="{{rev.effet}}"
-               placeholder="Effet" />
-      </div>
-      <textarea class="revelation-description"
-                name="system.revelations.{{id}}.description"
-                placeholder="Description...">{{rev.description}}</textarea>
-    </div>
-    {{/each}}
-  </div>
-
- <!-- ARCANES -->
+  <!-- ARCANES -->
   <div class="section-title">Arcanes</div>
   <div class="arcanes-wrapper">
     <div class="arcanes-des-box">
@@ -92,6 +68,57 @@
       </div>
       {{/each}}
     </div>
+  </div>
+  
+<!-- ARTEFACTS MAGIQUES -->
+  <div class="section-title">
+    🌙 Artefacts magiques
+    <span style="float:right;font-size:0.75em;color:#aaa;font-weight:normal;text-transform:none;">⬇ Glissez un artefact ici</span>
+  </div>
+  <div class="inventaire-list drop-zone" data-type="artefact">
+    {{#each itemsArtefacts as |a|}}
+    <div class="inventaire-row" data-item-id="{{a.id}}">
+      <img src="{{a.img}}" class="inventaire-img" />
+      <div class="inventaire-infos">
+        <span class="inventaire-nom">{{a.name}}</span>
+        <span class="inventaire-stats">✨ {{a.system.ecole}} | +{{a.system.modificateur}} au jet</span>
+        {{#if a.system.effet}}<span class="inventaire-special">{{a.system.effet}}</span>{{/if}}
+      </div>
+      <div class="inventaire-actions">
+        <button type="button" class="btn-ouvrir-item" data-item-id="{{a.id}}" title="Ouvrir">✏️</button>
+        <button type="button" class="btn-supprimer-item" data-item-id="{{a.id}}" title="Supprimer">🗑️</button>
+      </div>
+    </div>
+    {{/each}}
+    {{#unless itemsArtefacts.length}}
+    <div class="inventaire-vide">Aucun artefact — glissez depuis le compendium 🌙</div>
+    {{/unless}}
+  </div>
+
+  <!-- RÉVÉLATIONS -->
+  <div class="section-title">
+    📖 Révélations
+    <span style="float:right;font-size:0.75em;color:#aaa;font-weight:normal;text-transform:none;">⬇ Glissez une révélation ici</span>
+  </div>
+  <div class="inventaire-list drop-zone" data-type="revelation">
+    {{#each itemsRevelations as |r|}}
+    <div class="inventaire-row" data-item-id="{{r.id}}">
+      <img src="{{r.img}}" class="inventaire-img" />
+      <div class="inventaire-infos">
+        <span class="inventaire-nom">{{r.name}}</span>
+        <span class="inventaire-stats">{{r.system.categorie}}{{#if r.system.entite}} | {{r.system.entite}}{{/if}}</span>
+        {{#if r.system.effetArcane}}<span class="inventaire-special">🌙 {{r.system.effetArcane}}</span>{{/if}}
+        {{#if r.system.effet}}<span class="inventaire-special">⚡ {{r.system.effet}}</span>{{/if}}
+      </div>
+      <div class="inventaire-actions">
+        <button type="button" class="btn-ouvrir-item" data-item-id="{{r.id}}" title="Ouvrir">✏️</button>
+        <button type="button" class="btn-supprimer-item" data-item-id="{{r.id}}" title="Supprimer">🗑️</button>
+      </div>
+    </div>
+    {{/each}}
+    {{#unless itemsRevelations.length}}
+    <div class="inventaire-vide">Aucune révélation — glissez depuis le compendium 📖</div>
+    {{/unless}}
   </div>
 
   <!-- CONTACTS ET RESSOURCES -->

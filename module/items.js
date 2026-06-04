@@ -3,7 +3,7 @@
 // Les Chants de Tindalos — Foundry VTT
 // ================================================
 
-import { ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel } from "./datamodels.js";
+import { ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel, ArtefactDataModel, RevelationDataModel } from "./datamodels.js";
 // ------------------------------------------------
 // FICHE D'ARME
 // ------------------------------------------------
@@ -541,7 +541,141 @@ class CdTFeuilleSubstance extends foundry.applications.api.HandlebarsApplication
   }
 }
 // ------------------------------------------------
-// FICHE ÉQUIPEMENT
+// FICHE ARTEFACT
+// ------------------------------------------------
+class CdTFeuilleArtefact extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.sheets.ItemSheetV2
+) {
+  static DEFAULT_OPTIONS = {
+    classes: ["cdt", "artefact-sheet"],
+    position: { width: 500, height: 480 },
+    window: { resizable: true },
+    form: { submitOnChange: true, closeOnSubmit: false },
+  };
+  static PARTS = { body: { template: "systems/chants-de-tindalos/templates/item/feuille-artefact.html" } };
+  async _prepareContext(options) { return { item: this.item, system: this.item.system }; }
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this.element.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
+      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+    });
+  }
+}
+
+// ------------------------------------------------
+// FICHE RÉVÉLATION
+// ------------------------------------------------
+class CdTFeuilleRevelation extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.sheets.ItemSheetV2
+) {
+  static DEFAULT_OPTIONS = {
+    classes: ["cdt", "revelation-sheet"],
+    position: { width: 520, height: 560 },
+    window: { resizable: true },
+    form: { submitOnChange: true, closeOnSubmit: false },
+  };
+  static PARTS = { body: { template: "systems/chants-de-tindalos/templates/item/feuille-revelation.html" } };
+  async _prepareContext(options) { return { item: this.item, system: this.item.system }; }
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this.element.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
+      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+    });
+  }
+}
+
+// ------------------------------------------------
+// DONNÉES : ARTEFACTS
+// ------------------------------------------------
+const CDT_ARTEFACTS_DATA = [
+  {
+    name: "Blasphèmes de La Mer des Ossements",
+    type: "artefact",
+    img: "icons/sundries/books/book-worn-brown-grey.webp",
+    system: {
+      ecole: "vitalisme", modificateur: 2,
+      declencheur: "Prononcer les incantations écrites.",
+      effet: "+2 à tous les jets de Vitalisme visant à pratiquer la nécromancie.",
+      prix: "Inestimable",
+      description: "Cette page de manuscrit est réputée perdue depuis le sac de Constantinople en 1204."
+    }
+  },
+  {
+    name: "Rituel d'Apaisement des Âmes Tourmentées",
+    type: "artefact",
+    img: "icons/sundries/books/book-worn-brown-grey.webp",
+    system: {
+      ecole: "cosmos", modificateur: 10,
+      declencheur: "Suivre les huit étapes présentées dans le rituel.",
+      effet: "+10 à un jet de Cosmos permettant de bannir l'âme d'un spectre afin qu'il ne hante plus un lieu.",
+      prix: "Inestimable",
+      description: "Ce rituel a été rédigé au XVIIème siècle par un moine anonyme d'Écosse."
+    }
+  },
+  {
+    name: "ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn",
+    type: "artefact",
+    img: "icons/sundries/books/book-worn-brown-grey.webp",
+    system: {
+      ecole: "songe", modificateur: 15,
+      declencheur: "Prononcer correctement l'incantation.",
+      effet: "+15 à un jet de Songe permettant de lier les fils de Trame des rêveurs alentours à Cthulhu.",
+      prix: "Inestimable",
+      description: "Cette formule très célèbre dispose d'une grande puissance magique."
+    }
+  },
+  {
+    name: "Mudra de Chaanis",
+    type: "artefact",
+    img: "icons/magic/symbols/runes-star-magenta.webp",
+    system: {
+      ecole: "envoutement", modificateur: 1,
+      declencheur: "Réaliser correctement le mouvement ésotérique de la main gauche.",
+      effet: "+1 au prochain jet d'Envoûtement.",
+      prix: "Inestimable",
+      description: "Ce geste de rituel de la main a été décrit par le pseudo-Onésicrite, au IVème siècle avant notre ère, dans les Débris de l'Âme."
+    }
+  },
+];
+
+// ------------------------------------------------
+// DONNÉES : RÉVÉLATIONS (principales)
+// ------------------------------------------------
+const CDT_REVELATIONS_DATA = [
+  // CONVICTIONS INITIALES
+  { name: "On cherche à me nuire...",             type: "revelation", img: "icons/magic/symbols/runes-star-magenta.webp", system: { categorie: "conviction_initiale",   contenu: "On cherche à me nuire...",             effet: "",           effetArcane: "", entite: "", plpNom: "Tout m'afflige et me nuit", plpNiveau: 1, plpEffet: "Vous devez vous PLAINDRE de vos malheurs.", description: "" } },
+  { name: "On nous cache quelque chose...",        type: "revelation", img: "icons/magic/symbols/runes-star-magenta.webp", system: { categorie: "conviction_initiale",   contenu: "On nous cache quelque chose d'essentiel...", effet: "",   effetArcane: "", entite: "", plpNom: "L'inquisiteur", plpNiveau: 2, plpEffet: "Il vous faut FORCER QUELQU'UN à avouer un secret.", description: "" } },
+  { name: "J'ai un rôle essentiel...",             type: "revelation", img: "icons/magic/symbols/runes-star-magenta.webp", system: { categorie: "conviction_initiale",   contenu: "J'ai un rôle essentiel dans ce qui se trame...", effet: "", effetArcane: "", entite: "", plpNom: "Monologue", plpNiveau: 1, plpEffet: "Vous devez DIALOGUER avec vous-même.", description: "" } },
+  { name: "Nous ne sommes pas seuls...",           type: "revelation", img: "icons/magic/symbols/runes-star-magenta.webp", system: { categorie: "conviction_initiale",   contenu: "Nous ne sommes pas seuls...",           effet: "",           effetArcane: "", entite: "", plpNom: "Un au-delà rassurant", plpNiveau: 1, plpEffet: "Vous devez PRIER pour votre (vos) divinité(s).", description: "" } },
+  { name: "Je me sens coupable...",                type: "revelation", img: "icons/magic/symbols/runes-star-magenta.webp", system: { categorie: "conviction_initiale",   contenu: "Je me sens coupable...",               effet: "",           effetArcane: "", entite: "", plpNom: "Expiation", plpNiveau: 1, plpEffet: "Vous devez CONFESSER à haute voix une mauvaise action.", description: "" } },
+  { name: "La réalité n'est pas ce qu'elle semble", type: "revelation", img: "icons/magic/symbols/runes-star-magenta.webp", system: { categorie: "conviction_initiale", contenu: "La réalité n'est pas ce qu'elle semble être...", effet: "", effetArcane: "", entite: "", plpNom: "Faux-semblants", plpNiveau: 1, plpEffet: "Il vous faut TÂTER votre environnement pour vous assurer de sa réalité.", description: "" } },
+  // CONVICTIONS SUPÉRIEURES
+  { name: "Les règles morales sont des illusions",  type: "revelation", img: "icons/magic/symbols/runes-star-orange.webp", system: { categorie: "conviction_superieure", contenu: "Les règles morales sont des illusions.", effet: "Maîtrise -2",   effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "L'humanité est insignifiante",           type: "revelation", img: "icons/magic/symbols/runes-star-orange.webp", system: { categorie: "conviction_superieure", contenu: "L'humanité est insignifiante.",        effet: "Maîtrise -1",   effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Les lois de la nature sont incomplètes", type: "revelation", img: "icons/magic/symbols/runes-star-orange.webp", system: { categorie: "conviction_superieure", contenu: "Les lois de la nature sont incomplètes.", effet: "Angoisse +1", effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Il y a d'autres réalités",              type: "revelation", img: "icons/magic/symbols/runes-star-orange.webp", system: { categorie: "conviction_superieure", contenu: "Il y a d'autres réalités.",             effet: "Angoisse +1",   effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Les Rêves nous dévoilent le réel",       type: "revelation", img: "icons/magic/symbols/runes-star-orange.webp", system: { categorie: "conviction_superieure", contenu: "Les Rêves nous dévoilent le réel.",    effet: "Intuition +2",  effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "La Magie existe",                        type: "revelation", img: "icons/magic/symbols/runes-star-orange.webp", system: { categorie: "conviction_superieure", contenu: "La Magie existe.",                    effet: "Intuition +2",  effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  // OBJECTIFS
+  { name: "Je dois protéger mes proches",           type: "revelation", img: "icons/magic/symbols/runes-star-blue.webp",   system: { categorie: "objectif",              contenu: "Je dois protéger mes proches.",        effet: "Espoir +1",     effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Je dois révéler la vérité",              type: "revelation", img: "icons/magic/symbols/runes-star-blue.webp",   system: { categorie: "objectif",              contenu: "Je dois révéler la vérité.",           effet: "Déclencheur : Mentir", effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Je dois sauver le monde",                type: "revelation", img: "icons/magic/symbols/runes-star-blue.webp",   system: { categorie: "objectif",              contenu: "Je dois sauver le monde.",             effet: "Maîtrise +1",   effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Je dois élucider tout le mystère",       type: "revelation", img: "icons/magic/symbols/runes-star-blue.webp",   system: { categorie: "objectif",              contenu: "Je dois élucider tout le mystère.",    effet: "Maîtrise +1",   effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Je dois survivre à tout prix",           type: "revelation", img: "icons/magic/symbols/runes-star-blue.webp",   system: { categorie: "objectif",              contenu: "Je dois survivre à tout prix.",        effet: "Maîtrise +1",   effetArcane: "", entite: "", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  // RÉVÉLATIONS OCCULTES INITIALES
+  { name: "Le passé existe encore",                 type: "revelation", img: "icons/magic/symbols/runes-star-purple.webp", system: { categorie: "occulte_initiale",      contenu: "Le passé existe encore.",              effet: "",           effetArcane: "Vision +1",        entite: "Yog-Sothoth",     plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Il y a un monde derrière le monde",      type: "revelation", img: "icons/magic/symbols/runes-star-purple.webp", system: { categorie: "occulte_initiale",      contenu: "Il y a un monde derrière le monde.",   effet: "",           effetArcane: "Vision +1",        entite: "Tindalos",        plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Des créatures de la nuit adorent un Maître", type: "revelation", img: "icons/magic/symbols/runes-star-purple.webp", system: { categorie: "occulte_initiale", contenu: "Des créatures de la nuit adorent un Maître ignoble.", effet: "", effetArcane: "Envoûtement +1", entite: "Nyarlathotep",    plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "La vie a des origines divines",          type: "revelation", img: "icons/magic/symbols/runes-star-purple.webp", system: { categorie: "occulte_initiale",      contenu: "La vie a des origines divines.",       effet: "",           effetArcane: "Vitalisme +1",     entite: "Shub-Niggurath",  plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Il y a une déesse dans les profondeurs", type: "revelation", img: "icons/magic/symbols/runes-star-purple.webp", system: { categorie: "occulte_initiale",      contenu: "Il y a une déesse dans les profondeurs de l'Océan.", effet: "", effetArcane: "Songe +1",      entite: "Dagon",           plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Un Rêveur extraordinaire attend son réveil", type: "revelation", img: "icons/magic/symbols/runes-star-purple.webp", system: { categorie: "occulte_initiale", contenu: "Un Rêveur d'une ampleur extraordinaire attend enfin son réveil.", effet: "", effetArcane: "Songe +1", entite: "Cthulhu",        plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  // RÉVÉLATIONS OCCULTES SUPÉRIEURES
+  { name: "Yog-Sothoth est l'ensemble des réalités", type: "revelation", img: "icons/magic/symbols/runes-star-red.webp",  system: { categorie: "occulte_superieure",    contenu: "Yog-Sothoth est l'ensemble des réalités.",   effet: "",           effetArcane: "Vision +2",       entite: "Yog-Sothoth",     plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Tout disparaît en Azathoth",              type: "revelation", img: "icons/magic/symbols/runes-star-red.webp",  system: { categorie: "occulte_superieure",    contenu: "Tout disparaît en Azathoth et tout vient d'Azathoth.", effet: "", effetArcane: "Anéantissement +2", entite: "Azathoth",       plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Nyarlathotep collecte les âmes",          type: "revelation", img: "icons/magic/symbols/runes-star-red.webp",  system: { categorie: "occulte_superieure",    contenu: "Nyarlathotep collecte les âmes pour régner sur l'ensemble des univers.", effet: "", effetArcane: "Envoûtement +2", entite: "Nyarlathotep", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Depuis Tindalos, Cthulhu règne",          type: "revelation", img: "icons/magic/symbols/runes-star-red.webp",  system: { categorie: "occulte_superieure",    contenu: "Depuis Tindalos, Cthulhu règne sur les Profonds.", effet: "",    effetArcane: "Songe +2",        entite: "Cthulhu",         plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+  { name: "Les grands mages peuvent altérer la réalité", type: "revelation", img: "icons/magic/symbols/runes-star-red.webp", system: { categorie: "occulte_superieure", contenu: "Les grands mages peuvent altérer la texture de la réalité.", effet: "", effetArcane: "Arcanes +1d20", entite: "Magie", plpNom: "", plpNiveau: 1, plpEffet: "", description: "" } },
+];
 // ------------------------------------------------
 class CdTFeuilleEquipement extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.sheets.ItemSheetV2
@@ -791,6 +925,12 @@ Hooks.once("init", function () {
   Items.registerSheet("chants-de-tindalos", CdTFeuilleVehicule, {
     types: ["vehicule"], makeDefault: true, label: "Fiche Véhicule CDT",
   });
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleArtefact, {
+    types: ["artefact"], makeDefault: true, label: "Fiche Artefact CDT",
+  });
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleRevelation, {
+    types: ["revelation"], makeDefault: true, label: "Fiche Révélation CDT",
+  });
   Items.registerSheet("chants-de-tindalos", CdTFeuilleEquipement, {
     types: ["equipement"], makeDefault: true, label: "Fiche Équipement CDT",
   });
@@ -800,6 +940,8 @@ Hooks.once("ready", async function () {
   await initialiserCompendium("chants-de-tindalos.armes",      CDT_ARMES_DATA);
   await initialiserCompendium("chants-de-tindalos.vehicules",  CDT_VEHICULES_DATA);
   await initialiserCompendium("chants-de-tindalos.substances", CDT_SUBSTANCES_DATA);
+  await initialiserCompendium("chants-de-tindalos.artefacts",  CDT_ARTEFACTS_DATA);
+  await initialiserCompendium("chants-de-tindalos.revelations", CDT_REVELATIONS_DATA);
   // Équipements peuplés manuellement via console (voir peupler-equipements.js)
 });
 

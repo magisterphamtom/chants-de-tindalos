@@ -62,5 +62,7 @@
   "TYPES.Item.arme": "Arme",
   "TYPES.Item.equipement": "Équipement",
   "TYPES.Item.vehicule": "Véhicule",
-  "TYPES.Item.substance": "Substance"
+  "TYPES.Item.substance": "Substance",
+  "TYPES.Item.artefact": "Artefact",
+  "TYPES.Item.revelation": "Révélation"
 }

@@ -3,6 +3,8 @@
 // Développé pour Walpurgis Éditions
 // ================================================
 
+import { PersonnageDataModel, PNJDataModel, ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel, ArtefactDataModel, RevelationDataModel } from "./datamodels.js";
+
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -544,6 +546,16 @@ async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) 
 Hooks.once("init", function () {
   console.log("Chants de Tindalos | Initialisation du système...");
 
+  // --- DATAMODELS ---
+  CONFIG.Actor.dataModels.personnage  = PersonnageDataModel;
+  CONFIG.Actor.dataModels.pnj         = PNJDataModel;
+  CONFIG.Item.dataModels.arme         = ArmeDataModel;
+  CONFIG.Item.dataModels.equipement   = EquipementDataModel;
+  CONFIG.Item.dataModels.vehicule     = VehiculeDataModel;
+  CONFIG.Item.dataModels.substance    = SubstanceDataModel;
+  CONFIG.Item.dataModels.artefact     = ArtefactDataModel;
+  CONFIG.Item.dataModels.revelation   = RevelationDataModel;
+
   game.chantsdetindalos = {
     CdTActeur,
     CdTFeuillePersonnage,
@@ -696,10 +708,12 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.actor = this.actor;
     context.system = this.actor.system;
     context.tabActif = this._tabActif;
-    context.itemsArmes      = this.actor.items.filter(i => i.type === "arme");
-    context.itemsVehicules  = this.actor.items.filter(i => i.type === "vehicule");
-    context.itemsSubstances = this.actor.items.filter(i => i.type === "substance");
+    context.itemsArmes       = this.actor.items.filter(i => i.type === "arme");
+    context.itemsVehicules   = this.actor.items.filter(i => i.type === "vehicule");
+    context.itemsSubstances  = this.actor.items.filter(i => i.type === "substance");
     context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
+    context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
+    context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
     return context;
   }
 
@@ -708,10 +722,12 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.actor = this.actor;
     context.system = this.actor.system;
     context.tabActif = this._tabActif;
-    context.itemsArmes      = this.actor.items.filter(i => i.type === "arme");
-    context.itemsVehicules  = this.actor.items.filter(i => i.type === "vehicule");
-    context.itemsSubstances = this.actor.items.filter(i => i.type === "substance");
+    context.itemsArmes       = this.actor.items.filter(i => i.type === "arme");
+    context.itemsVehicules   = this.actor.items.filter(i => i.type === "vehicule");
+    context.itemsSubstances  = this.actor.items.filter(i => i.type === "substance");
     context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
+    context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
+    context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
     return context;
   }
 
@@ -994,44 +1010,58 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
     });
   }
 
-  // _onFirstRender — appelé UNE SEULE FOIS, parfait pour le drag & drop
+  // _onFirstRender — appelé UNE SEULE FOIS
   _onFirstRender(context, options) {
     super._onFirstRender?.(context, options);
     const html = this.element;
+    let dropEnCours = false;
 
-    // DROP ARMES
-    const zoneArmes = html.querySelector(".armes-list") ?? html;
-    zoneArmes.addEventListener("dragover", ev => { ev.preventDefault(); zoneArmes.classList.add("drag-over"); });
-    zoneArmes.addEventListener("dragleave", () => zoneArmes.classList.remove("drag-over"));
-    zoneArmes.addEventListener("drop", async ev => {
-      ev.preventDefault();
-      zoneArmes.classList.remove("drag-over");
-      let data; try { data = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch { return; }
-      if (data.type !== "Item") return;
-      const item = data.uuid ? await fromUuid(data.uuid) : game.items.get(data.id);
-      if (!item || item.type !== "arme") return;
-      await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
-      ui.notifications.info(`⚔️ ${item.name} ajoutée !`);
+    html.addEventListener("dragover", ev => {
+      const zone = ev.target.closest(".armes-list, .drop-zone[data-type]");
+      if (zone) { ev.preventDefault(); zone.classList.add("drag-over"); }
     });
 
-    // DROP INVENTAIRE
-    html.querySelectorAll(".drop-zone[data-type]").forEach(zone => {
-      const type = zone.dataset.type;
-      zone.addEventListener("dragover", ev => { ev.preventDefault(); zone.classList.add("drag-over"); });
-      zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
-      zone.addEventListener("drop", async ev => {
-        ev.preventDefault();
-        zone.classList.remove("drag-over");
-        let data; try { data = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch { return; }
-        if (data.type !== "Item") return;
-        const item = data.uuid ? await fromUuid(data.uuid) : game.items.get(data.id);
-        if (!item || item.type !== type) {
-          ui.notifications.warn(`Seuls les éléments de type "${type}" peuvent être glissés ici.`);
-          return;
+    html.addEventListener("dragleave", ev => {
+      const zone = ev.target.closest(".armes-list, .drop-zone[data-type]");
+      if (zone && !zone.contains(ev.relatedTarget)) zone.classList.remove("drag-over");
+    });
+
+    html.addEventListener("drop", async ev => {
+      if (dropEnCours) { ev.preventDefault(); ev.stopImmediatePropagation(); return; }
+      const zoneArmes = ev.target.closest(".armes-list");
+      const zoneInv   = ev.target.closest(".drop-zone[data-type]");
+      if (!zoneArmes && !zoneInv) return;
+
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      dropEnCours = true;
+
+      if (zoneArmes) zoneArmes.classList.remove("drag-over");
+      if (zoneInv)   zoneInv.classList.remove("drag-over");
+
+      let data;
+      try { data = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch { dropEnCours = false; return; }
+      if (data.type !== "Item") { dropEnCours = false; return; }
+
+      const item = data.uuid ? await fromUuid(data.uuid) : game.items.get(data.id);
+      if (!item) { dropEnCours = false; return; }
+
+      if (zoneArmes) {
+        if (item.type !== "arme") { ui.notifications.warn("Seules les armes peuvent être glissées ici."); }
+        else {
+          await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
+          ui.notifications.info(`⚔️ ${item.name} ajoutée !`);
         }
-        await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
-        ui.notifications.info(`✅ ${item.name} ajouté à l'inventaire !`);
-      });
+      } else if (zoneInv) {
+        const type = zoneInv.dataset.type;
+        if (item.type !== type) { ui.notifications.warn(`Seuls les éléments de type "${type}" peuvent être glissés ici.`); }
+        else {
+          await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
+          ui.notifications.info(`✅ ${item.name} ajouté !`);
+        }
+      }
+
+      dropEnCours = false;
     });
   }
 
@@ -2160,6 +2190,8 @@ async function chargerTemplates() {
     "systems/chants-de-tindalos/templates/item/feuille-vehicule.html",
     "systems/chants-de-tindalos/templates/item/feuille-substance.html",
     "systems/chants-de-tindalos/templates/item/feuille-equipement.html",
+    "systems/chants-de-tindalos/templates/item/feuille-artefact.html",
+    "systems/chants-de-tindalos/templates/item/feuille-revelation.html",
   ]);
 }
 
@@ -2214,7 +2246,6 @@ async function initialiserWiki() {
         `
       }
     },
-    {
     {
       name: "2. Caractéristiques",
       text: {

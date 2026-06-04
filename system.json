@@ -2,66 +2,24 @@
   "id": "chants-de-tindalos",
   "title": "Les Chants de Tindalos",
   "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT",
-  "version": "0.2.0",
-  "compatibility": {
-    "minimum": "13",
-    "verified": "13.351"
-  },
-  "authors": [
-    {
-      "name": "Walpurgis Éditions",
-      "url": "https://chantsdetindalos.fr"
-    }
-  ],
+  "version": "0.3.0",
+  "compatibility": { "minimum": "13", "verified": "13.351" },
+  "authors": [{ "name": "Walpurgis Éditions", "url": "https://chantsdetindalos.fr" }],
   "esmodules": [
     "module/chants-de-tindalos.js",
     "module/creation-personnage.js",
     "module/items.js"
   ],
-  "styles": [
-    "css/chants-de-tindalos.css"
-  ],
+  "styles": ["css/chants-de-tindalos.css"],
   "packs": [
-    {
-      "name": "armes",
-      "label": "⚔️ Armes",
-      "path": "packs/armes",
-      "type": "Item",
-      "system": "chants-de-tindalos",
-      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
-    },
-    {
-      "name": "vehicules",
-      "label": "🚗 Véhicules",
-      "path": "packs/vehicules",
-      "type": "Item",
-      "system": "chants-de-tindalos",
-      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
-    },
-    {
-      "name": "substances",
-      "label": "💊 Substances",
-      "path": "packs/substances",
-      "type": "Item",
-      "system": "chants-de-tindalos",
-      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
-    },
-    {
-      "name": "equipements",
-      "label": "🎒 Équipements",
-      "path": "packs/equipements",
-      "type": "Item",
-      "system": "chants-de-tindalos",
-      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
-    }
+    { "name": "armes",      "label": "⚔️ Armes",       "path": "packs/armes",      "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
+    { "name": "vehicules",  "label": "🚗 Véhicules",   "path": "packs/vehicules",  "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
+    { "name": "substances", "label": "💊 Substances",  "path": "packs/substances", "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
+    { "name": "equipements","label": "🎒 Équipements", "path": "packs/equipements","type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
+    { "name": "artefacts",  "label": "🌙 Artefacts",   "path": "packs/artefacts",  "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
+    { "name": "revelations","label": "📖 Révélations", "path": "packs/revelations","type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } }
   ],
-  "languages": [
-    {
-      "lang": "fr",
-      "name": "Français",
-      "path": "lang/fr.json"
-    }
-  ],
+  "languages": [{ "lang": "fr", "name": "Français", "path": "lang/fr.json" }],
   "socket": false,
   "url": "https://github.com/magisterphamtom/chants-de-tindalos",
   "license": "All rights reserved - Walpurgis Éditions"

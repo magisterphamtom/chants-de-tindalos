@@ -5,10 +5,12 @@
     "pnj": {}
   },
   "Item": {
-    "types": ["arme", "equipement", "vehicule", "substance"],
+    "types": ["arme", "equipement", "vehicule", "substance", "artefact", "revelation"],
     "arme": {},
     "equipement": {},
     "vehicule": {},
-    "substance": {}
+    "substance": {},
+    "artefact": {},
+    "revelation": {}
   }
 }

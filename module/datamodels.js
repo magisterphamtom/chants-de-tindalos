@@ -336,6 +336,41 @@ class SubstanceDataModel extends foundry.abstract.TypeDataModel {
 }
 
 // ------------------------------------------------
+// DATAMODEL : Artefact (Item)
+// ------------------------------------------------
+class ArtefactDataModel extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    return {
+      ecole:       new StringField({ initial: "vision",    choices: ["vision","aneantissement","envoutement","vitalisme","cosmos","songe"] }),
+      modificateur: new NumberField({ initial: 1, integer: true }),
+      declencheur: new StringField({ initial: "" }),
+      effet:       new StringField({ initial: "" }),
+      prix:        new StringField({ initial: "" }),
+      description: new StringField({ initial: "" }),
+    };
+  }
+}
+
+// ------------------------------------------------
+// DATAMODEL : Révélation (Item)
+// ------------------------------------------------
+class RevelationDataModel extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    return {
+      categorie:   new StringField({ initial: "conviction_initiale", choices: ["conviction_initiale","conviction_superieure","objectif","etrangete","occulte_initiale","occulte_superieure"] }),
+      contenu:     new StringField({ initial: "" }),
+      effet:       new StringField({ initial: "" }),
+      effetArcane: new StringField({ initial: "" }),
+      entite:      new StringField({ initial: "" }),
+      plpNom:      new StringField({ initial: "" }),
+      plpNiveau:   new NumberField({ initial: 1, min: 1, max: 4, integer: true }),
+      plpEffet:    new StringField({ initial: "" }),
+      description: new StringField({ initial: "" }),
+    };
+  }
+}
+
+// ------------------------------------------------
 // EXPORTS
 // ------------------------------------------------
 export {
@@ -345,4 +380,6 @@ export {
   EquipementDataModel,
   VehiculeDataModel,
   SubstanceDataModel,
+  ArtefactDataModel,
+  RevelationDataModel,
 };
