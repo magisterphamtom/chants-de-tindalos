@@ -68,14 +68,22 @@ All items support **drag & drop** directly onto the character sheet.
 - 12 pages covering all rules
 
 ### Pre-generated Characters
-4 ready-to-play characters from the discovery kit:
+12 ready-to-play characters from the complete rulebook:
 
 | Character | Profession | Strengths |
 |---|---|---|
 | **Nora Haddad** | Art Photography | Perception 4, Visual Art |
 | **Delphine Malesherbes** | Investigative Journalism | Knowledge 3, Interrogation |
-| **Archie Hunter** | Wreck Salvage | Vigor 4, Navigation |
-| **Geneviève de Bouvines** | Tomb Raiding | Perception 3, Explosives |
+| **Archie Hunter** | Wreck Salvage | Vigor 3, Navigation |
+| **Geneviève de Bouvines** | Tomb Raiding | Agility 3, Explosives |
+| **Billy Hamlin** | Poker Player | Agility 4, Deception |
+| **Bertrand McIntyre** | Field Investigator | Knowledge 4, Mastery +2 |
+| **Stepan Kovar** | Butler/Medium | Intuition 4, Etiquette |
+| **Marco Sachetto** | Psychiatrist | Mastery +3, Medicine |
+| **Grzegorz Komanczyk** | Private Detective | Vigor 3, Surveillance |
+| **Adam DeRouette** | Poet | Knowledge 4, Charisma 4 |
+| **Tomah Neptune** | Prestidigitator | Charisma 3, Disguise |
+| **August Köhler** | Inventor | Intuition 7, Sciences |
 
 ---
 

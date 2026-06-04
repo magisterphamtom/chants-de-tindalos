@@ -68,14 +68,22 @@ Tous les items se glissent-déposent (**drag & drop**) directement sur la fiche 
 - 12 pages couvrant toutes les règles
 
 ### Personnages prétirés
-4 personnages du kit de découverte inclus :
+12 personnages issus du manuel complet :
 
 | Personnage | Profession | Points forts |
 |---|---|---|
 | **Nora Haddad** | Photographe d'Art | Perception 4, Art visuel |
 | **Delphine Malesherbes** | Journalisme d'investigation | Savoir 3, Interrogatoire |
-| **Archie Hunter** | Recherche d'épaves | Vigueur 4, Navigation |
-| **Geneviève de Bouvines** | Pillage de tombes | Perception 3, Explosifs |
+| **Archie Hunter** | Recherche d'épaves | Vigueur 3, Navigation |
+| **Geneviève de Bouvines** | Pillage de tombes | Agilité 3, Explosifs |
+| **Billy Hamlin** | Joueur de Poker | Agilité 4, Dissimulation |
+| **Bertrand McIntyre** | Investigateur | Savoir 4, Maîtrise +2 |
+| **Stepan Kovar** | Majordome médium | Intuition 4, Étiquette |
+| **Marco Sachetto** | Psychiatre | Maîtrise +3, Médecine |
+| **Grzegorz Komanczyk** | Détective privé | Vigueur 3, Filature |
+| **Adam DeRouette** | Poète | Savoir 4, Charisme 4 |
+| **Tomah Neptune** | Prestidigitateur | Charisme 3, Déguisement |
+| **August Köhler** | Inventeur | Intuition 7, Sciences |
 
 ---
 

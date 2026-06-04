@@ -2522,41 +2522,34 @@ async function initialiserWiki() {
 <ol>
 <li><strong>Identité & Caractéristiques</strong> — 12 points, visualisation Coût/Défense en temps réel</li>
 <li><strong>Variables</strong> — Réserve, Angoisse, Maîtrise, Intuition, Espoir (12 points, max 6 par variable)</li>
-<li><strong>Profession</strong> — 10 milieux → 3 champs → 3 métiers → professions (90 détaillées)</li>
+<li><strong>Profession</strong> — 10 milieux → 3 champs → 3 métiers → 90 professions détaillées</li>
 <li><strong>Milieu d'origine</strong> — +1 point de milieu, effets richesse automatiques</li>
-<li><strong>Expérience singulière</strong> — 60 expériences filtrables par milieu, +1 milieu +2 spécialités</li>
-<li><strong>Rituel de décompression</strong> — liste complète avec valeurs de tension (−1 à −4)</li>
+<li><strong>Expérience singulière</strong> — 60 expériences filtrables par milieu</li>
+<li><strong>Rituel de décompression</strong> — liste complète avec valeurs de tension</li>
 <li><strong>Déclencheur</strong> — 20 exemples ou saisie libre</li>
 <li><strong>Folie</strong> — 0 ou 1 point (−1 Maîtrise, +1 Intuition)</li>
 </ol>
 <p>À la fin, le personnage est créé automatiquement et sa fiche s'ouvre.</p>
-<h2>📝 Création manuelle (rappel des règles)</h2>
-<p>Remplissez directement la fiche en suivant ces étapes :</p>
-<ol>
-<li><strong>Caractéristiques</strong> — 12 points (rang 4→5 coûte 2 points)</li>
-<li><strong>Variables</strong> — 12 points. Vitesse = AGI + VIG + 2. Sommeil = 12 − Angoisse</li>
-<li><strong>Profession</strong> — +4 pts milieu, +4 pts socle, +5 pts spécialité (+1 doublée), +1 rang richesse</li>
-<li><strong>Milieu d'origine</strong> — +1 point de milieu, ajustement richesse éventuel</li>
-<li><strong>Expérience singulière</strong> — +1 milieu, +1 point dans 2 spécialités</li>
-<li><strong>Rituel & Déclencheur</strong> — onglet Combat de la fiche</li>
-<li><strong>Folie & Révélations</strong> — onglet Avancé (en accord avec le MJ)</li>
-<li><strong>Possessions & Équipement</strong> — onglet Avancé</li>
-<li><strong>Contacts & Ressources</strong> — onglet Avancé</li>
-</ol>
-<h2>👥 Personnages prétirés</h2>
-<p>4 personnages du kit de découverte sont disponibles :</p>
+<h2>👥 Personnages prétirés (12 au total)</h2>
+<p>12 personnages issus du manuel sont disponibles. Les 4 du kit de découverte sont créés automatiquement. Les 8 supplémentaires s'importent via le script <strong>pretires.js</strong> dans la console F12.</p>
+<p><strong>Kit de découverte :</strong></p>
 <ul>
 <li><strong>Nora Haddad</strong> — Photographe d'Art (Perception 4)</li>
 <li><strong>Delphine Malesherbes</strong> — Journaliste d'investigation (Savoir 3)</li>
-<li><strong>Archie Hunter</strong> — Chercheur d'épaves (Vigueur 4)</li>
-<li><strong>Geneviève de Bouvines</strong> — Pilleuse de tombes (Perception 3)</li>
+<li><strong>Archie Hunter</strong> — Chercheur d'épaves (Vigueur 3, Perception 3)</li>
+<li><strong>Geneviève de Bouvines</strong> — Pilleur de tombes (Agilité 3)</li>
 </ul>
-<p>Pour les importer via la console Foundry (F12) :</p>
-<pre>const noms = ["nora-haddad","delphine-malesherbes","archie-hunter","genevieve-de-bouvines"];
-for (const nom of noms) {
-  const data = await fetch("systems/chants-de-tindalos/packs/" + nom + ".json").then(r => r.json());
-  await Actor.create(data);
-}</pre>
+<p><strong>Manuel complet :</strong></p>
+<ul>
+<li><strong>Billy Hamlin</strong> — Joueur de Poker (Agilité 4)</li>
+<li><strong>Bertrand McIntyre</strong> — Investigateur (Savoir 4, Maîtrise +2)</li>
+<li><strong>Stepan Kovar</strong> — Majordome médium (Intuition 4)</li>
+<li><strong>Marco Sachetto</strong> — Psychiatre (Maîtrise +3)</li>
+<li><strong>Grzegorz Komanczyk</strong> — Détective privé (Vigueur 3)</li>
+<li><strong>Adam DeRouette</strong> — Poète (Savoir 4, Charisme 4)</li>
+<li><strong>Tomah Neptune</strong> — Prestidigitateur (Perception 3, Charisme 3)</li>
+<li><strong>August Köhler</strong> — Inventeur (Intuition 7 !)</li>
+</ul>
         `
       }
     },
