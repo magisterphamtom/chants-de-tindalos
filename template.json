@@ -35,10 +35,7 @@
       "seuilDifficulte": 3,
       "malusSD": 0,
       "rangRichesse": 0,
-      "armes": {
-        "arme1": { "nom": "Poings", "type": "corpsacorps", "letalite": 23, "blessure": "Superficielle", "portee": "CaC" },
-        "arme2": { "nom": "", "type": "corpsacorps", "letalite": 18, "blessure": "Moderee", "portee": "CaC" }
-      },
+      "armes": [],
       "revelations": {
         "rev1": { "nom": "", "effet": "", "description": "" },
         "rev2": { "nom": "", "effet": "", "description": "" },
@@ -104,9 +101,7 @@
         "tension":   { "valeur": 0,  "max": 20 },
         "blessures": ""
       },
-      "armes": {
-        "arme1": { "nom": "", "type": "corpsacorps", "letalite": 18, "blessure": "Superficielle", "portee": "CaC" }
-      },
+      "armes": [],
       "possessions": {
         "telephone": false,
         "arme":      false,
@@ -122,6 +117,27 @@
       "malusSD": 0,
       "seuilDifficulte": 3,
       "notes": ""
+    }
+  },
+  "Item": {
+    "types": ["arme", "equipement"],
+    "arme": {
+      "categorie": "distance",
+      "caracteristique": "agilite",
+      "blessure": "Moderee",
+      "letalite": 14,
+      "portee": "Courte",
+      "chargeur": 6,
+      "munitions": "",
+      "prix": "",
+      "special": "",
+      "description": ""
+    },
+    "equipement": {
+      "categorie": "general",
+      "prix": "",
+      "poids": "",
+      "description": ""
     }
   }
 }

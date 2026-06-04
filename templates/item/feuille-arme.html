@@ -1,0 +1,75 @@
+<div class="arme-sheet">
+  <header class="arme-header">
+    <img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="arme-header-infos">
+      <input class="arme-nom" type="text" name="name" value="{{item.name}}" />
+      <div class="arme-categorie-box">
+        <select name="system.categorie">
+          <option value="distance"   {{#if (eq system.categorie "distance")}}selected{{/if}}>🔫 Distance</option>
+          <option value="corpsacorps"{{#if (eq system.categorie "corpsacorps")}}selected{{/if}}>⚔️ Corps-à-corps</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="arme-body">
+    <!-- STATS PRINCIPALES -->
+    <div class="arme-stats-grid">
+      <div class="arme-stat-box">
+        <label>Caractéristique</label>
+        <select name="system.caracteristique">
+          <option value="agilite" {{#if (eq system.caracteristique "agilite")}}selected{{/if}}>⚡ Agilité (Distance)</option>
+          <option value="vigueur" {{#if (eq system.caracteristique "vigueur")}}selected{{/if}}>💪 Vigueur (CaC)</option>
+        </select>
+      </div>
+      <div class="arme-stat-box">
+        <label>Létalité</label>
+        <input type="number" name="system.letalite" value="{{system.letalite}}" min="1" />
+      </div>
+      <div class="arme-stat-box">
+        <label>Blessure</label>
+        <select name="system.blessure">
+          <option value="Superficielle" {{#if (eq system.blessure "Superficielle")}}selected{{/if}}>Superficielle</option>
+          <option value="Legere"        {{#if (eq system.blessure "Legere")}}selected{{/if}}>Légère</option>
+          <option value="Moderee"       {{#if (eq system.blessure "Moderee")}}selected{{/if}}>Modérée</option>
+          <option value="Serieuse"      {{#if (eq system.blessure "Serieuse")}}selected{{/if}}>Sérieuse</option>
+        </select>
+      </div>
+      <div class="arme-stat-box">
+        <label>Portée</label>
+        <select name="system.portee">
+          <option value="Contact" {{#if (eq system.portee "Contact")}}selected{{/if}}>Contact</option>
+          <option value="Courte"  {{#if (eq system.portee "Courte")}}selected{{/if}}>Courte</option>
+          <option value="Longue"  {{#if (eq system.portee "Longue")}}selected{{/if}}>Longue</option>
+        </select>
+      </div>
+      <div class="arme-stat-box">
+        <label>Chargeur</label>
+        <input type="number" name="system.chargeur" value="{{system.chargeur}}" min="0" />
+      </div>
+      <div class="arme-stat-box">
+        <label>Munitions</label>
+        <input type="text" name="system.munitions" value="{{system.munitions}}" placeholder="Ex: Calibre .38" />
+      </div>
+      <div class="arme-stat-box">
+        <label>Prix</label>
+        <input type="text" name="system.prix" value="{{system.prix}}" placeholder="Ex: 18$" />
+      </div>
+      <div class="arme-stat-box">
+        <label>Règle spéciale</label>
+        <input type="text" name="system.special" value="{{system.special}}" placeholder="Ex: +1 attaque sans pénalité" />
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="arme-description-box">
+      <label>Description</label>
+      <textarea name="system.description" placeholder="Description de l'arme...">{{system.description}}</textarea>
+    </div>
+
+    <!-- BOUTON ATTAQUE -->
+    <div class="arme-actions">
+      <button type="button" class="btn-attaquer-item">⚔️ Attaquer avec cette arme</button>
+    </div>
+  </div>
+</div>

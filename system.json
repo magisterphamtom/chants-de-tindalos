@@ -2,7 +2,7 @@
   "id": "chants-de-tindalos",
   "title": "Les Chants de Tindalos",
   "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "compatibility": {
     "minimum": "13",
     "verified": "13.351"
@@ -14,12 +14,22 @@
     }
   ],
   "esmodules": [
-  "module/chants-de-tindalos.js",
-  "module/creation-personnage.js"
-],
-"styles": [
+    "module/chants-de-tindalos.js",
+    "module/creation-personnage.js",
+    "module/items.js"
+  ],
+  "styles": [
     "css/chants-de-tindalos.css"
-],
+  ],
+  "packs": [
+    {
+      "name": "armes",
+      "label": "⚔️ Armes",
+      "path": "packs/armes.db",
+      "type": "Item",
+      "system": "chants-de-tindalos"
+    }
+  ],
   "languages": [
     {
       "lang": "fr",
@@ -28,6 +38,6 @@
     }
   ],
   "socket": false,
-  "url": "",
+  "url": "https://github.com/magisterphamtom/chants-de-tindalos",
   "license": "All rights reserved - Walpurgis Éditions"
 }
