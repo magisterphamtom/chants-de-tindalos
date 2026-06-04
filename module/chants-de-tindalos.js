@@ -582,6 +582,58 @@ Hooks.once("init", function () {
 Hooks.once("ready", async function () {
   await initialiserTablesPLP();
   await initialiserWiki();
+  await afficherWikiSiPremiereLancement();
+});
+
+// ================================================
+// WIKI — OUVERTURE AUTOMATIQUE AU PREMIER LANCEMENT
+// ================================================
+async function afficherWikiSiPremiereLancement() {
+  const CLE = "wikiDejaVu";
+  if (!game.settings.settings.has(`chants-de-tindalos.${CLE}`)) {
+    game.settings.register("chants-de-tindalos", CLE, {
+      name: "Wiki déjà consulté",
+      scope: "client",
+      config: false,
+      type: Boolean,
+      default: false,
+    });
+  }
+  const dejaVu = game.settings.get("chants-de-tindalos", CLE);
+  if (!dejaVu) {
+    setTimeout(async () => {
+      const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
+      if (journal) {
+        journal.sheet.render(true);
+        await game.settings.set("chants-de-tindalos", CLE, true);
+      }
+    }, 1500);
+  }
+}
+
+// ================================================
+// BOUTONS DANS LE PANNEAU ACTEURS
+// ================================================
+Hooks.on("renderActorDirectory", (app, html) => {
+  const footer = html.querySelector(".directory-footer") ?? html.querySelector(".header-actions");
+  if (!footer) return;
+
+  const boutonCreation = document.createElement("button");
+  boutonCreation.innerHTML = "🎲 Créer un personnage";
+  boutonCreation.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#8b4513;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.9em;";
+  boutonCreation.addEventListener("click", () => new CdTCreationPersonnage().render(true));
+
+  const boutonWiki = document.createElement("button");
+  boutonWiki.innerHTML = "📖 Wiki du système";
+  boutonWiki.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#3d1a1a;color:#d4a96a;border:1px solid #8b4513;border-radius:4px;cursor:pointer;font-size:0.9em;";
+  boutonWiki.addEventListener("click", () => {
+    const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
+    if (journal) journal.sheet.render(true);
+    else ui.notifications.warn("Wiki introuvable — rechargez la page (F5).");
+  });
+
+  footer.prepend(boutonWiki);
+  footer.prepend(boutonCreation);
 });
 
 // ================================================
