@@ -2159,6 +2159,7 @@ async function chargerTemplates() {
     "systems/chants-de-tindalos/templates/item/feuille-arme.html",
     "systems/chants-de-tindalos/templates/item/feuille-vehicule.html",
     "systems/chants-de-tindalos/templates/item/feuille-substance.html",
+    "systems/chants-de-tindalos/templates/item/feuille-equipement.html",
   ]);
 }
 

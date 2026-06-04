@@ -541,7 +541,33 @@ class CdTFeuilleSubstance extends foundry.applications.api.HandlebarsApplication
   }
 }
 // ------------------------------------------------
-// DONNÉES : ÉQUIPEMENTS
+// FICHE ÉQUIPEMENT
+// ------------------------------------------------
+class CdTFeuilleEquipement extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.sheets.ItemSheetV2
+) {
+  static DEFAULT_OPTIONS = {
+    classes: ["cdt", "equipement-sheet"],
+    position: { width: 460, height: 380 },
+    window: { resizable: true },
+    form: { submitOnChange: true, closeOnSubmit: false },
+  };
+
+  static PARTS = {
+    body: { template: "systems/chants-de-tindalos/templates/item/feuille-equipement.html" },
+  };
+
+  async _prepareContext(options) {
+    return { item: this.item, system: this.item.system };
+  }
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+    this.element.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
+      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+    });
+  }
+}
 // ------------------------------------------------
 const CDT_EQUIPEMENTS_DATA = [
   // --- TABAC ---
@@ -732,14 +758,11 @@ async function initialiserCompendium(nomPack, donnees) {
   const pack = game.packs.get(nomPack);
   if (!pack) { console.log(`CDT | Pack ${nomPack} non trouvé.`); return; }
   const contenu = await pack.getDocuments();
-  console.log(`CDT | Pack ${nomPack} : ${contenu.length} items existants.`);
   if (contenu.length > 0) return;
 
-  // Foundry v13 — déverrouillage via les settings
-  const wasLocked = pack.locked;
-  if (wasLocked) {
-    await game.settings.set("core", pack.lockedSetting, false);
-  }
+  // Déverrouillage v13 avec délai pour laisser le serveur traiter
+  await pack.configure({ locked: false });
+  await new Promise(r => setTimeout(r, 300));
 
   for (const data of donnees) {
     try {
@@ -749,11 +772,9 @@ async function initialiserCompendium(nomPack, donnees) {
     }
   }
 
-  if (wasLocked) {
-    await game.settings.set("core", pack.lockedSetting, true);
-  }
-
+  await pack.configure({ locked: true });
   console.log(`CDT | ${donnees.length} items ajoutés dans ${nomPack} !`);
+  ui.notifications?.info(`✅ Compendium ${pack.title} initialisé !`);
 }
 
 // ------------------------------------------------
@@ -770,8 +791,8 @@ Hooks.once("init", function () {
   Items.registerSheet("chants-de-tindalos", CdTFeuilleVehicule, {
     types: ["vehicule"], makeDefault: true, label: "Fiche Véhicule CDT",
   });
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleSubstance, {
-    types: ["substance"], makeDefault: true, label: "Fiche Substance CDT",
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleEquipement, {
+    types: ["equipement"], makeDefault: true, label: "Fiche Équipement CDT",
   });
 });
 
@@ -779,7 +800,7 @@ Hooks.once("ready", async function () {
   await initialiserCompendium("chants-de-tindalos.armes",      CDT_ARMES_DATA);
   await initialiserCompendium("chants-de-tindalos.vehicules",  CDT_VEHICULES_DATA);
   await initialiserCompendium("chants-de-tindalos.substances", CDT_SUBSTANCES_DATA);
-  await initialiserCompendium("chants-de-tindalos.equipements", CDT_EQUIPEMENTS_DATA);
+  // Équipements peuplés manuellement via console (voir peupler-equipements.js)
 });
 
 // Le drop est géré directement dans CdTFeuillePersonnage._onRender

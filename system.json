@@ -27,28 +27,32 @@
       "label": "⚔️ Armes",
       "path": "packs/armes",
       "type": "Item",
-      "system": "chants-de-tindalos"
+      "system": "chants-de-tindalos",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
     },
     {
       "name": "vehicules",
       "label": "🚗 Véhicules",
       "path": "packs/vehicules",
       "type": "Item",
-      "system": "chants-de-tindalos"
+      "system": "chants-de-tindalos",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
     },
     {
       "name": "substances",
       "label": "💊 Substances",
       "path": "packs/substances",
       "type": "Item",
-      "system": "chants-de-tindalos"
+      "system": "chants-de-tindalos",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
     },
     {
       "name": "equipements",
       "label": "🎒 Équipements",
       "path": "packs/equipements",
       "type": "Item",
-      "system": "chants-de-tindalos"
+      "system": "chants-de-tindalos",
+      "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" }
     }
   ],
   "languages": [
