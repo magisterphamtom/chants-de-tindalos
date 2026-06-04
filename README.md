@@ -90,7 +90,7 @@ Un assistant guidé en **8 étapes** accessible via le bouton **🎲 Créer un p
 2. Clique sur **Installer un système**
 3. Colle l'URL du manifest :
    ```
-   https://raw.githubusercontent.com/TON-PSEUDO/chants-de-tindalos/main/system.json
+   https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/system.json
    ```
 4. Clique **Installer**
 
