@@ -1840,6 +1840,18 @@ async function initialiserWiki() {
         content: `
 <h1>🎲 Prise en main — Les Chants de Tindalos sur Foundry</h1>
 <p>Bienvenue dans l'adaptation Foundry VTT des <strong>Chants de Tindalos</strong>, un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par <strong>Walpurgis Éditions</strong>.</p>
+<h2>✨ Assistant de création de personnage</h2>
+<p>Un bouton <strong>🎲 Créer un personnage</strong> est disponible en bas du panneau Acteurs. Il ouvre un assistant guidé en 8 étapes :</p>
+<ol>
+<li><strong>Identité & Caractéristiques</strong> — 12 points à répartir avec visualisation en temps réel</li>
+<li><strong>Variables</strong> — 12 points (Réserve, Angoisse, Maîtrise, Intuition, Espoir)</li>
+<li><strong>Profession</strong> — 10 milieux → champs → métiers → professions (90 professions)</li>
+<li><strong>Milieu d'origine</strong> — 10 origines sociales avec effets sur la richesse</li>
+<li><strong>Expérience singulière</strong> — 60 expériences filtrables par milieu</li>
+<li><strong>Rituel & Déclencheur</strong> — listes complètes avec valeurs de tension</li>
+<li><strong>Folie</strong> — 0 ou 1 point de folie avec effets automatiques</li>
+<li><strong>Récapitulatif</strong> — aperçu complet avant création de l'acteur</li>
+</ol>
 <h2>📋 La Fiche de Personnage</h2>
 <p>La fiche de personnage comporte <strong>6 onglets</strong> :</p>
 <ul>
@@ -1874,12 +1886,7 @@ async function initialiserWiki() {
 <li>Jet de Maîtrise et SD calculé automatiquement</li>
 </ul>
 <h2>👥 Personnages prétirés</h2>
-<p>4 personnages du kit de découverte sont inclus. Pour les importer dans Foundry :</p>
-<pre>const noms = ["nora-haddad","delphine-malesherbes","archie-hunter","genevieve-de-bouvines"];
-for (const nom of noms) {
-  const data = await fetch("systems/chants-de-tindalos/packs/" + nom + ".json").then(r => r.json());
-  await Actor.create(data);
-}</pre>
+<p>4 personnages du kit de découverte sont inclus — Nora Haddad, Delphine Malesherbes, Archie Hunter et Geneviève de Bouvines. Utilisez l'assistant de création ou consultez la page 12 pour les importer manuellement.</p>
         `
       }
     },
@@ -2153,29 +2160,42 @@ for (const nom of noms) {
       text: {
         content: `
 <h1>✍️ Créer son Personnage</h1>
-<p>9 étapes à suivre dans Foundry :</p>
+<p>Deux façons de créer un personnage dans Foundry :</p>
+<h2>🎲 Assistant de création (recommandé)</h2>
+<p>Cliquez sur le bouton <strong>🎲 Créer un personnage</strong> en bas du panneau Acteurs. L'assistant guide en 8 étapes avec toutes les listes du manuel :</p>
 <ol>
-<li><strong>Caractéristiques</strong> — 12 points à répartir</li>
-<li><strong>Profession</strong> — 4pts milieu, 4pts socle, 6pts spécialité, 1 rang richesse</li>
-<li><strong>Milieu d'origine</strong> — +1 point de milieu</li>
-<li><strong>Expérience singulière</strong> — +1 milieu, +2 spécialité</li>
-<li><strong>Rituel de décompression</strong> — onglet Combat</li>
-<li><strong>Déclencheur</strong> — onglet Combat</li>
-<li><strong>Folie et Révélations</strong> — onglet Avancé</li>
-<li><strong>Possessions</strong> — onglet Avancé</li>
-<li><strong>Contacts</strong> — onglet Avancé</li>
+<li><strong>Identité & Caractéristiques</strong> — 12 points, visualisation Coût/Défense en temps réel</li>
+<li><strong>Variables</strong> — Réserve, Angoisse, Maîtrise, Intuition, Espoir (12 points, max 6 par variable)</li>
+<li><strong>Profession</strong> — 10 milieux → 3 champs → 3 métiers → professions (90 détaillées)</li>
+<li><strong>Milieu d'origine</strong> — +1 point de milieu, effets richesse automatiques</li>
+<li><strong>Expérience singulière</strong> — 60 expériences filtrables par milieu, +1 milieu +2 spécialités</li>
+<li><strong>Rituel de décompression</strong> — liste complète avec valeurs de tension (−1 à −4)</li>
+<li><strong>Déclencheur</strong> — 20 exemples ou saisie libre</li>
+<li><strong>Folie</strong> — 0 ou 1 point (−1 Maîtrise, +1 Intuition)</li>
 </ol>
-<h2>Variables de départ</h2>
-<p>12 points à répartir. Vitesse = AGI + VIG + 2 (auto). Sommeil = 12 - Angoisse.</p>
-<h2>Personnages prétirés</h2>
-<p>4 personnages du kit de découverte sont inclus :</p>
+<p>À la fin, le personnage est créé automatiquement et sa fiche s'ouvre.</p>
+<h2>📝 Création manuelle (rappel des règles)</h2>
+<p>Remplissez directement la fiche en suivant ces étapes :</p>
+<ol>
+<li><strong>Caractéristiques</strong> — 12 points (rang 4→5 coûte 2 points)</li>
+<li><strong>Variables</strong> — 12 points. Vitesse = AGI + VIG + 2. Sommeil = 12 − Angoisse</li>
+<li><strong>Profession</strong> — +4 pts milieu, +4 pts socle, +5 pts spécialité (+1 doublée), +1 rang richesse</li>
+<li><strong>Milieu d'origine</strong> — +1 point de milieu, ajustement richesse éventuel</li>
+<li><strong>Expérience singulière</strong> — +1 milieu, +1 point dans 2 spécialités</li>
+<li><strong>Rituel & Déclencheur</strong> — onglet Combat de la fiche</li>
+<li><strong>Folie & Révélations</strong> — onglet Avancé (en accord avec le MJ)</li>
+<li><strong>Possessions & Équipement</strong> — onglet Avancé</li>
+<li><strong>Contacts & Ressources</strong> — onglet Avancé</li>
+</ol>
+<h2>👥 Personnages prétirés</h2>
+<p>4 personnages du kit de découverte sont disponibles :</p>
 <ul>
-<li><strong>Nora Haddad</strong> — Photographe d'Art (PER 4)</li>
-<li><strong>Delphine Malesherbes</strong> — Journaliste d'investigation (SAV 3)</li>
-<li><strong>Archie Hunter</strong> — Chercheur d'épaves (VIG 4)</li>
-<li><strong>Geneviève de Bouvines</strong> — Pilleuse de tombes (PER 3)</li>
+<li><strong>Nora Haddad</strong> — Photographe d'Art (Perception 4)</li>
+<li><strong>Delphine Malesherbes</strong> — Journaliste d'investigation (Savoir 3)</li>
+<li><strong>Archie Hunter</strong> — Chercheur d'épaves (Vigueur 4)</li>
+<li><strong>Geneviève de Bouvines</strong> — Pilleuse de tombes (Perception 3)</li>
 </ul>
-<p>Pour les importer tous d'un coup :</p>
+<p>Pour les importer via la console Foundry (F12) :</p>
 <pre>const noms = ["nora-haddad","delphine-malesherbes","archie-hunter","genevieve-de-bouvines"];
 for (const nom of noms) {
   const data = await fetch("systems/chants-de-tindalos/packs/" + nom + ".json").then(r => r.json());

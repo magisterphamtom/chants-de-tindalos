@@ -14,8 +14,9 @@
     }
   ],
   "esmodules": [
-    "module/chants-de-tindalos.js"
-  ],
+  "module/chants-de-tindalos.js",
+  "module/creation-personnage.js"
+],
 "styles": [
     "css/chants-de-tindalos.css"
 ],
