@@ -2184,55 +2184,37 @@ async function initialiserWiki() {
 <h1>🎲 Prise en main — Les Chants de Tindalos sur Foundry</h1>
 <p>Bienvenue dans l'adaptation Foundry VTT des <strong>Chants de Tindalos</strong>, un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par <strong>Walpurgis Éditions</strong>.</p>
 <h2>✨ Assistant de création de personnage</h2>
-<p>Un bouton <strong>🎲 Créer un personnage</strong> est disponible en bas du panneau Acteurs. Il ouvre un assistant guidé en 8 étapes :</p>
-<ol>
-<li><strong>Identité & Caractéristiques</strong> — 12 points à répartir avec visualisation en temps réel</li>
-<li><strong>Variables</strong> — 12 points (Réserve, Angoisse, Maîtrise, Intuition, Espoir)</li>
-<li><strong>Profession</strong> — 10 milieux → champs → métiers → professions (90 professions)</li>
-<li><strong>Milieu d'origine</strong> — 10 origines sociales avec effets sur la richesse</li>
-<li><strong>Expérience singulière</strong> — 60 expériences filtrables par milieu</li>
-<li><strong>Rituel & Déclencheur</strong> — listes complètes avec valeurs de tension</li>
-<li><strong>Folie</strong> — 0 ou 1 point de folie avec effets automatiques</li>
-<li><strong>Récapitulatif</strong> — aperçu complet avant création de l'acteur</li>
-</ol>
-<h2>📋 La Fiche de Personnage</h2>
-<p>La fiche de personnage comporte <strong>6 onglets</strong> :</p>
+<p>Un bouton <strong>🎲 Créer un personnage</strong> est disponible en bas du panneau Acteurs. Assistant guidé en 8 étapes : Identité, Variables, Profession (90), Milieu d'origine, Expérience singulière (60), Rituel & Déclencheur, Folie, Récapitulatif.</p>
+<h2>🎒 Compendiums disponibles</h2>
+<ul>
+<li><strong>⚔️ Armes</strong> — 26 armes (distance et corps-à-corps) avec létalité, blessure, portée</li>
+<li><strong>🚗 Véhicules</strong> — 13 véhicules avec Vitesse max, Accélération, Manœuvrabilité</li>
+<li><strong>💊 Substances</strong> — Alcool, Cannabis, Cocaïne, Opiacés avec effets automatiques</li>
+<li><strong>🎒 Équipements</strong> — 40 objets du quotidien des années 1920</li>
+</ul>
+<p>Glissez-déposez n'importe quel item depuis un compendium directement sur la fiche personnage.</p>
+<h2>📋 Fiche Personnage — 7 onglets</h2>
 <ul>
 <li><strong>Principal</strong> — Caractéristiques, Variables, Jauges, Tension, Actions</li>
-<li><strong>Compétences</strong> — Compétences Socle et Spécialité cliquables</li>
-<li><strong>Milieux</strong> — Points de milieu social cliquables pour jets de Charisme</li>
-<li><strong>Combat</strong> — Armes, modificateurs, actions de combat</li>
-<li><strong>Avancé</strong> — Onirisme, Révélations, Arcanes, Contacts, Possessions</li>
-<li><strong>Notes</strong> — Notes libres sur le personnage</li>
+<li><strong>Compétences</strong> — Socle et Spécialité cliquables</li>
+<li><strong>Milieux</strong> — Jets de Charisme avec dés de milieu</li>
+<li><strong>Combat</strong> — Armes équipées, modificateurs, actions</li>
+<li><strong>🎒 Inventaire</strong> — Véhicules, Substances et Équipements en drag & drop</li>
+<li><strong>Avancé</strong> — Onirisme, Révélations, Arcanes, Contacts</li>
+<li><strong>Notes</strong> — Notes libres</li>
 </ul>
-<h2>🖱️ Éléments cliquables</h2>
-<ul>
-<li><strong>Caractéristiques</strong> → lance un jet de dés</li>
-<li><strong>Compétences socle et spécialité</strong> → lance un jet de dés</li>
-<li><strong>Milieux</strong> → jet de Charisme + dés de milieu bonus</li>
-<li><strong>Barre de Tension</strong> → cliquez une case pour modifier la tension</li>
-<li><strong>Barre d'Onirisme</strong> → cliquez une case pour modifier l'onirisme</li>
-<li><strong>Cases XP Espoir / Folie</strong> → ajouter un XP (montée automatique à 8)</li>
-<li><strong>Portrait</strong> → cliquez pour changer l'image</li>
-</ul>
-<h2>🎲 Boutons d'action (onglet Principal)</h2>
+<h2>🎲 Boutons d'action</h2>
 <ul>
 <li><strong>Jet de Maîtrise</strong> — 1d20 + Maîtrise vs Tension</li>
-<li><strong>Jet Défensif</strong> — dés de Vigueur contre les attaques</li>
-<li><strong>Jet de Sommeil</strong> — résolution de la nuit (1d12 + Sommeil + Dettes×5)</li>
-</ul>
-<h2>🗡️ Fiche PNJ</h2>
-<p>Les PNJ ont leur propre fiche compacte avec :</p>
-<ul>
-<li>Possessions sous forme de <strong>pictogrammes cliquables</strong> (toggle ON/OFF)</li>
-<li>Section Arme avec bouton <strong>Attaquer</strong> (jet + létalité dans le chat)</li>
-<li>Jet de Maîtrise et SD calculé automatiquement</li>
+<li><strong>Jet Défensif</strong> — dés de Vigueur</li>
+<li><strong>Jet de Sommeil</strong> — 1d12 + Sommeil + Dettes×5</li>
 </ul>
 <h2>👥 Personnages prétirés</h2>
-<p>4 personnages du kit de découverte sont inclus — Nora Haddad, Delphine Malesherbes, Archie Hunter et Geneviève de Bouvines. Utilisez l'assistant de création ou consultez la page 12 pour les importer manuellement.</p>
+<p>4 personnages inclus : <strong>Nora Haddad</strong>, <strong>Delphine Malesherbes</strong>, <strong>Archie Hunter</strong> et <strong>Geneviève de Bouvines</strong>. Voir page 12 pour les importer.</p>
         `
       }
     },
+    {
     {
       name: "2. Caractéristiques",
       text: {

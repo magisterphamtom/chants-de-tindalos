@@ -15,65 +15,60 @@ Système non officiel pour **Foundry VTT v13** adapté du jeu de rôle **Les Cha
 ### 🎲 Assistant de création de personnage
 Un assistant guidé en **8 étapes** accessible via le bouton **🎲 Créer un personnage** dans le panneau Acteurs :
 
-- **Étape 1** — Identité & Caractéristiques (12 points, visualisation Coût/Défense en temps réel)
-- **Étape 2** — Variables (Réserve, Angoisse, Maîtrise, Intuition, Espoir — 12 points)
-- **Étape 3** — Profession (10 milieux → champs → métiers → 90 professions détaillées)
-- **Étape 4** — Milieu d'origine (10 origines avec effets sur la richesse)
-- **Étape 5** — Expérience singulière (60 expériences filtrables par milieu)
-- **Étape 6** — Rituel de décompression & Déclencheur (listes complètes du manuel)
-- **Étape 7** — Folie (0 ou 1 point avec effets automatiques)
-- **Étape 8** — Récapitulatif complet avant création de l'acteur
+1. **Identité & Caractéristiques** — 12 points à répartir avec visualisation en temps réel
+2. **Variables** — Réserve, Angoisse, Maîtrise, Intuition, Espoir (12 points)
+3. **Profession** — 10 milieux → champs → métiers → 90 professions détaillées
+4. **Milieu d'origine** — 10 origines sociales avec effets sur la richesse
+5. **Expérience singulière** — 60 expériences filtrables par milieu
+6. **Rituel de décompression & Déclencheur** — listes complètes du manuel
+7. **Folie** — 0 ou 1 point avec effets automatiques
+8. **Récapitulatif** — aperçu complet avant création de l'acteur
+
+### 🎒 Compendiums
+Quatre compendiums issus du manuel complet :
+
+| Compendium | Contenu |
+|---|---|
+| ⚔️ **Armes** | 26 armes (distance et corps-à-corps) avec létalité, blessure, portée |
+| 🚗 **Véhicules** | 13 véhicules avec Vitesse max, Accélération, Manœuvrabilité |
+| 💊 **Substances** | Alcool, Cannabis, Cocaïne, Opiacés avec effets automatiques |
+| 🎒 **Équipements** | 40 objets (tabac, photographie, bureau, outils, médical, accessoires, services) |
+
+Tous les items se glissent-déposent (**drag & drop**) directement sur la fiche personnage.
 
 ### Feuille de personnage joueur
-- Saisie des 5 **caractéristiques** (Savoir, Perception, Charisme, Agilité, Vigueur)
-- Gestion des **compétences socle et de spécialité** par milieu
-- **Barre de Tension** cliquable (20 cases avec paliers colorés)
-- **Barre d'Onirisme** cliquable
+- 5 **caractéristiques** (Savoir, Perception, Charisme, Agilité, Vigueur)
+- **Compétences socle et spécialité** cliquables pour lancer les dés
+- **Barre de Tension** et **Barre d'Onirisme** cliquables
 - **Jauges** : Réserve, Tension, Angoisse, Blessures
-- **Cases XP** Espoir et Folie cliquables avec montée automatique
-- Gestion des **milieux d'origine** avec jets dédiés
-- Onglets : Principal, Compétences, Milieux, Combat, Avancé, Notes
+- **Cases XP** Espoir et Folie avec montée automatique
+- **7 onglets** : Principal, Compétences, Milieux, Combat, Inventaire, Avancé, Notes
+- Onglet **Inventaire** : véhicules, substances et équipements en drag & drop
 
 ### Feuille PNJ
-- Stats compactes : Caractéristiques, Variables, Jauges
-- **Possessions pictogrammes** cliquables toggle ON/OFF (Téléphone, Arme, Vélo, Moto, Voiture, Camion, Bateau, Cheval, Chien)
-- Section Arme avec jet d'attaque intégré (létalité dans le chat)
-- Compétences clés en texte libre
-- Jet de Maîtrise et SD calculé automatiquement
+- Stats compactes avec possessions pictogrammes cliquables (toggle ON/OFF)
+- Jet d'attaque intégré avec létalité dans le chat
 
 ### Jets de dés
-- **Jet de caractéristique** — dés d6, seuil de difficulté variable
-- **Jet de compétence** — socle et spécialité avec dés de milieu bonus
-- **Jet de Maîtrise** — 1d20 + Maîtrise vs Tension
-- **Jet Défensif** — avec défense VIG
-- **Jet de Sommeil** — résolution de nuit complète (Nuit Blanche / Atroce / Complète)
-- **Jet d'Arcanes** — selon les points de Folie
-- **Jet d'attaque** — CaC (VIG) ou Distance (AGI) avec létalité
-- **Arrêt Cardiaque** — jets progressifs avec compteur de tours
-- Support des **dés bonus** (coût Réserve), **dés MJ** et **dé d'Espoir** (1d8 explosif)
+- Jets de caractéristique, compétence, maîtrise, défensif, sommeil, arcanes
+- Jet d'attaque avec létalité (CaC et Distance)
+- Arrêt Cardiaque avec compteur de tours
+- Dés bonus, dés MJ et dé d'Espoir (1d8 explosif)
+- **Consommation de substances** avec jet d'intoxication automatique
 
 ### Automatisations
-- **Calcul automatique** du Seuil de Difficulté selon la Tension
-- **Calcul automatique** de la Vitesse (AGI + VIG + 2)
-- **Initiative automatique** dans le tracker de combat
-- **Montée de Folie** automatique (8 XP = +1 Folie, -1 Maîtrise, +1 Intuition)
-- **Montée d'Espoir** automatique (8 XP = +1 Espoir permanent)
-- **Gestion des Dettes de Sommeil** avec malus SD automatique
-- **Application des blessures** avec perte de Réserve et malus SD
-
-### Tables PLP (Perte de Lucidité Progressive)
-- 4 tables générées automatiquement au lancement (Niveaux 1 à 4)
-- **19 cartes niveau 1**, 18 niveau 2, 10 niveau 3, 7 niveau 4
-- Tirage automatique lors des échecs au Jet de Maîtrise
-- Calcul automatique de la perte de Tension selon le niveau
+- Calcul automatique SD, Vitesse, Sommeil
+- Montée automatique Folie et Espoir
+- Gestion Dettes de Sommeil et malus SD
+- Tables PLP (4 niveaux, 54 cartes) générées au lancement
 
 ### Wiki intégré
-- **Ouverture automatique** à la première connexion de chaque joueur
-- **Bouton 📖 Wiki du système** dans le panneau Acteurs pour y accéder à tout moment
-- 12 pages couvrant toutes les règles : caractéristiques, compétences, milieux, jets de dés, tension, santé mentale, combat, sommeil, magie, création de personnage
+- **Ouverture automatique** à la première connexion
+- **Bouton 📖 Wiki** dans le panneau Acteurs
+- 12 pages couvrant toutes les règles
 
 ### Personnages prétirés
-4 personnages prêts à jouer issus du manuel :
+4 personnages du kit de découverte inclus :
 
 | Personnage | Profession | Points forts |
 |---|---|---|
@@ -107,12 +102,14 @@ Un assistant guidé en **8 étapes** accessible via le bouton **🎲 Créer un p
 ```
 chants-de-tindalos/
 ├── module/
-│   ├── chants-de-tindalos.js     # Logique principale du système
-│   └── creation-personnage.js    # Assistant de création de personnage
+│   ├── chants-de-tindalos.js     # Logique principale
+│   ├── datamodels.js             # DataModels (PJ, PNJ, Arme, Véhicule, Substance, Équipement)
+│   ├── creation-personnage.js    # Assistant de création
+│   └── items.js                  # Système d'items et compendiums
 ├── css/
-│   └── chants-de-tindalos.css    # Styles des fiches
-├── system.json                   # Manifest Foundry
-├── template.json                 # Structure des données acteurs
+│   └── chants-de-tindalos.css
+├── system.json
+├── template.json
 ├── templates/
 │   └── actor/
 │       ├── header.html
@@ -121,19 +118,20 @@ chants-de-tindalos/
 │       ├── onglet-competences.html
 │       ├── onglet-milieux.html
 │       ├── onglet-combat.html
+│       ├── onglet-inventaire.html
 │       ├── onglet-avance.html
 │       └── onglet-notes.html
-├── assets/
-│   └── portraits/
-│       ├── nora_portrait.png
-│       ├── delphine_portrait.png
-│       ├── archie_portrait.png
-│       └── genevieve_portrait.png
+│   └── item/
+│       ├── feuille-arme.html
+│       ├── feuille-vehicule.html
+│       ├── feuille-substance.html
+│       └── feuille-equipement.html
+├── assets/portraits/
 └── packs/
-    ├── nora-haddad.json
-    ├── delphine-malesherbes.json
-    ├── archie-hunter.json
-    └── genevieve-de-bouvines.json
+    ├── armes/
+    ├── vehicules/
+    ├── substances/
+    └── equipements/
 ```
 
 ---
