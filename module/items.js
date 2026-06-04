@@ -3,7 +3,7 @@
 // Les Chants de Tindalos — Foundry VTT
 // ================================================
 
-import { ArmeDataModel, EquipementDataModel } from "./datamodels.js";
+import { ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel } from "./datamodels.js";
 // ------------------------------------------------
 // FICHE D'ARME
 // ------------------------------------------------
@@ -108,21 +108,24 @@ class CdTFeuilleArme extends foundry.applications.api.HandlebarsApplicationMixin
 // Surcharge du _onDropItem dans CdTFeuillePersonnage
 // À appeler depuis activateListeners de la fiche PJ
 function _activerDropArmes(html, actor) {
-  // Chercher la zone armes ou utiliser toute la fiche
   const zone = html.querySelector(".armes-list")
     ?? html.querySelector("[data-tab='combat']")
     ?? html.querySelector(".sheet-body")
     ?? html;
 
+  if (!actor._dropArmesController) actor._dropArmesController = new AbortController();
+  else { actor._dropArmesController.abort(); actor._dropArmesController = new AbortController(); }
+  const signal = actor._dropArmesController.signal;
+
   zone.addEventListener("dragover", ev => {
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "copy";
     zone.classList.add("drag-over");
-  });
+  }, { signal });
 
   zone.addEventListener("dragleave", () => {
     zone.classList.remove("drag-over");
-  });
+  }, { signal });
 
   zone.addEventListener("drop", async ev => {
     ev.preventDefault();
@@ -151,7 +154,7 @@ function _activerDropArmes(html, actor) {
 
     await actor.createEmbeddedDocuments("Item", [item.toObject()]);
     ui.notifications.info(`⚔️ ${item.name} ajoutée à l'inventaire de ${actor.name} !`);
-  });
+  }, { signal });
 }
 
 // ------------------------------------------------
@@ -475,55 +478,253 @@ const CDT_ARMES_DATA = [
 ];
 
 // ------------------------------------------------
-// INITIALISATION DU COMPENDIUM D'ARMES
+// FICHE VÉHICULE
 // ------------------------------------------------
-async function initialiserCompendiumArmes() {
-  const NOM_PACK = "chants-de-tindalos.armes";
+class CdTFeuilleVehicule extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.sheets.ItemSheetV2
+) {
+  static DEFAULT_OPTIONS = {
+    classes: ["cdt", "vehicule-sheet"],
+    position: { width: 500, height: 460 },
+    window: { resizable: true },
+    form: { submitOnChange: true, closeOnSubmit: false },
+  };
 
-  let pack = game.packs.get(NOM_PACK);
-  if (!pack) {
-    console.log("CDT | Pack armes non trouvé.");
-    return;
+  static PARTS = {
+    body: { template: "systems/chants-de-tindalos/templates/item/feuille-vehicule.html" },
+  };
+
+  async _prepareContext(options) {
+    return { item: this.item, system: this.item.system };
   }
 
-  // Vérifier si déjà peuplé
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = this.element;
+    html.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
+      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+    });
+  }
+}
+
+// ------------------------------------------------
+// FICHE SUBSTANCE
+// ------------------------------------------------
+class CdTFeuilleSubstance extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.sheets.ItemSheetV2
+) {
+  static DEFAULT_OPTIONS = {
+    classes: ["cdt", "substance-sheet"],
+    position: { width: 520, height: 600 },
+    window: { resizable: true },
+    form: { submitOnChange: true, closeOnSubmit: false },
+  };
+
+  static PARTS = {
+    body: { template: "systems/chants-de-tindalos/templates/item/feuille-substance.html" },
+  };
+
+  async _prepareContext(options) {
+    return { item: this.item, system: this.item.system };
+  }
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = this.element;
+    html.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
+      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+    });
+    html.querySelector(".btn-consommer")?.addEventListener("click", () => {
+      if (this.item.actor) this.item.actor.sheet._consommerSubstance(this.item);
+      else ui.notifications.warn("Cette substance n'est pas dans l'inventaire d'un personnage.");
+    });
+  }
+}
+// ------------------------------------------------
+const CDT_VEHICULES_DATA = [
+  {
+    name: "Buggy 1 place", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 4, acceleration: 1, manoeuvrabilite: 0, places: 1, prix: "86,5$", competence: "equitation", special: "Cheval non fourni.", description: "Véhicule à cheval à une place." }
+  },
+  {
+    name: "Cheval", type: "vehicule",
+    img: "icons/creatures/mammals/horse-brown.webp",
+    system: { categorie: "monture", vitesseMax: 5, acceleration: 2, manoeuvrabilite: 0, places: 1, prix: "154$", competence: "equitation", special: "", description: "Monture classique." }
+  },
+  {
+    name: "Mulet", type: "vehicule",
+    img: "icons/creatures/mammals/horse-brown.webp",
+    system: { categorie: "monture", vitesseMax: 1, acceleration: 1, manoeuvrabilite: -1, places: 1, prix: "175$", competence: "equitation", special: "", description: "Robuste mais lent." }
+  },
+  {
+    name: "Bicyclette", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 3, acceleration: 1, manoeuvrabilite: 1, places: 1, prix: "26,95$", competence: "cyclisme", special: "", description: "Moyen de transport économique." }
+  },
+  {
+    name: "Moto Harley Davidson", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 7, acceleration: 2, manoeuvrabilite: 1, places: 2, prix: "375$", competence: "automobile", special: "", description: "Moto emblématique des années 1920." }
+  },
+  {
+    name: "Ford T Touring", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 5, acceleration: 1, manoeuvrabilite: 0, places: 5, prix: "460$", competence: "automobile", special: "", description: "La voiture du peuple américain. 15 millions produites." }
+  },
+  {
+    name: "Briscoe Touring", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 5, acceleration: 1, manoeuvrabilite: -1, places: 5, prix: "885$", competence: "automobile", special: "", description: "Voiture de tourisme fiable." }
+  },
+  {
+    name: "Buick H 6-44", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 8, acceleration: 2, manoeuvrabilite: 0, places: 3, prix: "1495$", competence: "automobile", special: "", description: "Véhicule haut de gamme, puissant et rapide." }
+  },
+  {
+    name: "Dort Sedan model 15-S", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 6, acceleration: 1, manoeuvrabilite: 0, places: 5, prix: "1535$", competence: "automobile", special: "", description: "Berline confortable et spacieuse." }
+  },
+  {
+    name: "Cunningham Touring", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 10, acceleration: 3, manoeuvrabilite: 1, places: 4, prix: "6200$", competence: "automobile", special: "", description: "Voiture de luxe pour les plus fortunés. Vitesse exceptionnelle." }
+  },
+  {
+    name: "Camion 1,5T", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 4, acceleration: 1, manoeuvrabilite: -2, places: 2, prix: "1185$", competence: "automobile", special: "", description: "Camion léger pour le transport de marchandises." }
+  },
+  {
+    name: "Camion électrique 2T", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 3, acceleration: 1, manoeuvrabilite: -2, places: 2, prix: "2600$", competence: "automobile", special: "Moteur électrique silencieux.", description: "Camion électrique pour livraisons urbaines." }
+  },
+  {
+    name: "Camion 3,5T", type: "vehicule",
+    img: "icons/environment/settlement/wagon.webp",
+    system: { categorie: "terrestre", vitesseMax: 4, acceleration: 1, manoeuvrabilite: -2, places: 2, prix: "4200$", competence: "automobile", special: "", description: "Gros camion pour transport lourd." }
+  },
+];
+
+// ------------------------------------------------
+// DONNÉES : SUBSTANCES
+// ------------------------------------------------
+const CDT_SUBSTANCES_DATA = [
+  {
+    name: "Alcool", type: "substance",
+    img: "icons/consumables/potions/potion-round-empty.webp",
+    system: {
+      prix: "25c / dose", duree: "1 heure par dose", seuilSurdose: 3,
+      effetTension: -1, effetReserve: "", effetMaitrise: 0, effetSommeil: 0, effetSD: 0,
+      effetSpecial: "Tension −1 immédiatement.",
+      intoTension: 0, intoReserve: -4, intoMaitrise: -2, intoSD: 1,
+      intoSpecial: "Réserve −4, Maîtrise −2, SD+1.",
+      descenteTension: 0, descenteReserve: -4,
+      descenteSpecial: "Réserve −4.",
+      description: "L'alcool est omniprésent malgré la Prohibition. Chaque dose supplémentaire ajoute 1D de difficulté au jet défensif [Vig▶Survie] contre l'intoxication."
+    }
+  },
+  {
+    name: "Cannabis", type: "substance",
+    img: "icons/consumables/potions/potion-round-empty.webp",
+    system: {
+      prix: "25c / dose", duree: "1 heure par dose", seuilSurdose: 2,
+      effetTension: -2, effetReserve: "", effetMaitrise: 0, effetSommeil: 3, effetSD: 0,
+      effetSpecial: "Tension −2, impossibilité d'utiliser la Réserve, Sommeil +3.",
+      intoTension: -2, intoReserve: -2, intoMaitrise: 0, intoSD: 0,
+      intoSpecial: "Réserve −2, impossibilité d'utiliser la Réserve.",
+      descenteTension: -2, descenteReserve: 0,
+      descenteSpecial: "Tension −2, dette de sommeil +1.",
+      description: "Substance illégale aux effets relaxants mais désorientants."
+    }
+  },
+  {
+    name: "Cocaïne", type: "substance",
+    img: "icons/consumables/potions/potion-round-empty.webp",
+    system: {
+      prix: "75c / dose", duree: "1 heure par dose", seuilSurdose: 1,
+      effetTension: 0, effetReserve: "1d6", effetMaitrise: 0, effetSommeil: 0, effetSD: 0,
+      effetSpecial: "Réserve +1d6, tous les Coûts −1 (non cumulable).",
+      intoTension: 6, intoReserve: 0, intoMaitrise: -2, intoSD: 1,
+      intoSpecial: "Tension +1d6, Maîtrise −2, SD+1.",
+      descenteTension: 2, descenteReserve: 0,
+      descenteSpecial: "Tension +2, impossibilité d'utiliser de l'Espoir.",
+      description: "Stimulant puissant très répandu dans les milieux aisés des années 1920."
+    }
+  },
+  {
+    name: "Opiacés", type: "substance",
+    img: "icons/consumables/potions/potion-round-empty.webp",
+    system: {
+      prix: "75c / dose", duree: "5 heures par dose", seuilSurdose: 1,
+      effetTension: 0, effetReserve: "", effetMaitrise: 0, effetSommeil: 0, effetSD: 0,
+      effetSpecial: "Tension −2d6 immédiatement.",
+      intoTension: -30, intoReserve: 0, intoMaitrise: 0, intoSD: 1,
+      intoSpecial: "Tension −3d6, Sommeil +10, SD+1.",
+      descenteTension: 2, descenteReserve: 0,
+      descenteSpecial: "Tension +2, impossibilité d'utiliser de l'Espoir. La descente dure une nuit supplémentaire.",
+      description: "Morphine, héroïne ou laudanum. Effets puissants et durables, très addictifs."
+    }
+  },
+];
+
+// ------------------------------------------------
+// INITIALISATION DES COMPENDIUMS
+// ------------------------------------------------
+async function initialiserCompendium(nomPack, donnees) {
+  const pack = game.packs.get(nomPack);
+  if (!pack) { console.log(`CDT | Pack ${nomPack} non trouvé.`); return; }
   const contenu = await pack.getDocuments();
+  console.log(`CDT | Pack ${nomPack} : ${contenu.length} items existants.`);
   if (contenu.length > 0) return;
 
-  // Déverrouiller le compendium
-  await pack.configure({ locked: false });
-
-  console.log("CDT | Peuplement du compendium d'armes...");
-  for (const armeData of CDT_ARMES_DATA) {
-    await Item.create(armeData, { pack: NOM_PACK });
+  // Foundry v13 — déverrouillage via les settings
+  const wasLocked = pack.locked;
+  if (wasLocked) {
+    await game.settings.set("core", pack.lockedSetting, false);
   }
 
-  // Reverrouiller
-  await pack.configure({ locked: true });
+  for (const data of donnees) {
+    try {
+      await Item.create(data, { pack: nomPack });
+    } catch(e) {
+      console.error(`CDT | Erreur création ${data.name}:`, e.message);
+    }
+  }
 
-  console.log(`CDT | ${CDT_ARMES_DATA.length} armes ajoutées au compendium !`);
-  ui.notifications.info(`⚔️ Compendium d'armes initialisé (${CDT_ARMES_DATA.length} armes) !`);
+  if (wasLocked) {
+    await game.settings.set("core", pack.lockedSetting, true);
+  }
+
+  console.log(`CDT | ${donnees.length} items ajoutés dans ${nomPack} !`);
 }
 
 // ------------------------------------------------
 // ENREGISTREMENT
 // ------------------------------------------------
 Hooks.once("init", function () {
-  // CONFIG.Item.dataModels est enregistré dans datamodels.js
+  CONFIG.Item.dataModels.vehicule  = VehiculeDataModel;
+  CONFIG.Item.dataModels.substance = SubstanceDataModel;
 
-  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleArme, {
-    types: ["arme"],
-    makeDefault: true,
-    label: "Fiche Arme CDT",
+  const Items = foundry.documents.collections.Items;
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleArme, {
+    types: ["arme"], makeDefault: true, label: "Fiche Arme CDT",
+  });
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleVehicule, {
+    types: ["vehicule"], makeDefault: true, label: "Fiche Véhicule CDT",
+  });
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleSubstance, {
+    types: ["substance"], makeDefault: true, label: "Fiche Substance CDT",
   });
 });
 
-Hooks.once("ready", function () {
-  initialiserCompendiumArmes();
+Hooks.once("ready", async function () {
+  await initialiserCompendium("chants-de-tindalos.armes",      CDT_ARMES_DATA);
+  await initialiserCompendium("chants-de-tindalos.vehicules",  CDT_VEHICULES_DATA);
+  await initialiserCompendium("chants-de-tindalos.substances", CDT_SUBSTANCES_DATA);
 });
 
-// Brancher le drag & drop sur la fiche PJ via hook Foundry
-Hooks.on("renderCdTFeuillePersonnage", (app, html) => {
-  const el = html instanceof HTMLElement ? html : (html[0] ?? html);
-  _activerDropArmes(el, app.actor);
-});
+// Le drop est géré directement dans CdTFeuillePersonnage._onRender

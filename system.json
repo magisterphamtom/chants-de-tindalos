@@ -28,6 +28,20 @@
       "path": "packs/armes.db",
       "type": "Item",
       "system": "chants-de-tindalos"
+    },
+    {
+      "name": "vehicules",
+      "label": "🚗 Véhicules",
+      "path": "packs/vehicules",
+      "type": "Item",
+      "system": "chants-de-tindalos"
+    },
+    {
+      "name": "substances",
+      "label": "💊 Substances",
+      "path": "packs/substances",
+      "type": "Item",
+      "system": "chants-de-tindalos"
     }
   ],
   "languages": [

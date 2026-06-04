@@ -1,0 +1,94 @@
+<div class="arme-sheet-body">
+<style>
+.arme-sheet-body { display:flex; flex-direction:column; height:100%; background:#f4e8d0; font-family:inherit; }
+.arme-header { display:flex; gap:16px; padding:14px 16px; background:#1a3a2a; align-items:center; }
+.arme-portrait-wrapper { position:relative; width:80px; height:80px; flex-shrink:0; cursor:pointer; border-radius:6px; overflow:hidden; border:2px solid #2d8b5a; }
+.arme-portrait { width:100%; height:100%; object-fit:cover; display:block; }
+.arme-portrait-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; font-size:1.5em; opacity:0; transition:opacity 0.2s; }
+.arme-portrait-wrapper:hover .arme-portrait-overlay { opacity:1; }
+.arme-header-infos { flex:1; display:flex; flex-direction:column; gap:8px; }
+.arme-nom-input { background:transparent; border:none; border-bottom:1px solid #2d8b5a; color:#90d0a0; font-size:1.3em; font-weight:bold; width:100%; padding:2px 0; }
+.arme-nom-input:focus { outline:none; border-bottom-color:#70f090; }
+.arme-badges { display:flex; flex-wrap:wrap; gap:6px; }
+.arme-badge { padding:3px 10px; border-radius:12px; font-size:0.82em; font-weight:bold; background:#1a3a2a; color:#90d0a0; border:1px solid #2d8b5a; }
+.arme-content { flex:1; overflow-y:auto; padding:14px 16px; }
+.section-title { font-weight:bold; font-size:0.8em; letter-spacing:0.1em; text-transform:uppercase; color:#2d6b4a; border-bottom:1px solid #90d0a0; padding-bottom:4px; margin:12px 0 8px 0; }
+.arme-stats-grid { display:flex; flex-direction:column; gap:8px; }
+.arme-stat-group { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.arme-stat-box { display:flex; flex-direction:column; gap:3px; }
+.arme-stat-box label { font-size:0.78em; font-weight:bold; color:#2d6b4a; text-transform:uppercase; }
+.arme-stat-box input, .arme-stat-box select { padding:6px 8px; border:1px solid #90d0a0; border-radius:4px; background:#f0fff0; color:#1a3a2a; font-size:0.95em; }
+.arme-stat-box input[type="number"] { text-align:center; font-weight:bold; font-size:1.1em; }
+.arme-special-box input { width:100%; padding:8px 10px; border:1px solid #90d0a0; border-radius:4px; background:#f0fff0; color:#1a3a2a; box-sizing:border-box; }
+.arme-description-box textarea { width:100%; min-height:70px; padding:8px 10px; border:1px solid #90d0a0; border-radius:4px; background:#f0fff0; color:#1a3a2a; resize:vertical; font-size:0.95em; box-sizing:border-box; }
+</style>
+
+  <header class="arme-header">
+    <div class="arme-portrait-wrapper">
+      <img class="arme-portrait" src="{{item.img}}" title="Cliquer pour changer" />
+      <div class="arme-portrait-overlay">🖼️</div>
+    </div>
+    <div class="arme-header-infos">
+      <input class="arme-nom-input" type="text" name="name" value="{{item.name}}" />
+      <div class="arme-badges">
+        <span class="arme-badge">🏎 Vit. max : {{system.vitesseMax}}</span>
+        <span class="arme-badge">⚡ Acc. : {{system.acceleration}}</span>
+        <span class="arme-badge">🔄 Man. : {{system.manoeuvrabilite}}</span>
+        {{#if system.prix}}<span class="arme-badge">💰 {{system.prix}}</span>{{/if}}
+      </div>
+    </div>
+  </header>
+
+  <div class="arme-content">
+    <div class="section-title">Statistiques</div>
+    <div class="arme-stats-grid">
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>🏎 Vitesse max</label>
+          <input type="number" name="system.vitesseMax" value="{{system.vitesseMax}}" min="0" />
+        </div>
+        <div class="arme-stat-box">
+          <label>⚡ Accélération</label>
+          <input type="number" name="system.acceleration" value="{{system.acceleration}}" min="0" />
+        </div>
+      </div>
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>🔄 Manœuvrabilité</label>
+          <input type="number" name="system.manoeuvrabilite" value="{{system.manoeuvrabilite}}" />
+        </div>
+        <div class="arme-stat-box">
+          <label>👥 Places</label>
+          <input type="number" name="system.places" value="{{system.places}}" min="1" />
+        </div>
+      </div>
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>🔧 Compétence</label>
+          <select name="system.competence">
+            <option value="automobile" {{#if (eq system.competence "automobile")}}selected{{/if}}>Automobile</option>
+            <option value="cyclisme"   {{#if (eq system.competence "cyclisme")}}selected{{/if}}>Cyclisme</option>
+            <option value="equitation" {{#if (eq system.competence "equitation")}}selected{{/if}}>Équitation</option>
+            <option value="navigation" {{#if (eq system.competence "navigation")}}selected{{/if}}>Navigation</option>
+            <option value="pilotage"   {{#if (eq system.competence "pilotage")}}selected{{/if}}>Pilotage</option>
+          </select>
+        </div>
+        <div class="arme-stat-box">
+          <label>💰 Prix</label>
+          <input type="text" name="system.prix" value="{{system.prix}}" placeholder="Ex: 460$" />
+        </div>
+      </div>
+    </div>
+
+    <div class="arme-special-box" style="margin-top:8px;">
+      <div class="section-title">Règle spéciale</div>
+      <input type="text" name="system.special" value="{{system.special}}" placeholder="Règle spéciale..." />
+    </div>
+
+    <div class="section-title">Description</div>
+    <div class="arme-description-box">
+      <textarea name="system.description" placeholder="Description du véhicule...">{{system.description}}</textarea>
+    </div>
+  </div>
+
+</div>

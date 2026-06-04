@@ -286,6 +286,56 @@ class EquipementDataModel extends foundry.abstract.TypeDataModel {
 }
 
 // ------------------------------------------------
+// DATAMODEL : Véhicule (Item)
+// ------------------------------------------------
+class VehiculeDataModel extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    return {
+      categorie:       new StringField({ initial: "terrestre", choices: ["terrestre", "aquatique", "aerien", "monture"] }),
+      vitesseMax:      new NumberField({ initial: 5,  min: 0, integer: true }),
+      acceleration:    new NumberField({ initial: 1,  min: 0, integer: true }),
+      manoeuvrabilite: new NumberField({ initial: 0,  integer: true }),
+      places:          new NumberField({ initial: 2,  min: 1, integer: true }),
+      prix:            new StringField({ initial: "" }),
+      competence:      new StringField({ initial: "automobile" }),
+      special:         new StringField({ initial: "" }),
+      description:     new StringField({ initial: "" }),
+    };
+  }
+}
+
+// ------------------------------------------------
+// DATAMODEL : Substance (Item)
+// ------------------------------------------------
+class SubstanceDataModel extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    return {
+      prix:             new StringField({ initial: "" }),
+      duree:            new StringField({ initial: "1 heure par dose" }),
+      seuilSurdose:     new NumberField({ initial: 3, min: 1, integer: true }),
+      // Effet immédiat
+      effetTension:     new NumberField({ initial: 0,  integer: true }),
+      effetReserve:     new StringField({ initial: "" }),
+      effetMaitrise:    new NumberField({ initial: 0,  integer: true }),
+      effetSommeil:     new NumberField({ initial: 0,  integer: true }),
+      effetSD:          new NumberField({ initial: 0,  integer: true }),
+      effetSpecial:     new StringField({ initial: "" }),
+      // Intoxication
+      intoTension:      new NumberField({ initial: 0,  integer: true }),
+      intoReserve:      new NumberField({ initial: 0,  integer: true }),
+      intoMaitrise:     new NumberField({ initial: 0,  integer: true }),
+      intoSD:           new NumberField({ initial: 0,  integer: true }),
+      intoSpecial:      new StringField({ initial: "" }),
+      // Descente
+      descenteTension:  new NumberField({ initial: 0,  integer: true }),
+      descenteReserve:  new NumberField({ initial: 0,  integer: true }),
+      descenteSpecial:  new StringField({ initial: "" }),
+      description:      new StringField({ initial: "" }),
+    };
+  }
+}
+
+// ------------------------------------------------
 // EXPORTS
 // ------------------------------------------------
 export {
@@ -293,4 +343,6 @@ export {
   PNJDataModel,
   ArmeDataModel,
   EquipementDataModel,
+  VehiculeDataModel,
+  SubstanceDataModel,
 };

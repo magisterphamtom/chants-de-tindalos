@@ -3,8 +3,6 @@
 // Développé pour Walpurgis Éditions
 // ================================================
 
-import { PersonnageDataModel, PNJDataModel, ArmeDataModel, EquipementDataModel } from "./datamodels.js";
-
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -546,12 +544,6 @@ async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) 
 Hooks.once("init", function () {
   console.log("Chants de Tindalos | Initialisation du système...");
 
-  // --- DATAMODELS ---
-  CONFIG.Actor.dataModels.personnage = PersonnageDataModel;
-  CONFIG.Actor.dataModels.pnj        = PNJDataModel;
-  CONFIG.Item.dataModels.arme        = ArmeDataModel;
-  CONFIG.Item.dataModels.equipement  = EquipementDataModel;
-
   game.chantsdetindalos = {
     CdTActeur,
     CdTFeuillePersonnage,
@@ -686,6 +678,9 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     combat: {
       template: "systems/chants-de-tindalos/templates/actor/onglet-combat.html",
     },
+    inventaire: {
+      template: "systems/chants-de-tindalos/templates/actor/onglet-inventaire.html",
+    },
     avance: {
       template: "systems/chants-de-tindalos/templates/actor/onglet-avance.html",
     },
@@ -701,7 +696,10 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.actor = this.actor;
     context.system = this.actor.system;
     context.tabActif = this._tabActif;
-    context.itemsArmes = this.actor.items.filter(i => i.type === "arme");
+    context.itemsArmes      = this.actor.items.filter(i => i.type === "arme");
+    context.itemsVehicules  = this.actor.items.filter(i => i.type === "vehicule");
+    context.itemsSubstances = this.actor.items.filter(i => i.type === "substance");
+    context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
     return context;
   }
 
@@ -710,7 +708,10 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.actor = this.actor;
     context.system = this.actor.system;
     context.tabActif = this._tabActif;
-    context.itemsArmes = this.actor.items.filter(i => i.type === "arme");
+    context.itemsArmes      = this.actor.items.filter(i => i.type === "arme");
+    context.itemsVehicules  = this.actor.items.filter(i => i.type === "vehicule");
+    context.itemsSubstances = this.actor.items.filter(i => i.type === "substance");
+    context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
     return context;
   }
 
@@ -943,6 +944,39 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       });
     });
 
+    // --- INVENTAIRE (véhicules, substances, équipements) ---
+    html.querySelectorAll(".btn-ouvrir-item").forEach((el) => {
+      el.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (item) item.sheet.render(true);
+      });
+    });
+
+    html.querySelectorAll(".btn-supprimer-item").forEach((el) => {
+      el.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (!item) return;
+        const confirme = await Dialog.confirm({
+          title: "Supprimer",
+          content: `<p>Supprimer <b>${item.name}</b> de l'inventaire ?</p>`,
+        });
+        if (confirme) await item.delete();
+      });
+    });
+
+    html.querySelectorAll(".btn-consommer-substance").forEach((el) => {
+      el.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (item) this._consommerSubstance(item);
+      });
+    });
+
     html.querySelectorAll(".btn-arret-cardiaque").forEach((el) => {
       el.addEventListener("click", (ev) => {
         ev.preventDefault();
@@ -956,6 +990,47 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         ev.preventDefault();
         ev.stopPropagation();
         this._jetArcanes();
+      });
+    });
+  }
+
+  // _onFirstRender — appelé UNE SEULE FOIS, parfait pour le drag & drop
+  _onFirstRender(context, options) {
+    super._onFirstRender?.(context, options);
+    const html = this.element;
+
+    // DROP ARMES
+    const zoneArmes = html.querySelector(".armes-list") ?? html;
+    zoneArmes.addEventListener("dragover", ev => { ev.preventDefault(); zoneArmes.classList.add("drag-over"); });
+    zoneArmes.addEventListener("dragleave", () => zoneArmes.classList.remove("drag-over"));
+    zoneArmes.addEventListener("drop", async ev => {
+      ev.preventDefault();
+      zoneArmes.classList.remove("drag-over");
+      let data; try { data = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch { return; }
+      if (data.type !== "Item") return;
+      const item = data.uuid ? await fromUuid(data.uuid) : game.items.get(data.id);
+      if (!item || item.type !== "arme") return;
+      await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
+      ui.notifications.info(`⚔️ ${item.name} ajoutée !`);
+    });
+
+    // DROP INVENTAIRE
+    html.querySelectorAll(".drop-zone[data-type]").forEach(zone => {
+      const type = zone.dataset.type;
+      zone.addEventListener("dragover", ev => { ev.preventDefault(); zone.classList.add("drag-over"); });
+      zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+      zone.addEventListener("drop", async ev => {
+        ev.preventDefault();
+        zone.classList.remove("drag-over");
+        let data; try { data = JSON.parse(ev.dataTransfer.getData("text/plain")); } catch { return; }
+        if (data.type !== "Item") return;
+        const item = data.uuid ? await fromUuid(data.uuid) : game.items.get(data.id);
+        if (!item || item.type !== type) {
+          ui.notifications.warn(`Seuls les éléments de type "${type}" peuvent être glissés ici.`);
+          return;
+        }
+        await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
+        ui.notifications.info(`✅ ${item.name} ajouté à l'inventaire !`);
       });
     });
   }
@@ -1450,6 +1525,93 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
             ${succes ? `✅ <b>${resultat.reussites} réussite(s)</b>` : `❌ <b>Raté !</b>`}
           </span>
           ${letaliteAffichage}
+        </div>`,
+    });
+  }
+
+  // ------------------------------------------------
+  // CONSOMMER UNE SUBSTANCE
+  // ------------------------------------------------
+  async _consommerSubstance(item) {
+    const s = item.system;
+    const actor = this.actor;
+    const system = actor.system;
+
+    // Appliquer l'effet immédiat
+    const updates = {};
+    const tensions = [];
+    const notes = [];
+
+    // Tension
+    if (s.effetTension !== 0) {
+      const nvTension = Math.max(0, Math.min(20, (system.jauges.tension.valeur ?? 0) + s.effetTension));
+      updates["system.jauges.tension.valeur"] = nvTension;
+      tensions.push(`Tension ${s.effetTension > 0 ? "+" : ""}${s.effetTension} → ${nvTension}`);
+    }
+
+    // Réserve (peut être un dé ex: "1d6")
+    if (s.effetReserve) {
+      if (s.effetReserve.includes("d")) {
+        const roll = new Roll(s.effetReserve);
+        await roll.evaluate();
+        const nvReserve = Math.min(system.jauges.reserve.max, (system.jauges.reserve.valeur ?? 0) + roll.total);
+        updates["system.jauges.reserve.valeur"] = nvReserve;
+        notes.push(`Réserve +${roll.total} (${s.effetReserve}) → ${nvReserve}`);
+      } else {
+        const val = Number(s.effetReserve);
+        if (!isNaN(val)) {
+          const nvReserve = Math.max(0, Math.min(system.jauges.reserve.max, (system.jauges.reserve.valeur ?? 0) + val));
+          updates["system.jauges.reserve.valeur"] = nvReserve;
+          notes.push(`Réserve ${val > 0 ? "+" : ""}${val} → ${nvReserve}`);
+        }
+      }
+    }
+
+    if (s.effetSommeil !== 0) notes.push(`Sommeil ${s.effetSommeil > 0 ? "+" : ""}${s.effetSommeil}`);
+    if (s.effetSpecial) notes.push(s.effetSpecial);
+
+    if (Object.keys(updates).length > 0) await actor.update(updates);
+
+    // Jet défensif contre intoxication [Vig▶Survie]
+    const vig = system.caracteristiques?.vigueur?.valeur ?? 1;
+    const roll = new Roll(`${vig}d6`);
+    await roll.evaluate();
+    const sd = system.seuilDifficulte ?? 3;
+    const valeurs = roll.dice[0].results.map(d => d.result);
+    const echecs = valeurs.filter(v => v < sd).length;
+    const intoxique = echecs >= s.seuilSurdose;
+
+    const desAff = valeurs
+      .map(v => `<span style="color:${v >= sd ? "#2d6a2d" : "#8b0000"};font-weight:bold;">${v}</span>`)
+      .join(" | ");
+
+    let intoAff = "";
+    if (intoxique) {
+      const intoUpdates = {};
+      if (s.intoReserve !== 0) {
+        const nvR = Math.max(0, (system.jauges.reserve.valeur ?? 0) + s.intoReserve);
+        intoUpdates["system.jauges.reserve.valeur"] = nvR;
+      }
+      if (s.intoMaitrise !== 0) intoUpdates["system.variables.maitrise"] = (system.variables.maitrise ?? 0) + s.intoMaitrise;
+      if (s.intoSD !== 0) intoUpdates["system.malusSD"] = (system.malusSD ?? 0) + s.intoSD;
+      if (Object.keys(intoUpdates).length > 0) await actor.update(intoUpdates);
+      intoAff = `<div style="margin-top:6px;color:#8b0000;font-weight:bold;">⚠️ INTOXICATION ! ${s.intoSpecial}</div>`;
+    }
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor }),
+      content: `
+        <div style="background:#f4e0ff;border:1px solid #8b2d8b;padding:8px;border-radius:4px;">
+          <b>💊 ${item.name}</b><br>
+          ${tensions.join("<br>")}<br>
+          ${notes.join("<br>")}
+          <hr style="border-color:#d090d0;margin:6px 0;">
+          Jet défensif VIG (${vig}d6, SD ${sd}+) : ${desAff}<br>
+          Échecs : <b>${echecs}</b> / Seuil : <b>${s.seuilSurdose}</b><br>
+          ${intoxique
+            ? `<b style="color:#8b0000;">⚠️ Intoxiqué !</b>`
+            : `<span style="color:#2d6a2d;">✅ Pas d'intoxication</span>`}
+          ${intoAff}
         </div>`,
     });
   }
@@ -1990,10 +2152,13 @@ async function chargerTemplates() {
     "systems/chants-de-tindalos/templates/actor/onglet-competences.html",
     "systems/chants-de-tindalos/templates/actor/onglet-milieux.html",
     "systems/chants-de-tindalos/templates/actor/onglet-combat.html",
+    "systems/chants-de-tindalos/templates/actor/onglet-inventaire.html",
     "systems/chants-de-tindalos/templates/actor/onglet-avance.html",
     "systems/chants-de-tindalos/templates/actor/onglet-notes.html",
     "systems/chants-de-tindalos/templates/actor/feuille-pnj.html",
     "systems/chants-de-tindalos/templates/item/feuille-arme.html",
+    "systems/chants-de-tindalos/templates/item/feuille-vehicule.html",
+    "systems/chants-de-tindalos/templates/item/feuille-substance.html",
   ]);
 }
 

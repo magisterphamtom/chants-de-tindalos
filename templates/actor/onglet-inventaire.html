@@ -1,0 +1,101 @@
+<div class="tab" data-tab="inventaire" data-group="sheet" role="tabpanel">
+<style>
+.inventaire-section { margin-bottom: 16px; }
+.drop-hint { float:right; font-size:0.75em; color:#aaa; font-weight:normal; text-transform:none; letter-spacing:0; }
+.inventaire-list { min-height: 36px; border:1px dashed #d4a96a; border-radius:4px; padding:4px; margin-bottom:4px; }
+.inventaire-list.drag-over { background:#f0e0a0; border-color:#8b4513; }
+.inventaire-row { display:flex; align-items:center; gap:8px; padding:6px 8px; background:#fff8e8; border:1px solid #d4a96a; border-radius:4px; margin-bottom:4px; }
+.inventaire-img { width:32px; height:32px; object-fit:cover; border-radius:4px; flex-shrink:0; border:1px solid #d4a96a; }
+.inventaire-infos { flex:1; min-width:0; }
+.inventaire-nom { font-weight:bold; color:#5a2a2a; font-size:0.95em; display:block; }
+.inventaire-stats { font-size:0.82em; color:#888; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.inventaire-special { font-size:0.8em; color:#c8860a; display:block; }
+.inventaire-actions { display:flex; flex-direction:row; gap:4px; flex-shrink:0; }
+.inventaire-actions button { width:26px; height:26px; padding:0; border:1px solid #d4a96a; background:#fff8e8; border-radius:4px; cursor:pointer; font-size:0.9em; line-height:1; }
+.inventaire-actions button:hover { background:#f0d080; }
+.inventaire-vide { color:#aaa; font-size:0.88em; padding:6px; text-align:center; }
+</style>
+
+  <!-- VÉHICULES -->
+  <div class="inventaire-section">
+    <div class="section-title">
+      🚗 Véhicules
+      <span class="drop-hint">⬇ Glissez un véhicule ici</span>
+    </div>
+    <div class="inventaire-list drop-zone" data-type="vehicule">
+      {{#each itemsVehicules as |v|}}
+      <div class="inventaire-row" data-item-id="{{v.id}}">
+        <img src="{{v.img}}" class="inventaire-img" />
+        <div class="inventaire-infos">
+          <span class="inventaire-nom">{{v.name}}</span>
+          <span class="inventaire-stats">🏎 Vit. {{v.system.vitesseMax}} | ⚡ Acc. {{v.system.acceleration}} | 🔄 Man. {{v.system.manoeuvrabilite}} | 👥 {{v.system.places}} place(s){{#if v.system.prix}} | 💰 {{v.system.prix}}{{/if}}</span>
+          {{#if v.system.special}}<span class="inventaire-special">✨ {{v.system.special}}</span>{{/if}}
+        </div>
+        <div class="inventaire-actions">
+          <button type="button" class="btn-ouvrir-item" data-item-id="{{v.id}}" title="Ouvrir">✏️</button>
+          <button type="button" class="btn-supprimer-item" data-item-id="{{v.id}}" title="Supprimer">🗑️</button>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless itemsVehicules.length}}
+      <div class="inventaire-vide">Aucun véhicule — glissez depuis le compendium 🚗</div>
+      {{/unless}}
+    </div>
+  </div>
+
+  <!-- SUBSTANCES -->
+  <div class="inventaire-section">
+    <div class="section-title">
+      💊 Substances
+      <span class="drop-hint">⬇ Glissez une substance ici</span>
+    </div>
+    <div class="inventaire-list drop-zone" data-type="substance">
+      {{#each itemsSubstances as |s|}}
+      <div class="inventaire-row" data-item-id="{{s.id}}">
+        <img src="{{s.img}}" class="inventaire-img" />
+        <div class="inventaire-infos">
+          <span class="inventaire-nom">{{s.name}}</span>
+          <span class="inventaire-stats">⏱ {{s.system.duree}} | ☠️ Surdose: {{s.system.seuilSurdose}} échec(s){{#if s.system.prix}} | 💰 {{s.system.prix}}{{/if}}</span>
+          {{#if s.system.effetSpecial}}<span class="inventaire-special">{{s.system.effetSpecial}}</span>{{/if}}
+        </div>
+        <div class="inventaire-actions">
+          <button type="button" class="btn-consommer-substance" data-item-id="{{s.id}}" title="Consommer">💉</button>
+          <button type="button" class="btn-ouvrir-item" data-item-id="{{s.id}}" title="Ouvrir">✏️</button>
+          <button type="button" class="btn-supprimer-item" data-item-id="{{s.id}}" title="Supprimer">🗑️</button>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless itemsSubstances.length}}
+      <div class="inventaire-vide">Aucune substance — glissez depuis le compendium 💊</div>
+      {{/unless}}
+    </div>
+  </div>
+
+  <!-- ÉQUIPEMENTS -->
+  <div class="inventaire-section">
+    <div class="section-title">
+      🎒 Équipements
+      <span class="drop-hint">⬇ Glissez un équipement ici</span>
+    </div>
+    <div class="inventaire-list drop-zone" data-type="equipement">
+      {{#each itemsEquipements as |e|}}
+      <div class="inventaire-row" data-item-id="{{e.id}}">
+        <img src="{{e.img}}" class="inventaire-img" />
+        <div class="inventaire-infos">
+          <span class="inventaire-nom">{{e.name}}</span>
+          {{#if e.system.prix}}<span class="inventaire-stats">💰 {{e.system.prix}}</span>{{/if}}
+          {{#if e.system.description}}<span class="inventaire-special">{{e.system.description}}</span>{{/if}}
+        </div>
+        <div class="inventaire-actions">
+          <button type="button" class="btn-ouvrir-item" data-item-id="{{e.id}}" title="Ouvrir">✏️</button>
+          <button type="button" class="btn-supprimer-item" data-item-id="{{e.id}}" title="Supprimer">🗑️</button>
+        </div>
+      </div>
+      {{/each}}
+      {{#unless itemsEquipements.length}}
+      <div class="inventaire-vide">Aucun équipement — glissez depuis le compendium 🎒</div>
+      {{/unless}}
+    </div>
+  </div>
+
+</div>
