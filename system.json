@@ -25,7 +25,7 @@
     {
       "name": "armes",
       "label": "⚔️ Armes",
-      "path": "packs/armes.db",
+      "path": "packs/armes",
       "type": "Item",
       "system": "chants-de-tindalos"
     },
@@ -40,6 +40,13 @@
       "name": "substances",
       "label": "💊 Substances",
       "path": "packs/substances",
+      "type": "Item",
+      "system": "chants-de-tindalos"
+    },
+    {
+      "name": "equipements",
+      "label": "🎒 Équipements",
+      "path": "packs/equipements",
       "type": "Item",
       "system": "chants-de-tindalos"
     }

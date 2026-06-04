@@ -541,6 +541,60 @@ class CdTFeuilleSubstance extends foundry.applications.api.HandlebarsApplication
   }
 }
 // ------------------------------------------------
+// DONNÉES : ÉQUIPEMENTS
+// ------------------------------------------------
+const CDT_EQUIPEMENTS_DATA = [
+  // --- TABAC ---
+  { name: "Paquet de cigarettes",        type: "equipement", img: "icons/consumables/plants/herb-sage-green.webp",     system: { categorie: "tabac",        prix: "16c",                description: "" } },
+  { name: "Cigare El Camino",            type: "equipement", img: "icons/consumables/plants/herb-sage-green.webp",     system: { categorie: "tabac",        prix: "11c",                description: "" } },
+  { name: "Tabac en pot",                type: "equipement", img: "icons/consumables/plants/herb-sage-green.webp",     system: { categorie: "tabac",        prix: "50c/200g",           description: "" } },
+  { name: "Pipe",                        type: "equipement", img: "icons/consumables/plants/herb-sage-green.webp",     system: { categorie: "tabac",        prix: "48c",                description: "" } },
+  { name: "Briquet",                     type: "equipement", img: "icons/tools/hand/torch-unlit.webp",                 system: { categorie: "tabac",        prix: "23c",                description: "" } },
+  { name: "Boîte d'allumettes",          type: "equipement", img: "icons/tools/hand/torch-unlit.webp",                 system: { categorie: "tabac",        prix: "7c",                 description: "" } },
+  // --- PHOTOGRAPHIE ---
+  { name: "Appareil photo Conley Junior",type: "equipement", img: "icons/tools/instruments/magnifying-glass.webp",    system: { categorie: "photographie", prix: "9,95$",              description: "" } },
+  { name: "Pellicule 6 photographies",   type: "equipement", img: "icons/tools/instruments/magnifying-glass.webp",    system: { categorie: "photographie", prix: "7,85$",              description: "" } },
+  { name: "Matériel de développement",   type: "equipement", img: "icons/tools/instruments/magnifying-glass.webp",    system: { categorie: "photographie", prix: "21,75$",             description: "En studio." } },
+  { name: "Trépied pour appareil photo", type: "equipement", img: "icons/tools/instruments/magnifying-glass.webp",    system: { categorie: "photographie", prix: "4,6$",               description: "" } },
+  // --- BUREAU ---
+  { name: "Crayon de papier",            type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "bureau",       prix: "39c/deux douzaines", description: "" } },
+  { name: "Stylo-plume",                 type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "bureau",       prix: "55c - 85c",          description: "" } },
+  { name: "Stylo-plume en or",           type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "bureau",       prix: "2,3$",               description: "" } },
+  { name: "Machine à écrire Harris",     type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "bureau",       prix: "60$",                description: "40 pages, couverture rigide." } },
+  { name: "Téléphone de bureau",         type: "equipement", img: "icons/tools/instruments/harp-simple.webp",          system: { categorie: "bureau",       prix: "16,8$",              description: "" } },
+  { name: "Carnet de notes",             type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "bureau",       prix: "22c",                description: "" } },
+  // --- OUTILS ---
+  { name: "Boussole de poche",           type: "equipement", img: "icons/tools/navigation/compass-brass.webp",         system: { categorie: "outils",       prix: "1,5$",               description: "" } },
+  { name: "Canne à pêche Luckie",        type: "equipement", img: "icons/tools/hand/hoe.webp",                         system: { categorie: "outils",       prix: "2,15$",              description: "Télescopique et en métal." } },
+  { name: "Piège à loup",               type: "equipement", img: "icons/tools/hand/hoe.webp",                         system: { categorie: "outils",       prix: "5,65$",              description: "" } },
+  { name: "Tente",                      type: "equipement", img: "icons/environment/settlement/tent-canvas.webp",     system: { categorie: "outils",       prix: "1,35$ - 13,39$",    description: "De la tente individuelle jusqu'à 6 personnes." } },
+  { name: "30m de corde",               type: "equipement", img: "icons/tools/hand/rope-wound-tan.webp",              system: { categorie: "outils",       prix: "2,65$",              description: "" } },
+  { name: "Boîte à outils complète",    type: "equipement", img: "icons/tools/hand/wrench.webp",                      system: { categorie: "outils",       prix: "32$",                description: "Scies, marteaux, tournevis, équerres..." } },
+  { name: "Chalumeau à essence",        type: "equipement", img: "icons/tools/hand/torch-unlit.webp",                 system: { categorie: "outils",       prix: "4,5$",               description: "Flamme bleue à environ 800°C. Réservoir 0,5L." } },
+  { name: "Kit d'outils de serrurier",  type: "equipement", img: "icons/tools/hand/wrench.webp",                      system: { categorie: "outils",       prix: "6,75$",              description: "" } },
+  { name: "Lampe torche de mineur",     type: "equipement", img: "icons/tools/hand/torch-lit.webp",                   system: { categorie: "outils",       prix: "1,3$",               description: "" } },
+  // --- MÉDICAL ---
+  { name: "Aspirine",                   type: "equipement", img: "icons/consumables/potions/potion-round-empty.webp", system: { categorie: "medical",      prix: "25c/24 tablettes",  description: "" } },
+  { name: "Huile de foie de morue",     type: "equipement", img: "icons/consumables/potions/potion-round-empty.webp", system: { categorie: "medical",      prix: "1,2$",               description: "" } },
+  { name: "Sublimé corrosif",           type: "equipement", img: "icons/consumables/potions/potion-round-empty.webp", system: { categorie: "medical",      prix: "95c",                description: "Produit par le Dr. Festen." } },
+  { name: "Fauteuil roulant",           type: "equipement", img: "icons/environment/settlement/wagon.webp",           system: { categorie: "medical",      prix: "24$ - 52$",          description: "" } },
+  // --- ACCESSOIRES ---
+  { name: "Montre à bracelet",          type: "equipement", img: "icons/sundries/jewelry/ring-band-plain.webp",       system: { categorie: "accessoires",  prix: "11,35$",             description: "" } },
+  { name: "Montre à gousset",           type: "equipement", img: "icons/sundries/jewelry/ring-band-plain.webp",       system: { categorie: "accessoires",  prix: "5,65$",              description: "" } },
+  { name: "Holster pour revolver",      type: "equipement", img: "icons/sundries/misc/pouch-grey.webp",               system: { categorie: "accessoires",  prix: "2,85$",              description: "Sécurité à ressort anti-vol." } },
+  { name: "Valise imitation Alligator", type: "equipement", img: "icons/sundries/misc/pouch-grey.webp",               system: { categorie: "accessoires",  prix: "8$",                 description: "Armature en acier, résiste à l'eau." } },
+  { name: "Parapluie",                  type: "equipement", img: "icons/sundries/misc/pouch-grey.webp",               system: { categorie: "accessoires",  prix: "1,98$",              description: "" } },
+  { name: "Sifflet de police",          type: "equipement", img: "icons/tools/instruments/harp-simple.webp",          system: { categorie: "accessoires",  prix: "35c",                description: "" } },
+  { name: "Miroir de poche",            type: "equipement", img: "icons/sundries/misc/mirror.webp",                   system: { categorie: "accessoires",  prix: "10c",                description: "" } },
+  // --- SERVICES ---
+  { name: "Repas au restaurant",        type: "equipement", img: "icons/consumables/food/berries-grapes-yellow.webp", system: { categorie: "services",     prix: "75c - 1,5$",         description: "" } },
+  { name: "Nuit à l'hôtel",            type: "equipement", img: "icons/environment/settlement/house.webp",           system: { categorie: "services",     prix: "2$ - 4$",            description: "" } },
+  { name: "Ticket de cinéma",          type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "services",     prix: "15c",                description: "" } },
+  { name: "Billet de train",           type: "equipement", img: "icons/sundries/misc/parchment.webp",                system: { categorie: "services",     prix: "2c/km",              description: "" } },
+  { name: "Taxi",                      type: "equipement", img: "icons/environment/settlement/wagon.webp",           system: { categorie: "services",     prix: "30c/km",             description: "" } },
+];
+
+// ------------------------------------------------
 const CDT_VEHICULES_DATA = [
   {
     name: "Buggy 1 place", type: "vehicule",
@@ -725,6 +779,7 @@ Hooks.once("ready", async function () {
   await initialiserCompendium("chants-de-tindalos.armes",      CDT_ARMES_DATA);
   await initialiserCompendium("chants-de-tindalos.vehicules",  CDT_VEHICULES_DATA);
   await initialiserCompendium("chants-de-tindalos.substances", CDT_SUBSTANCES_DATA);
+  await initialiserCompendium("chants-de-tindalos.equipements", CDT_EQUIPEMENTS_DATA);
 });
 
 // Le drop est géré directement dans CdTFeuillePersonnage._onRender
