@@ -6,11 +6,23 @@
 
 Système non officiel pour **Foundry VTT v13** adapté du jeu de rôle **Les Chants de Tindalos** de [Walpurgis Éditions](https://walpurgis.fr).
 
-> Développé avec l'accord de Walpurgis Éditions dans le cadre du kit de découverte gratuit.
+> Développé avec l'accord de Walpurgis Éditions dans le cadre du manuel complet.
 
 ---
 
 ## 📦 Contenu du système
+
+### 🎲 Assistant de création de personnage
+Un assistant guidé en **8 étapes** accessible via le bouton **🎲 Créer un personnage** dans le panneau Acteurs :
+
+- **Étape 1** — Identité & Caractéristiques (12 points, visualisation Coût/Défense en temps réel)
+- **Étape 2** — Variables (Réserve, Angoisse, Maîtrise, Intuition, Espoir — 12 points)
+- **Étape 3** — Profession (10 milieux → champs → métiers → 90 professions détaillées)
+- **Étape 4** — Milieu d'origine (10 origines avec effets sur la richesse)
+- **Étape 5** — Expérience singulière (60 expériences filtrables par milieu)
+- **Étape 6** — Rituel de décompression & Déclencheur (listes complètes du manuel)
+- **Étape 7** — Folie (0 ou 1 point avec effets automatiques)
+- **Étape 8** — Récapitulatif complet avant création de l'acteur
 
 ### Feuille de personnage joueur
 - Saisie des 5 **caractéristiques** (Savoir, Perception, Charisme, Agilité, Vigueur)
@@ -24,8 +36,8 @@ Système non officiel pour **Foundry VTT v13** adapté du jeu de rôle **Les Cha
 
 ### Feuille PNJ
 - Stats compactes : Caractéristiques, Variables, Jauges
-- **Possessions pictogrammes** cliquables (Téléphone, Arme, Vélo, Moto, Voiture, Camion, Bateau, Cheval, Chien)
-- Section Arme avec jet d'attaque intégré
+- **Possessions pictogrammes** cliquables toggle ON/OFF (Téléphone, Arme, Vélo, Moto, Voiture, Camion, Bateau, Cheval, Chien)
+- Section Arme avec jet d'attaque intégré (létalité dans le chat)
 - Compétences clés en texte libre
 - Jet de Maîtrise et SD calculé automatiquement
 
@@ -56,21 +68,14 @@ Système non officiel pour **Foundry VTT v13** adapté du jeu de rôle **Les Cha
 - Calcul automatique de la perte de Tension selon le niveau
 
 ### Wiki intégré
-Journal de règles créé automatiquement au premier lancement, couvrant :
-- Le système PLP
-- Les caractéristiques et compétences
-- Les milieux d'origine
-- Les jets de dés et options
-- La Tension et la Santé Mentale
-- Le Combat
-- Le Sommeil
-- La Magie
-- La création de personnage
+- **Ouverture automatique** à la première connexion de chaque joueur
+- **Bouton 📖 Wiki du système** dans le panneau Acteurs pour y accéder à tout moment
+- 12 pages couvrant toutes les règles : caractéristiques, compétences, milieux, jets de dés, tension, santé mentale, combat, sommeil, magie, création de personnage
 
 ### Personnages prétirés
-4 personnages prêts à jouer issus du kit de découverte :
+4 personnages prêts à jouer issus du manuel :
 
-| Personnage | Profession | Spécialité |
+| Personnage | Profession | Points forts |
 |---|---|---|
 | **Nora Haddad** | Photographe d'Art | Perception 4, Art visuel |
 | **Delphine Malesherbes** | Journalisme d'investigation | Savoir 3, Interrogatoire |
@@ -101,10 +106,13 @@ Journal de règles créé automatiquement au premier lancement, couvrant :
 
 ```
 chants-de-tindalos/
-├── chants-de-tindalos.js     # Logique principale du système
-├── chants-de-tindalos.css    # Styles des fiches
-├── system.json               # Manifest Foundry
-├── template.json             # Structure des données acteurs
+├── module/
+│   ├── chants-de-tindalos.js     # Logique principale du système
+│   └── creation-personnage.js    # Assistant de création de personnage
+├── css/
+│   └── chants-de-tindalos.css    # Styles des fiches
+├── system.json                   # Manifest Foundry
+├── template.json                 # Structure des données acteurs
 ├── templates/
 │   └── actor/
 │       ├── header.html
@@ -143,9 +151,9 @@ chants-de-tindalos/
 
 - **Jeu original** : Les Chants de Tindalos — [Walpurgis Éditions](https://walpurgis.fr)
 - **Adaptation Foundry** : Développée avec l'accord de Walpurgis Éditions
-- **Kit de découverte** : Contenu issu du kit gratuit officiel
+- **Contenu** : Issu du manuel complet des Chants de Tindalos
 
-> Ce système est une adaptation non commerciale du kit de découverte gratuit de Les Chants de Tindalos. Tous les droits sur le jeu original appartiennent à Walpurgis Éditions.
+> Ce système est une adaptation non commerciale des Chants de Tindalos, développée avec l'accord de Walpurgis Éditions. Tous les droits sur le jeu original appartiennent à Walpurgis Éditions.
 
 ---
 
