@@ -1959,3 +1959,17 @@ class CdTCreationPersonnage extends foundry.applications.api.ApplicationV2 {
 }
 
 // Le bouton de création est géré dans chants-de-tindalos.js
+
+// ------------------------------------------------
+// BOUTON CRÉER UN PERSONNAGE dans le panneau Acteurs
+// ------------------------------------------------
+Hooks.on("renderActorDirectory", (app, html) => {
+  const footer = html.querySelector(".directory-footer") ?? html.querySelector(".header-actions");
+  if (!footer) return;
+
+  const bouton = document.createElement("button");
+  bouton.innerHTML = "🎲 Créer un personnage";
+  bouton.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#8b4513;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.9em;";
+  bouton.addEventListener("click", () => new CdTCreationPersonnage().render(true));
+  footer.prepend(bouton);
+});

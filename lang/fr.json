@@ -55,8 +55,10 @@
   "CDT.Onglets.Principal": "Principal",
   "CDT.Onglets.Competences": "Compétences",
   "CDT.Onglets.Milieux": "Milieux",
-  "CDT.Onglets.Notes": "Notes"
-  ,
+  "CDT.Onglets.Notes": "Notes",
+
   "TYPES.Actor.personnage": "Personnage",
-  "TYPES.Actor.pnj": "PNJ"
+  "TYPES.Actor.pnj": "PNJ",
+  "TYPES.Item.arme": "Arme",
+  "TYPES.Item.equipement": "Équipement"
 }

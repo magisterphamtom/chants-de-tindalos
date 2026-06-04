@@ -3,6 +3,8 @@
 // Développé pour Walpurgis Éditions
 // ================================================
 
+import { PersonnageDataModel, PNJDataModel, ArmeDataModel, EquipementDataModel } from "./datamodels.js";
+
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -544,6 +546,12 @@ async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) 
 Hooks.once("init", function () {
   console.log("Chants de Tindalos | Initialisation du système...");
 
+  // --- DATAMODELS ---
+  CONFIG.Actor.dataModels.personnage = PersonnageDataModel;
+  CONFIG.Actor.dataModels.pnj        = PNJDataModel;
+  CONFIG.Item.dataModels.arme        = ArmeDataModel;
+  CONFIG.Item.dataModels.equipement  = EquipementDataModel;
+
   game.chantsdetindalos = {
     CdTActeur,
     CdTFeuillePersonnage,
@@ -618,11 +626,6 @@ Hooks.on("renderActorDirectory", (app, html) => {
   const footer = html.querySelector(".directory-footer") ?? html.querySelector(".header-actions");
   if (!footer) return;
 
-  const boutonCreation = document.createElement("button");
-  boutonCreation.innerHTML = "🎲 Créer un personnage";
-  boutonCreation.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#8b4513;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:0.9em;";
-  boutonCreation.addEventListener("click", () => new CdTCreationPersonnage().render(true));
-
   const boutonWiki = document.createElement("button");
   boutonWiki.innerHTML = "📖 Wiki du système";
   boutonWiki.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#3d1a1a;color:#d4a96a;border:1px solid #8b4513;border-radius:4px;cursor:pointer;font-size:0.9em;";
@@ -633,7 +636,6 @@ Hooks.on("renderActorDirectory", (app, html) => {
   });
 
   footer.prepend(boutonWiki);
-  footer.prepend(boutonCreation);
 });
 
 // ================================================
@@ -699,6 +701,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.actor = this.actor;
     context.system = this.actor.system;
     context.tabActif = this._tabActif;
+    context.itemsArmes = this.actor.items.filter(i => i.type === "arme");
     return context;
   }
 
@@ -707,6 +710,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.actor = this.actor;
     context.system = this.actor.system;
     context.tabActif = this._tabActif;
+    context.itemsArmes = this.actor.items.filter(i => i.type === "arme");
     return context;
   }
 
@@ -901,6 +905,41 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         ev.preventDefault();
         ev.stopPropagation();
         this._attaquer(ev.currentTarget.dataset.arme);
+      });
+    });
+
+    // --- ARMES EMBEDDED (drag & drop) ---
+    html.querySelectorAll(".btn-attaquer-item").forEach((el) => {
+      el.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const itemId = ev.currentTarget.dataset.itemId;
+        this._attaquerItem(itemId);
+      });
+    });
+
+    html.querySelectorAll(".btn-ouvrir-arme").forEach((el) => {
+      el.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const itemId = ev.currentTarget.dataset.itemId;
+        const arme = this.actor.items.get(itemId);
+        if (arme) arme.sheet.render(true);
+      });
+    });
+
+    html.querySelectorAll(".btn-supprimer-arme").forEach((el) => {
+      el.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const itemId = ev.currentTarget.dataset.itemId;
+        const arme = this.actor.items.get(itemId);
+        if (!arme) return;
+        const confirme = await Dialog.confirm({
+          title: "Supprimer l'arme",
+          content: `<p>Supprimer <b>${arme.name}</b> de l'inventaire ?</p>`,
+        });
+        if (confirme) await arme.delete();
       });
     });
 
@@ -1327,6 +1366,91 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
           ${letaliteAffichage}
         </div>
       `,
+    });
+  }
+
+  // ------------------------------------------------
+  // ATTAQUE AVEC ARME EMBEDDED (drag & drop)
+  // ------------------------------------------------
+  async _attaquerItem(itemId) {
+    const item = this.actor.items.get(itemId);
+    if (!item) return;
+
+    const arme = item.system;
+    const system = this.actor.system;
+    const caracId = arme.categorie === "distance" ? "agilite" : "vigueur";
+    const carac = system.caracteristiques?.[caracId];
+    const caracVal = carac?.valeur ?? 1;
+    const cout = carac?.cout ?? 4;
+    const sd = system.seuilDifficulte ?? 3;
+    const espoir = system.jauges?.espoir?.valeur ?? 0;
+    const reserve = system.jauges?.reserve?.valeur ?? 0;
+
+    const armeCompat = {
+      nom: item.name,
+      type: arme.categorie,
+      letalite: arme.letalite,
+      blessure: arme.blessure,
+      portee: arme.portee,
+    };
+
+    const choix = await ouvrirDialogueAttaque(armeCompat, caracVal, sd, espoir, reserve, cout);
+    if (!choix.lancer) return;
+
+    const nbDes = caracVal + choix.desBonus + choix.desMJ;
+
+    if (choix.desBonus > 0) {
+      await this.actor.update({
+        "system.jauges.reserve.valeur": Math.max(0, reserve - (choix.desBonus * cout))
+      });
+    }
+
+    if (choix.depenseEspoir && espoir > 0) {
+      await this.actor.update({ "system.jauges.espoir.valeur": espoir - 1 });
+    }
+
+    const resultat = await lancerDesD6(nbDes, sd, item.name, choix.depenseEspoir);
+
+    const succes = resultat.reussites > 0;
+    const couleur = succes ? "#2d6a2d" : "#8b0000";
+    const desAffichage = resultat.valeurs
+      .map((v) => `<span style="color:${v >= sd ? "#2d6a2d" : "#8b0000"};font-weight:bold;">${v}</span>`)
+      .join(" | ");
+
+    let letaliteAffichage = "";
+    if (succes) {
+      const jetLetalite = new Roll("1d20");
+      await jetLetalite.evaluate();
+      const bonusLetalite = Math.max(0, resultat.reussites - 1);
+      const totalLetalite = jetLetalite.total + bonusLetalite;
+      const mort = totalLetalite >= arme.letalite;
+
+      if (!mort) await appliquerBlessure(this.actor, arme.blessure);
+
+      letaliteAffichage = `
+        <div style="margin-top:6px;padding-top:6px;border-top:1px solid #8b4513;">
+          🎲 Létalité : ${jetLetalite.total}${bonusLetalite > 0 ? ` + ${bonusLetalite}` : ""}
+          = <b>${totalLetalite}</b> / ${arme.letalite}<br>
+          ${mort
+            ? `<b style="color:#8b0000;">💀 MORT !</b>`
+            : `<b style="color:#8b4513;">🩸 Blessure ${arme.blessure} appliquée</b>`}
+        </div>`;
+    }
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      rolls: [resultat.roll],
+      content: `
+        <div style="background:#f4e8d0;border:1px solid #8b4513;padding:8px;border-radius:4px;">
+          <b style="font-size:1.1em;">⚔️ ${item.name}</b>
+          <span style="font-size:0.85em;color:#888;"> — ${arme.portee}</span><br>
+          Dés (${nbDes}d6) : ${desAffichage}<br>
+          Seuil : <b>${sd}+</b><br>
+          <span style="color:${couleur};font-size:1.1em;">
+            ${succes ? `✅ <b>${resultat.reussites} réussite(s)</b>` : `❌ <b>Raté !</b>`}
+          </span>
+          ${letaliteAffichage}
+        </div>`,
     });
   }
 
@@ -1869,6 +1993,7 @@ async function chargerTemplates() {
     "systems/chants-de-tindalos/templates/actor/onglet-avance.html",
     "systems/chants-de-tindalos/templates/actor/onglet-notes.html",
     "systems/chants-de-tindalos/templates/actor/feuille-pnj.html",
+    "systems/chants-de-tindalos/templates/item/feuille-arme.html",
   ]);
 }
 

@@ -1,69 +1,53 @@
 <div class="tab" data-tab="combat" data-group="sheet" role="tabpanel">
 
   <!-- ARMES -->
-  <div class="section-title">Armes</div>
-  <div class="armes-list">
+  <div class="section-title">
+    Armes
+    <span class="armes-drop-hint">⬇ Glissez une arme du compendium ici</span>
+  </div>
+  <div class="armes-list drop-zone">
 
-    {{#each system.armes as |arme id|}}
-    <div class="arme-row">
+    {{! Armes issues du drag & drop (embedded items) }}
+    {{#each itemsArmes as |arme|}}
+    <div class="arme-row arme-item" data-item-id="{{arme.id}}">
       <div class="arme-infos">
-        <input type="text" class="arme-nom"
-               name="system.armes.{{id}}.nom"
-               value="{{arme.nom}}"
-               placeholder="Nom de l'arme" />
-        <select name="system.armes.{{id}}.type" class="arme-type">
-          <option value="corpsacorps"
-            {{#if (eq arme.type "corpsacorps")}}selected{{/if}}>
-            Corps-à-corps (VIG)
-          </option>
-          <option value="distance"
-            {{#if (eq arme.type "distance")}}selected{{/if}}>
-            Distance (AGI)
-          </option>
-        </select>
-        <select name="system.armes.{{id}}.portee" class="arme-portee">
-          <option value="CaC"
-            {{#if (eq arme.portee "CaC")}}selected{{/if}}>CaC</option>
-          <option value="Courte"
-            {{#if (eq arme.portee "Courte")}}selected{{/if}}>Courte</option>
-          <option value="Longue"
-            {{#if (eq arme.portee "Longue")}}selected{{/if}}>Longue</option>
-        </select>
+        <span class="arme-nom-label">{{arme.name}}</span>
+        <span class="arme-type-label">
+          {{#if (eq arme.system.categorie "distance")}}🔫 Distance (AGI){{else}}⚔️ Corps-à-corps (VIG){{/if}}
+        </span>
+        <span class="arme-portee-label">📍 {{arme.system.portee}}</span>
       </div>
       <div class="arme-stats">
         <div class="arme-stat">
           <label>Létalité</label>
-          <input type="number" name="system.armes.{{id}}.letalite"
-                 value="{{arme.letalite}}" min="1" />
+          <span>{{arme.system.letalite}}+</span>
         </div>
         <div class="arme-stat">
           <label>Blessure</label>
-          <select name="system.armes.{{id}}.blessure">
-            <option value="Superficielle"
-              {{#if (eq arme.blessure "Superficielle")}}selected{{/if}}>
-              Superficielle (-1 Réserve)
-            </option>
-            <option value="Legere"
-              {{#if (eq arme.blessure "Legere")}}selected{{/if}}>
-              Légère (-2 Réserve)
-            </option>
-            <option value="Moderee"
-              {{#if (eq arme.blessure "Moderee")}}selected{{/if}}>
-              Modérée (-4 Réserve, +1 SD)
-            </option>
-            <option value="Serieuse"
-              {{#if (eq arme.blessure "Serieuse")}}selected{{/if}}>
-              Sérieuse (-6 Réserve, +2 SD)
-            </option>
-          </select>
+          <span>{{arme.system.blessure}}</span>
         </div>
-        <button type="button" class="btn-attaquer rollable"
-                data-arme="{{id}}">
+        <button type="button" class="btn-attaquer-item rollable"
+                data-item-id="{{arme.id}}">
           ⚔️ Attaquer
+        </button>
+        <button type="button" class="btn-ouvrir-arme"
+                data-item-id="{{arme.id}}" title="Ouvrir la fiche">
+          ✏️
+        </button>
+        <button type="button" class="btn-supprimer-arme"
+                data-item-id="{{arme.id}}" title="Supprimer">
+          🗑️
         </button>
       </div>
     </div>
     {{/each}}
+
+    {{! Message si aucune arme }}
+    {{#unless itemsArmes.length}}
+    <div class="armes-vide">
+      Aucune arme équipée — glissez une arme depuis le compendium ⚔️
+    </div>
+    {{/unless}}
 
   </div>
 

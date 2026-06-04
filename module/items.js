@@ -3,24 +3,18 @@
 // Les Chants de Tindalos — Foundry VTT
 // ================================================
 
-// ------------------------------------------------
-// CLASSE ITEM CDT
-// ------------------------------------------------
-class CdTItem extends Item {
-  prepareData() {
-    super.prepareData();
-  }
-}
-
+import { ArmeDataModel, EquipementDataModel } from "./datamodels.js";
 // ------------------------------------------------
 // FICHE D'ARME
 // ------------------------------------------------
-class CdTFeuilleArme extends foundry.applications.sheets.ItemSheetV2 {
+class CdTFeuilleArme extends foundry.applications.api.HandlebarsApplicationMixin(
+  foundry.applications.sheets.ItemSheetV2
+) {
   static DEFAULT_OPTIONS = {
     classes: ["cdt", "arme-sheet"],
     position: { width: 520, height: 480 },
     window: { resizable: true },
-    form: { submitOnChange: true },
+    form: { submitOnChange: true, closeOnSubmit: false },
   };
 
   static PARTS = {
@@ -38,18 +32,23 @@ class CdTFeuilleArme extends foundry.applications.sheets.ItemSheetV2 {
     super._onRender(context, options);
     const html = this.element;
 
+    // Clic sur le portrait pour changer l'image
+    html.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
+      const fp = new FilePicker({
+        type: "image",
+        current: this.item.img,
+        callback: (path) => this.item.update({ img: path }),
+      });
+      fp.browse();
+    });
+
     // Bouton attaquer depuis la fiche arme
     html.querySelector(".btn-attaquer-item")?.addEventListener("click", () => {
       if (this.item.actor) {
-        this._lancerAttaque();
+        this.item.actor.sheet._attaquerItem(this.item.id);
       } else {
         ui.notifications.warn("Cette arme n'est pas équipée par un personnage.");
       }
-    });
-
-    // Sauvegarde auto
-    html.querySelectorAll("input, textarea, select").forEach(input => {
-      input.addEventListener("change", () => this.item.sheet.submit());
     });
   }
 
@@ -108,9 +107,12 @@ class CdTFeuilleArme extends foundry.applications.sheets.ItemSheetV2 {
 
 // Surcharge du _onDropItem dans CdTFeuillePersonnage
 // À appeler depuis activateListeners de la fiche PJ
-function activerDropArmes(html, actor) {
-  const zone = html.querySelector(".armes-list") ?? html.querySelector(".onglet-combat");
-  if (!zone) return;
+function _activerDropArmes(html, actor) {
+  // Chercher la zone armes ou utiliser toute la fiche
+  const zone = html.querySelector(".armes-list")
+    ?? html.querySelector("[data-tab='combat']")
+    ?? html.querySelector(".sheet-body")
+    ?? html;
 
   zone.addEventListener("dragover", ev => {
     ev.preventDefault();
@@ -147,7 +149,6 @@ function activerDropArmes(html, actor) {
       return;
     }
 
-    // Créer l'item sur l'acteur (embedded document)
     await actor.createEmbeddedDocuments("Item", [item.toObject()]);
     ui.notifications.info(`⚔️ ${item.name} ajoutée à l'inventaire de ${actor.name} !`);
   });
@@ -479,10 +480,9 @@ const CDT_ARMES_DATA = [
 async function initialiserCompendiumArmes() {
   const NOM_PACK = "chants-de-tindalos.armes";
 
-  // Vérifier si le pack existe
   let pack = game.packs.get(NOM_PACK);
   if (!pack) {
-    console.log("CDT | Pack armes non trouvé, création ignorée (doit être défini dans system.json)");
+    console.log("CDT | Pack armes non trouvé.");
     return;
   }
 
@@ -490,12 +490,17 @@ async function initialiserCompendiumArmes() {
   const contenu = await pack.getDocuments();
   if (contenu.length > 0) return;
 
-  // Peupler le compendium
+  // Déverrouiller le compendium
+  await pack.configure({ locked: false });
+
   console.log("CDT | Peuplement du compendium d'armes...");
-  await pack.getDocuments(); // unlock
   for (const armeData of CDT_ARMES_DATA) {
     await Item.create(armeData, { pack: NOM_PACK });
   }
+
+  // Reverrouiller
+  await pack.configure({ locked: true });
+
   console.log(`CDT | ${CDT_ARMES_DATA.length} armes ajoutées au compendium !`);
   ui.notifications.info(`⚔️ Compendium d'armes initialisé (${CDT_ARMES_DATA.length} armes) !`);
 }
@@ -504,17 +509,9 @@ async function initialiserCompendiumArmes() {
 // ENREGISTREMENT
 // ------------------------------------------------
 Hooks.once("init", function () {
-  CONFIG.Item.documentClass = CdTItem;
+  // CONFIG.Item.dataModels est enregistré dans datamodels.js
 
-  const ActorsCollection = foundry.documents.collections.Actors;
-  ActorsCollection.registerSheet?.("chants-de-tindalos", CdTFeuilleArme, {
-    types: ["arme"],
-    makeDefault: true,
-    label: "Fiche Arme CDT",
-  });
-
-  // Enregistrer la feuille d'arme sur Items
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleArme, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleArme, {
     types: ["arme"],
     makeDefault: true,
     label: "Fiche Arme CDT",
@@ -523,4 +520,10 @@ Hooks.once("init", function () {
 
 Hooks.once("ready", function () {
   initialiserCompendiumArmes();
+});
+
+// Brancher le drag & drop sur la fiche PJ via hook Foundry
+Hooks.on("renderCdTFeuillePersonnage", (app, html) => {
+  const el = html instanceof HTMLElement ? html : (html[0] ?? html);
+  _activerDropArmes(el, app.actor);
 });

@@ -1,75 +1,238 @@
-<div class="arme-sheet">
+<div class="arme-sheet-body">
+<style>
+.arme-sheet-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f4e8d0;
+  font-family: inherit;
+}
+.arme-header {
+  display: flex;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #3d1a1a;
+  align-items: center;
+}
+.arme-portrait-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid #8b4513;
+}
+.arme-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.arme-portrait-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.arme-portrait-wrapper:hover .arme-portrait-overlay { opacity: 1; }
+.arme-header-infos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.arme-nom-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #8b4513;
+  color: #d4a96a;
+  font-size: 1.3em;
+  font-weight: bold;
+  width: 100%;
+  padding: 2px 0;
+}
+.arme-nom-input:focus { outline: none; border-bottom-color: #f0d080; }
+.arme-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.arme-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.82em;
+  font-weight: bold;
+  background: #5a2a2a;
+  color: #d4a96a;
+  border: 1px solid #8b4513;
+}
+.arme-badge.distance { background: #1a3a5a; color: #90c0f0; border-color: #4080a0; }
+.arme-badge.corpsacorps { background: #5a1a1a; color: #f09090; border-color: #a04040; }
+.arme-badge.portee { background: #2a3a1a; color: #90d070; border-color: #608040; }
+.arme-badge.prix { background: #3a3a1a; color: #d0c060; border-color: #808020; }
+.arme-content { flex: 1; overflow-y: auto; padding: 14px 16px; }
+.section-title {
+  font-weight: bold;
+  font-size: 0.8em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8b4513;
+  border-bottom: 1px solid #d4a96a;
+  padding-bottom: 4px;
+  margin: 12px 0 8px 0;
+}
+.arme-stats-grid { display: flex; flex-direction: column; gap: 8px; }
+.arme-stat-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.arme-stat-box { display: flex; flex-direction: column; gap: 3px; }
+.arme-stat-box label {
+  font-size: 0.78em;
+  font-weight: bold;
+  color: #8b4513;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.arme-stat-box input,
+.arme-stat-box select {
+  padding: 6px 8px;
+  border: 1px solid #d4a96a;
+  border-radius: 4px;
+  background: #fff8e8;
+  color: #3d1a1a;
+  font-size: 0.95em;
+}
+.arme-stat-box input[type="number"] { text-align: center; font-weight: bold; font-size: 1.1em; }
+.arme-special-box input, .arme-special-vide input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d4a96a;
+  border-radius: 4px;
+  background: #fff8e8;
+  color: #3d1a1a;
+  box-sizing: border-box;
+}
+.arme-special-vide input { border-style: dashed; }
+.arme-description-box textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 8px 10px;
+  border: 1px solid #d4a96a;
+  border-radius: 4px;
+  background: #fff8e8;
+  color: #3d1a1a;
+  resize: vertical;
+  font-size: 0.95em;
+  box-sizing: border-box;
+}
+.arme-actions { margin-top: 12px; }
+.btn-attaquer-item {
+  width: 100%;
+  padding: 10px;
+  background: #8b4513;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background 0.15s;
+}
+.btn-attaquer-item:hover { background: #6d340e; }
+</style>
+
+  <!-- EN-TÊTE -->
   <header class="arme-header">
-    <img src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+    <div class="arme-portrait-wrapper">
+      <img class="arme-portrait" src="{{item.img}}" title="Cliquer pour changer l'image" />
+      <div class="arme-portrait-overlay">🖼️</div>
+    </div>
     <div class="arme-header-infos">
-      <input class="arme-nom" type="text" name="name" value="{{item.name}}" />
-      <div class="arme-categorie-box">
-        <select name="system.categorie">
-          <option value="distance"   {{#if (eq system.categorie "distance")}}selected{{/if}}>🔫 Distance</option>
-          <option value="corpsacorps"{{#if (eq system.categorie "corpsacorps")}}selected{{/if}}>⚔️ Corps-à-corps</option>
-        </select>
+      <input class="arme-nom-input" type="text" name="name" value="{{item.name}}" placeholder="Nom de l'arme" />
+      <div class="arme-badges">
+        <span class="arme-badge {{system.categorie}}">
+          {{#if (eq system.categorie "distance")}}🔫 Distance{{else}}⚔️ Corps-à-corps{{/if}}
+        </span>
+        <span class="arme-badge portee">📍 {{system.portee}}</span>
+        {{#if system.prix}}<span class="arme-badge prix">💰 {{system.prix}}</span>{{/if}}
       </div>
     </div>
   </header>
 
-  <div class="arme-body">
-    <!-- STATS PRINCIPALES -->
+  <div class="arme-content">
+    <div class="section-title">Statistiques</div>
     <div class="arme-stats-grid">
-      <div class="arme-stat-box">
-        <label>Caractéristique</label>
-        <select name="system.caracteristique">
-          <option value="agilite" {{#if (eq system.caracteristique "agilite")}}selected{{/if}}>⚡ Agilité (Distance)</option>
-          <option value="vigueur" {{#if (eq system.caracteristique "vigueur")}}selected{{/if}}>💪 Vigueur (CaC)</option>
-        </select>
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>🔫 Type</label>
+          <select name="system.categorie">
+            <option value="distance"    {{#if (eq system.categorie "distance")}}selected{{/if}}>Distance</option>
+            <option value="corpsacorps" {{#if (eq system.categorie "corpsacorps")}}selected{{/if}}>Corps-à-corps</option>
+          </select>
+        </div>
+        <div class="arme-stat-box">
+          <label>⚡ Caractéristique</label>
+          <select name="system.caracteristique">
+            <option value="agilite" {{#if (eq system.caracteristique "agilite")}}selected{{/if}}>Agilité</option>
+            <option value="vigueur" {{#if (eq system.caracteristique "vigueur")}}selected{{/if}}>Vigueur</option>
+          </select>
+        </div>
       </div>
-      <div class="arme-stat-box">
-        <label>Létalité</label>
-        <input type="number" name="system.letalite" value="{{system.letalite}}" min="1" />
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>🎯 Létalité</label>
+          <input type="number" name="system.letalite" value="{{system.letalite}}" min="1" />
+        </div>
+        <div class="arme-stat-box">
+          <label>🩸 Blessure</label>
+          <select name="system.blessure">
+            <option value="Superficielle" {{#if (eq system.blessure "Superficielle")}}selected{{/if}}>Superficielle</option>
+            <option value="Legere"        {{#if (eq system.blessure "Legere")}}selected{{/if}}>Légère</option>
+            <option value="Moderee"       {{#if (eq system.blessure "Moderee")}}selected{{/if}}>Modérée</option>
+            <option value="Serieuse"      {{#if (eq system.blessure "Serieuse")}}selected{{/if}}>Sérieuse</option>
+          </select>
+        </div>
       </div>
-      <div class="arme-stat-box">
-        <label>Blessure</label>
-        <select name="system.blessure">
-          <option value="Superficielle" {{#if (eq system.blessure "Superficielle")}}selected{{/if}}>Superficielle</option>
-          <option value="Legere"        {{#if (eq system.blessure "Legere")}}selected{{/if}}>Légère</option>
-          <option value="Moderee"       {{#if (eq system.blessure "Moderee")}}selected{{/if}}>Modérée</option>
-          <option value="Serieuse"      {{#if (eq system.blessure "Serieuse")}}selected{{/if}}>Sérieuse</option>
-        </select>
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>📍 Portée</label>
+          <select name="system.portee">
+            <option value="Contact" {{#if (eq system.portee "Contact")}}selected{{/if}}>Contact</option>
+            <option value="Courte"  {{#if (eq system.portee "Courte")}}selected{{/if}}>Courte</option>
+            <option value="Longue"  {{#if (eq system.portee "Longue")}}selected{{/if}}>Longue</option>
+          </select>
+        </div>
+        <div class="arme-stat-box">
+          <label>📦 Chargeur</label>
+          <input type="number" name="system.chargeur" value="{{system.chargeur}}" min="0" />
+        </div>
       </div>
-      <div class="arme-stat-box">
-        <label>Portée</label>
-        <select name="system.portee">
-          <option value="Contact" {{#if (eq system.portee "Contact")}}selected{{/if}}>Contact</option>
-          <option value="Courte"  {{#if (eq system.portee "Courte")}}selected{{/if}}>Courte</option>
-          <option value="Longue"  {{#if (eq system.portee "Longue")}}selected{{/if}}>Longue</option>
-        </select>
-      </div>
-      <div class="arme-stat-box">
-        <label>Chargeur</label>
-        <input type="number" name="system.chargeur" value="{{system.chargeur}}" min="0" />
-      </div>
-      <div class="arme-stat-box">
-        <label>Munitions</label>
-        <input type="text" name="system.munitions" value="{{system.munitions}}" placeholder="Ex: Calibre .38" />
-      </div>
-      <div class="arme-stat-box">
-        <label>Prix</label>
-        <input type="text" name="system.prix" value="{{system.prix}}" placeholder="Ex: 18$" />
-      </div>
-      <div class="arme-stat-box">
-        <label>Règle spéciale</label>
-        <input type="text" name="system.special" value="{{system.special}}" placeholder="Ex: +1 attaque sans pénalité" />
+      <div class="arme-stat-group">
+        <div class="arme-stat-box">
+          <label>💥 Munitions</label>
+          <input type="text" name="system.munitions" value="{{system.munitions}}" placeholder="Ex: Calibre .38" />
+        </div>
+        <div class="arme-stat-box">
+          <label>💰 Prix</label>
+          <input type="text" name="system.prix" value="{{system.prix}}" placeholder="Ex: 18$" />
+        </div>
       </div>
     </div>
 
-    <!-- DESCRIPTION -->
+    <div class="arme-special-box">
+      <div class="section-title">Règle spéciale</div>
+      <input type="text" name="system.special" value="{{system.special}}" placeholder="✨ Ajouter une règle spéciale..." />
+    </div>
+
+    <div class="section-title">Description</div>
     <div class="arme-description-box">
-      <label>Description</label>
       <textarea name="system.description" placeholder="Description de l'arme...">{{system.description}}</textarea>
     </div>
 
-    <!-- BOUTON ATTAQUE -->
     <div class="arme-actions">
       <button type="button" class="btn-attaquer-item">⚔️ Attaquer avec cette arme</button>
     </div>
   </div>
+
 </div>
