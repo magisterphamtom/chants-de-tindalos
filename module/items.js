@@ -925,6 +925,9 @@ Hooks.once("init", function () {
   Items.registerSheet("chants-de-tindalos", CdTFeuilleVehicule, {
     types: ["vehicule"], makeDefault: true, label: "Fiche Véhicule CDT",
   });
+  Items.registerSheet("chants-de-tindalos", CdTFeuilleSubstance, {
+    types: ["substance"], makeDefault: true, label: "Fiche Substance CDT",
+  });
   Items.registerSheet("chants-de-tindalos", CdTFeuilleArtefact, {
     types: ["artefact"], makeDefault: true, label: "Fiche Artefact CDT",
   });
