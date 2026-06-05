@@ -1,3 +1,5 @@
-2026/06/05-12:18:42.303 7efc Recovering log #16
-2026/06/05-12:18:42.307 7efc Delete type=0 #16
-2026/06/05-12:18:42.307 7efc Delete type=3 #15
+2026/06/05-15:53:11.218 acf0 Recovering log #18
+2026/06/05-15:53:11.218 acf0 Level-0 table #20: started
+2026/06/05-15:53:11.229 acf0 Level-0 table #20: 1972 bytes OK
+2026/06/05-15:53:11.232 acf0 Delete type=0 #18
+2026/06/05-15:53:11.232 acf0 Delete type=3 #17
