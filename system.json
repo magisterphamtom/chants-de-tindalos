@@ -1,16 +1,31 @@
 {
   "id": "chants-de-tindalos",
   "title": "Les Chants de Tindalos",
-  "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT",
+  "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT v13. Un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par Walpurgis Éditions.",
   "version": "0.3.0",
-  "compatibility": { "minimum": "13", "verified": "13.351" },
-  "authors": [{ "name": "Walpurgis Éditions", "url": "https://chantsdetindalos.fr" }],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13.351",
+    "maximum": "13"
+  },
+  "authors": [
+    {
+      "name": "Walpurgis Éditions",
+      "url": "https://chantsdetindalos.fr"
+    },
+    {
+      "name": "magisterphamtom",
+      "url": "https://github.com/magisterphamtom"
+    }
+  ],
   "esmodules": [
     "module/chants-de-tindalos.js",
     "module/creation-personnage.js",
     "module/items.js"
   ],
-  "styles": ["css/chants-de-tindalos.css"],
+  "styles": [
+    "css/chants-de-tindalos.css"
+  ],
   "packs": [
     { "name": "armes",      "label": "⚔️ Armes",       "path": "packs/armes",      "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
     { "name": "vehicules",  "label": "🚗 Véhicules",   "path": "packs/vehicules",  "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
@@ -19,8 +34,25 @@
     { "name": "artefacts",  "label": "🌙 Artefacts",   "path": "packs/artefacts",  "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
     { "name": "revelations","label": "📖 Révélations", "path": "packs/revelations","type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } }
   ],
-  "languages": [{ "lang": "fr", "name": "Français", "path": "lang/fr.json" }],
+  "languages": [
+    {
+      "lang": "fr",
+      "name": "Français",
+      "path": "lang/fr.json"
+    }
+  ],
   "socket": false,
   "url": "https://github.com/magisterphamtom/chants-de-tindalos",
-  "license": "All rights reserved - Walpurgis Éditions"
+  "manifest": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/system.json",
+  "download": "https://github.com/magisterphamtom/chants-de-tindalos/archive/refs/heads/main.zip",
+  "readme": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/README.md",
+  "bugs": "https://github.com/magisterphamtom/chants-de-tindalos/issues",
+  "changelog": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/CHANGELOG.md",
+  "license": "All rights reserved - Walpurgis Éditions",
+  "media": [
+    {
+      "type": "cover",
+      "url": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/assets/cover.webp"
+    }
+  ]
 }
