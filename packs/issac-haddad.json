@@ -1,0 +1,151 @@
+{
+  "name": "Isaac Haddad",
+  "type": "personnage",
+  "img": "systems/chants-de-tindalos/assets/portraits/isaac_portrait.png",
+  "system": {
+    "identite": {
+      "profession": "Photographe d'Art",
+      "origine": "Laborieuse",
+      "experience": "Fine bouche",
+      "joueur": "Nicolas Patout",
+      "chant": "Springs Island"
+    },
+    "caracteristiques": {
+      "savoir": {
+        "label": "Savoir",
+        "valeur": 2,
+        "cout": 3,
+        "defense": 1
+      },
+      "perception": {
+        "label": "Perception",
+        "valeur": 4,
+        "cout": 2,
+        "defense": 2
+      },
+      "charisme": {
+        "label": "Charisme",
+        "valeur": 3,
+        "cout": 3,
+        "defense": 1
+      },
+      "agilite": {
+        "label": "Agilité",
+        "valeur": 2,
+        "cout": 2,
+        "defense": 1
+      },
+      "vigueur": {
+        "label": "Vigueur",
+        "valeur": 1,
+        "cout": 4,
+        "defense": 1
+      }
+    },
+    "variables": {
+      "maitrise": -1,
+      "intuition": 1,
+      "vitesse": 6,
+      "sommeil": 0
+    },
+    "jauges": {
+      "reserve": { "valeur": 10, "max": 20 },
+      "tension": { "valeur": 0, "max": 20 },
+      "angoisse": { "valeur": 7 },
+      "espoir": { "valeur": 0, "max": 8 },
+      "folie": { "valeur": 0, "max": 8 },
+      "blessures": ""
+    },
+    "seuilDifficulte": 3,
+    "competences": {
+      "socle": {
+        "humanites": {
+          "label": "Humanités",
+          "valeur": 1,
+          "caracLiee": "savoir",
+          "xp": 0
+        },
+        "appreciation": {
+          "label": "Appréciation",
+          "valeur": 1,
+          "caracLiee": "perception",
+          "xp": 0
+        },
+        "psychologie": {
+          "label": "Psychologie",
+          "valeur": 0,
+          "caracLiee": "perception",
+          "xp": 0
+        },
+        "etiquette": {
+          "label": "Étiquette",
+          "valeur": 1,
+          "caracLiee": "charisme",
+          "xp": 0
+        },
+        "bricolage": {
+          "label": "Bricolage",
+          "valeur": 2,
+          "caracLiee": "agilite",
+          "xp": 0
+        },
+        "athletisme": {
+          "label": "Athlétisme",
+          "valeur": 0,
+          "caracLiee": "vigueur",
+          "xp": 0
+        }
+      },
+      "specialite": {
+        "histoiredelart": {
+          "label": "Histoire de l'art",
+          "valeur": 1,
+          "caracLiee": "savoir",
+          "compSocle": "humanites",
+          "xp": 0
+        },
+        "physimiechimie": {
+          "label": "Physique-Chimie / Optique",
+          "valeur": 1,
+          "caracLiee": "savoir",
+          "compSocle": "humanites",
+          "xp": 0
+        },
+        "artvisuel": {
+          "label": "Art visuel (Photographie)",
+          "valeur": 2,
+          "caracLiee": "perception",
+          "compSocle": "appreciation",
+          "xp": 0
+        },
+        "sensaiguise": {
+          "label": "Sens aiguisé (Goût)",
+          "valeur": 1,
+          "caracLiee": "perception",
+          "compSocle": "appreciation",
+          "xp": 0
+        },
+        "analysepostures": {
+          "label": "Analyse des postures",
+          "valeur": 1,
+          "caracLiee": "perception",
+          "compSocle": "psychologie",
+          "xp": 0
+        }
+      }
+    },
+    "milieux": {
+      "academie": 0,
+      "commerce": 0,
+      "culture": 2,
+      "itinerant": 1,
+      "laborieux": 2,
+      "louche": 0,
+      "occulte": 0,
+      "ordre": 0,
+      "politique": 0,
+      "sante": 0
+    },
+    "notes": "Photographe d'art passionnée, Nora a grandi dans un milieu laborieux. Son oeil aiguisé et sa sensibilité artistique lui permettent de voir ce que les autres ne remarquent pas."
+  }
+}

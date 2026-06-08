@@ -1,7 +1,7 @@
 {
   "name": "Delphine Malesherbes",
   "type": "personnage",
-  "img": "icons/svg/mystery-man.svg",
+  "img": "systems/chants-de-tindalos/assets/portraits/delphine_portrait.png",
   "system": {
     "identite": {
       "profession": "Journalisme d'investigation",
