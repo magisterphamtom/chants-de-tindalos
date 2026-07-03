@@ -1,10 +1,10 @@
 # Les Chants de Tindalos — Système Foundry VTT
 
-![Foundry v13](https://img.shields.io/badge/Foundry-v13-informational)
-![Version](https://img.shields.io/badge/version-0.3-blue)
+![Foundry v14](https://img.shields.io/badge/Foundry-v14-informational)
+![Version](https://img.shields.io/badge/version-0.4-blue)
 ![Licence](https://img.shields.io/badge/licence-Walpurgis%20Éditions-red)
 
-Système non officiel pour **Foundry VTT v13** adapté du jeu de rôle **Les Chants de Tindalos** de [Walpurgis Éditions](https://walpurgis.fr).
+Système non officiel pour **Foundry VTT v14** adapté du jeu de rôle **Les Chants de Tindalos** de [Walpurgis Éditions](https://walpurgis.fr).
 
 > Développé avec l'accord de Walpurgis Éditions dans le cadre du manuel complet.
 
@@ -148,7 +148,8 @@ chants-de-tindalos/
 
 | Foundry VTT | Statut |
 |---|---|
-| v13 | ✅ Supporté |
+| v14 | ✅ Supporté |
+| v13 | ❌ Non maintenu (voir versions 0.3.x) |
 | v12 | ❌ Non testé |
 
 ---
