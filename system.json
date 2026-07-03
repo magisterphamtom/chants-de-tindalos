@@ -1,12 +1,12 @@
 {
   "id": "chants-de-tindalos",
   "title": "Les Chants de Tindalos",
-  "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT v13. Un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par Walpurgis Éditions.",
-  "version": "0.3.0",
+  "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT v14. Un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par Walpurgis Éditions.",
+  "version": "0.4.0",
   "compatibility": {
-    "minimum": "13",
-    "verified": "13.351",
-    "maximum": "13"
+    "minimum": "14",
+    "verified": "14.360",
+    "maximum": "14"
   },
   "authors": [
     {

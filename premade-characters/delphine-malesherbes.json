@@ -1,0 +1,89 @@
+{
+  "name": "Delphine Malesherbes",
+  "type": "personnage",
+  "img": "systems/chants-de-tindalos/assets/portraits/delphine_portrait.png",
+  "system": {
+    "identite": {
+      "profession": "Journalisme d'investigation",
+      "origine": "Laborieux",
+      "experience": "Randonnée",
+      "joueur": "",
+      "chant": ""
+    },
+    "caracteristiques": {
+      "savoir":     { "label": "Savoir",     "valeur": 3, "cout": 2, "defense": 1 },
+      "perception": { "label": "Perception", "valeur": 2, "cout": 3, "defense": 1 },
+      "charisme":   { "label": "Charisme",   "valeur": 3, "cout": 2, "defense": 1 },
+      "agilite":    { "label": "Agilité",    "valeur": 2, "cout": 3, "defense": 1 },
+      "vigueur":    { "label": "Vigueur",    "valeur": 2, "cout": 3, "defense": 1 }
+    },
+    "variables": {
+      "maitrise": 0,
+      "intuition": -1,
+      "vitesse": 6,
+      "sommeil": 3,
+      "dettesSommeil": 0
+    },
+    "jauges": {
+      "reserve":  { "valeur": 14, "max": 14 },
+      "tension":  { "valeur": 9,  "max": 20 },
+      "angoisse": { "valeur": 9 },
+      "espoir":   { "valeur": 2, "max": 8, "xp": 0 },
+      "folie":    { "valeur": 1, "max": 8, "xp": 0 },
+      "blessures": "",
+      "onirisme": { "valeur": 0, "max": 20 }
+    },
+    "seuilDifficulte": 3,
+    "malusSD": 0,
+    "rangRichesse": 2,
+    "milieux": {
+      "academie": 0, "commerce": 0, "culture": 2,
+      "itinerant": 0, "laborieux": 1, "louche": 1,
+      "occulte": 0, "ordre": 1, "politique": 0, "sante": 0
+    },
+    "competences": {
+      "socle": {
+        "humanites":    { "label": "Humanités",   "valeur": 1, "caracLiee": "savoir",     "xp": 0 },
+        "appreciation": { "label": "Appréciation","valeur": 0, "caracLiee": "perception", "xp": 0 },
+        "psychologie":  { "label": "Psychologie", "valeur": 1, "caracLiee": "perception", "xp": 0 },
+        "etiquette":    { "label": "Étiquette",   "valeur": 0, "caracLiee": "charisme",   "xp": 0 },
+        "bricolage":    { "label": "Bricolage",   "valeur": 1, "caracLiee": "agilite",    "xp": 0 },
+        "athletisme":   { "label": "Athlétisme",  "valeur": 1, "caracLiee": "vigueur",    "xp": 0 }
+      },
+      "specialite": {
+        "bibliotheque":  { "label": "Bibliothèque",   "valeur": 1, "caracLiee": "savoir",     "compSocle": "humanites",    "xp": 0 },
+        "orientation":   { "label": "Orientation",    "valeur": 1, "caracLiee": "perception", "compSocle": "psychologie",  "xp": 0 },
+        "redaction":     { "label": "Rédaction",      "valeur": 1, "caracLiee": "charisme",   "compSocle": "etiquette",    "xp": 0 },
+        "interrogatoire":{ "label": "Interrogatoire", "valeur": 2, "caracLiee": "charisme",   "compSocle": "etiquette",    "xp": 0 },
+        "filature":      { "label": "Filature",       "valeur": 1, "caracLiee": "agilite",    "compSocle": "bricolage",    "xp": 0 },
+        "enquete":       { "label": "Enquête",        "valeur": 1, "caracLiee": "perception", "compSocle": "psychologie",  "xp": 0 }
+      }
+    },
+    "armes": {
+      "arme1": { "nom": "Hachette", "type": "corpsacorps", "letalite": 17, "blessure": "Moderee", "portee": "CaC" },
+      "arme2": { "nom": "", "type": "corpsacorps", "letalite": 18, "blessure": "Superficielle", "portee": "CaC" }
+    },
+    "declencheurs": "Le mensonge, Être seul dans les bois",
+    "rituelDecompression": "Allumer un feu",
+    "revelations": {
+      "rev1": { "nom": "Sagesse populaire", "effet": "Déclencheur (être seul dans les bois)", "description": "La Bête de Bowdoinham est bien réelle, elle hante les bois." },
+      "rev2": { "nom": "", "effet": "", "description": "" },
+      "rev3": { "nom": "", "effet": "", "description": "" },
+      "rev4": { "nom": "", "effet": "", "description": "" },
+      "rev5": { "nom": "", "effet": "", "description": "" }
+    },
+    "niveauRevelation": 1,
+    "arcanes": {
+      "arc1": { "ecole": "", "modif": 0 },
+      "arc2": { "ecole": "", "modif": 0 },
+      "arc3": { "ecole": "", "modif": 0 }
+    },
+    "desArcanes": "1d6",
+    "contacts": {
+      "milieu1": { "milieu": "Louche",  "contact1": "Daniel Everett", "contact1actif": true, "contact2": "", "contact2actif": true, "contact3": "", "contact3actif": true },
+      "milieu2": { "milieu": "Culture", "contact1": "Raphaël Verner",  "contact1actif": true, "contact2": "Hugh Blage", "contact2actif": true, "contact3": "", "contact3actif": true }
+    },
+    "possessions": "Une hachette bien aiguisée\nUn briquet à essence\nUn carnet et un stylo",
+    "notes": "Journaliste en devenir. A l'affût du scoop qui fera décoller sa carrière. Originaire du Swamp."
+  }
+}

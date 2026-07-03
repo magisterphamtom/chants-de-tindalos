@@ -1,0 +1,98 @@
+{
+  "name": "Geneviève de Bouvines",
+  "type": "personnage",
+  "img": "systems/chants-de-tindalos/assets/portraits/genevieve_portrait.png",
+  "system": {
+    "identite": {
+      "profession": "Pillage de tombes",
+      "origine": "Occulte",
+      "experience": "Chasse au Bison",
+      "joueur": "",
+      "chant": ""
+    },
+    "caracteristiques": {
+      "savoir":     { "label": "Savoir",     "valeur": 2, "cout": 3, "defense": 1 },
+      "perception": { "label": "Perception", "valeur": 3, "cout": 2, "defense": 1 },
+      "charisme":   { "label": "Charisme",   "valeur": 2, "cout": 3, "defense": 1 },
+      "agilite":    { "label": "Agilité",    "valeur": 3, "cout": 2, "defense": 1 },
+      "vigueur":    { "label": "Vigueur",    "valeur": 2, "cout": 3, "defense": 1 }
+    },
+    "variables": {
+      "maitrise": -2,
+      "intuition": -1,
+      "vitesse": 7,
+      "sommeil": 4,
+      "dettesSommeil": 0
+    },
+    "jauges": {
+      "reserve":  { "valeur": 12, "max": 12 },
+      "tension":  { "valeur": 7,  "max": 20 },
+      "angoisse": { "valeur": 7 },
+      "espoir":   { "valeur": 2, "max": 8, "xp": 0 },
+      "folie":    { "valeur": 1, "max": 8, "xp": 0 },
+      "blessures": "",
+      "onirisme": { "valeur": 0, "max": 20 }
+    },
+    "seuilDifficulte": 3,
+    "malusSD": 0,
+    "rangRichesse": 2,
+    "milieux": {
+      "academie":  1,
+      "commerce":  1,
+      "culture":   0,
+      "itinerant": 1,
+      "laborieux": 0,
+      "louche":    1,
+      "occulte":   1,
+      "ordre":     0,
+      "politique": 0,
+      "sante":     0
+    },
+    "competences": {
+      "socle": {
+        "humanites":   { "label": "Humanités",   "valeur": 1, "caracLiee": "savoir",     "xp": 0 },
+        "recherche":   { "label": "Recherche",   "valeur": 2, "caracLiee": "savoir",     "xp": 0 },
+        "enquete":     { "label": "Enquête",     "valeur": 1, "caracLiee": "perception", "xp": 0 },
+        "etiquette":   { "label": "Étiquette",   "valeur": 0, "caracLiee": "charisme",   "xp": 0 },
+        "discretion":  { "label": "Discrétion",  "valeur": 1, "caracLiee": "agilite",    "xp": 0 },
+        "survie":      { "label": "Survie",      "valeur": 1, "caracLiee": "vigueur",    "xp": 0 }
+      },
+      "specialite": {
+        "fouiller":    { "label": "Fouiller",              "valeur": 1, "caracLiee": "perception", "compSocle": "enquete",    "xp": 0 },
+        "estimation":  { "label": "Estimation",            "valeur": 2, "caracLiee": "perception", "compSocle": "enquete",    "xp": 0 },
+        "explosifs":   { "label": "Explosifs",             "valeur": 1, "caracLiee": "agilite",    "compSocle": "discretion", "xp": 0 },
+        "depeçage":    { "label": "Artisanat (Dépeçage)",  "valeur": 1, "caracLiee": "agilite",    "compSocle": "discretion", "xp": 0 }
+      }
+    },
+    "declencheur": "Saigner",
+    "rituelDecompression": "Tirer avec son arme",
+    "armes": {
+      "arme1": { "nom": "Colt de poche", "type": "distance", "letalite": 15, "blessure": "Moderee" },
+      "arme2": { "nom": "", "type": "corpsacorps", "letalite": 10, "blessure": "Superficielle" }
+    },
+    "revelations": {
+      "rev1": {
+        "nom": "Une conviction profonde",
+        "effet": "Arcane de songe +1, Angoisse +1",
+        "description": "Certaines créatures marines vivent dans la société des hommes."
+      },
+      "rev2": { "nom": "", "effet": "", "description": "" },
+      "rev3": { "nom": "", "effet": "", "description": "" },
+      "rev4": { "nom": "", "effet": "", "description": "" },
+      "rev5": { "nom": "", "effet": "", "description": "" }
+    },
+    "niveauRevelation": 1,
+    "arcanes": {
+      "arc1": { "ecole": "", "modif": 0 },
+      "arc2": { "ecole": "", "modif": 0 },
+      "arc3": { "ecole": "", "modif": 0 }
+    },
+    "desArcanes": "1d6",
+    "contacts": {
+      "milieu1": { "milieu": "Commerce", "contact1": "William Tupper",    "contact1actif": true, "contact2": "", "contact2actif": false, "contact3": "", "contact3actif": false },
+      "milieu2": { "milieu": "Occulte",  "contact1": "La voyante Jézabel","contact1actif": true, "contact2": "", "contact2actif": false, "contact3": "", "contact3actif": false }
+    },
+    "possessions": "Un poignard effilé\nStatuette représentant une créature mi-homme mi-poisson, trouvée dans une épave",
+    "notes": "Pilleuse de tombes. Origine occulte. Pratique la chasse. A une révélation inquiétante sur les créatures marines."
+  }
+}

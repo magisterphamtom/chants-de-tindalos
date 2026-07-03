@@ -317,8 +317,7 @@ async function gagnerXPEspoir(acteur, montant = 1) {
 // ================================================
 
 async function ouvrirDialogueJet(nomAction, nbDesBase, sd, cout, espoir, desMilieuBonus = 0) {
-  return new Promise((resolve) => {
-    const contenu = `
+  const contenu = `
       <div class="cdt-dialogue-jet">
         <div class="dialogue-info">
           <div class="dialogue-action">🎲 ${nomAction}</div>
@@ -352,48 +351,50 @@ async function ouvrirDialogueJet(nomAction, nbDesBase, sd, cout, espoir, desMili
       </div>
     `;
 
-    const dialogue = new Dialog({
-      title: `Jet — ${nomAction}`,
-      content: contenu,
-      buttons: {
-        lancer: {
-          label: "🎲 Lancer",
-          callback: (html) => {
-            const desBonus = Number(html.find("#des-bonus").val()) || 0;
-            const desMJ = Number(html.find("#des-mj").val()) || 0;
-            const espoirCheck = html.find("#espoir-check");
-            const depenseEspoir = espoirCheck.length > 0
-              ? espoirCheck.prop("checked") : false;
-            resolve({ lancer: true, desBonus, desMJ, depenseEspoir });
-          },
-        },
-        annuler: {
-          label: "Annuler",
-          callback: () => resolve({ lancer: false }),
+  const resultat = await foundry.applications.api.DialogV2.wait({
+    window: { title: `Jet — ${nomAction}` },
+    content: contenu,
+    buttons: [
+      {
+        action: "lancer",
+        label: "🎲 Lancer",
+        default: true,
+        callback: (event, button) => {
+          const html = button.form;
+          const desBonus = Number(html.querySelector("#des-bonus").value) || 0;
+          const desMJ = Number(html.querySelector("#des-mj").value) || 0;
+          const espoirCheck = html.querySelector("#espoir-check");
+          const depenseEspoir = espoirCheck ? espoirCheck.checked : false;
+          return { lancer: true, desBonus, desMJ, depenseEspoir };
         },
       },
-      default: "lancer",
-      render: (html) => {
-        const majTotal = () => {
-          const bonus = Number(html.find("#des-bonus").val()) || 0;
-          const mj = Number(html.find("#des-mj").val()) || 0;
-          html.find("#total-des").text(nbDesBase + desMilieuBonus + bonus + mj);
-          const espCheck = html.find("#espoir-check").prop("checked");
-          html.find("#espoir-label").toggle(espCheck);
-        };
-        html.find("#des-bonus").on("input", majTotal);
-        html.find("#des-mj").on("input", majTotal);
-        html.find("#espoir-check").on("change", majTotal);
+      {
+        action: "annuler",
+        label: "Annuler",
+        callback: () => ({ lancer: false }),
       },
-    });
-
-    dialogue.render(true);
+    ],
+    render: (event, dialog) => {
+      const html = dialog.element;
+      const majTotal = () => {
+        const bonus = Number(html.querySelector("#des-bonus").value) || 0;
+        const mj = Number(html.querySelector("#des-mj").value) || 0;
+        html.querySelector("#total-des").textContent = nbDesBase + desMilieuBonus + bonus + mj;
+        const espCheck = html.querySelector("#espoir-check").checked;
+        html.querySelector("#espoir-label").style.display = espCheck ? "" : "none";
+      };
+      html.querySelector("#des-bonus").addEventListener("input", majTotal);
+      html.querySelector("#des-mj").addEventListener("input", majTotal);
+      html.querySelector("#espoir-check").addEventListener("change", majTotal);
+    },
+    rejectClose: false,
   });
+
+  return resultat ?? { lancer: false };
 }
 
 async function ouvrirDialogueJetDefensif(nbDesBase, sd, defCarac, espoir, reserve, cout) {
-  return new Promise((resolve) => {
-    const contenu = `
+  const contenu = `
       <div class="cdt-dialogue-jet">
         <div class="dialogue-info">
           <div class="dialogue-action">🛡️ Jet Défensif</div>
@@ -425,50 +426,52 @@ async function ouvrirDialogueJetDefensif(nbDesBase, sd, defCarac, espoir, reserv
       </div>
     `;
 
-    const dialogue = new Dialog({
-      title: "Jet Défensif",
-      content: contenu,
-      buttons: {
-        lancer: {
-          label: "🛡️ Lancer",
-          callback: (html) => {
-            const desReserve = Number(html.find("#des-reserve").val()) || 0;
-            const desMJ = Number(html.find("#des-mj").val()) || 0;
-            const espoirCheck = html.find("#espoir-check");
-            const depenseEspoir = espoirCheck.length > 0
-              ? espoirCheck.prop("checked") : false;
-            resolve({ lancer: true, desReserve, desMJ, depenseEspoir });
-          },
-        },
-        annuler: {
-          label: "Annuler",
-          callback: () => resolve({ lancer: false }),
+  const resultat = await foundry.applications.api.DialogV2.wait({
+    window: { title: "Jet Défensif" },
+    content: contenu,
+    buttons: [
+      {
+        action: "lancer",
+        label: "🛡️ Lancer",
+        default: true,
+        callback: (event, button) => {
+          const html = button.form;
+          const desReserve = Number(html.querySelector("#des-reserve").value) || 0;
+          const desMJ = Number(html.querySelector("#des-mj").value) || 0;
+          const espoirCheck = html.querySelector("#espoir-check");
+          const depenseEspoir = espoirCheck ? espoirCheck.checked : false;
+          return { lancer: true, desReserve, desMJ, depenseEspoir };
         },
       },
-      default: "lancer",
-      render: (html) => {
-        const majTotal = () => {
-          const res = Number(html.find("#des-reserve").val()) || 0;
-          const mj = Number(html.find("#des-mj").val()) || 0;
-          const esp = html.find("#espoir-check").prop("checked") ? 1 : 0;
-          html.find("#total-des").text(Math.max(1, nbDesBase - res - esp + mj));
-        };
-        html.find("#des-reserve").on("input", majTotal);
-        html.find("#des-mj").on("input", majTotal);
-        html.find("#espoir-check").on("change", majTotal);
+      {
+        action: "annuler",
+        label: "Annuler",
+        callback: () => ({ lancer: false }),
       },
-    });
-
-    dialogue.render(true);
+    ],
+    render: (event, dialog) => {
+      const html = dialog.element;
+      const majTotal = () => {
+        const res = Number(html.querySelector("#des-reserve").value) || 0;
+        const mj = Number(html.querySelector("#des-mj").value) || 0;
+        const esp = html.querySelector("#espoir-check").checked ? 1 : 0;
+        html.querySelector("#total-des").textContent = Math.max(1, nbDesBase - res - esp + mj);
+      };
+      html.querySelector("#des-reserve").addEventListener("input", majTotal);
+      html.querySelector("#des-mj").addEventListener("input", majTotal);
+      html.querySelector("#espoir-check").addEventListener("change", majTotal);
+    },
+    rejectClose: false,
   });
+
+  return resultat ?? { lancer: false };
 }
 
 async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) {
-  return new Promise((resolve) => {
-    const typeLabel = arme.type === "corpsacorps"
-      ? "Corps-à-corps (VIG)" : "Distance (AGI)";
+  const typeLabel = arme.type === "corpsacorps"
+    ? "Corps-à-corps (VIG)" : "Distance (AGI)";
 
-    const contenu = `
+  const contenu = `
       <div class="cdt-dialogue-jet">
         <div class="dialogue-info">
           <div class="dialogue-action">⚔️ ${arme.nom || "Attaque"}</div>
@@ -503,43 +506,46 @@ async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) 
       </div>
     `;
 
-    const dialogue = new Dialog({
-      title: `Attaque — ${arme.nom || "Arme"}`,
-      content: contenu,
-      buttons: {
-        lancer: {
-          label: "⚔️ Attaquer",
-          callback: (html) => {
-            const desBonus = Number(html.find("#des-bonus").val()) || 0;
-            const desMJ = Number(html.find("#des-mj").val()) || 0;
-            const espoirCheck = html.find("#espoir-check");
-            const depenseEspoir = espoirCheck.length > 0
-              ? espoirCheck.prop("checked") : false;
-            resolve({ lancer: true, desBonus, desMJ, depenseEspoir });
-          },
-        },
-        annuler: {
-          label: "Annuler",
-          callback: () => resolve({ lancer: false }),
+  const resultat = await foundry.applications.api.DialogV2.wait({
+    window: { title: `Attaque — ${arme.nom || "Arme"}` },
+    content: contenu,
+    buttons: [
+      {
+        action: "lancer",
+        label: "⚔️ Attaquer",
+        default: true,
+        callback: (event, button) => {
+          const html = button.form;
+          const desBonus = Number(html.querySelector("#des-bonus").value) || 0;
+          const desMJ = Number(html.querySelector("#des-mj").value) || 0;
+          const espoirCheck = html.querySelector("#espoir-check");
+          const depenseEspoir = espoirCheck ? espoirCheck.checked : false;
+          return { lancer: true, desBonus, desMJ, depenseEspoir };
         },
       },
-      default: "lancer",
-      render: (html) => {
-        const majTotal = () => {
-          const bonus = Number(html.find("#des-bonus").val()) || 0;
-          const mj = Number(html.find("#des-mj").val()) || 0;
-          html.find("#total-des").text(caracVal + bonus + mj);
-          const espCheck = html.find("#espoir-check").prop("checked");
-          html.find("#espoir-label").toggle(espCheck);
-        };
-        html.find("#des-bonus").on("input", majTotal);
-        html.find("#des-mj").on("input", majTotal);
-        html.find("#espoir-check").on("change", majTotal);
+      {
+        action: "annuler",
+        label: "Annuler",
+        callback: () => ({ lancer: false }),
       },
-    });
-
-    dialogue.render(true);
+    ],
+    render: (event, dialog) => {
+      const html = dialog.element;
+      const majTotal = () => {
+        const bonus = Number(html.querySelector("#des-bonus").value) || 0;
+        const mj = Number(html.querySelector("#des-mj").value) || 0;
+        html.querySelector("#total-des").textContent = caracVal + bonus + mj;
+        const espCheck = html.querySelector("#espoir-check").checked;
+        html.querySelector("#espoir-label").style.display = espCheck ? "" : "none";
+      };
+      html.querySelector("#des-bonus").addEventListener("input", majTotal);
+      html.querySelector("#des-mj").addEventListener("input", majTotal);
+      html.querySelector("#espoir-check").addEventListener("change", majTotal);
+    },
+    rejectClose: false,
   });
+
+  return resultat ?? { lancer: false };
 }
 
 // --- INITIALISATION DU SYSTÈME ---
@@ -587,13 +593,28 @@ Hooks.once("init", function () {
     label: "Feuille PNJ CDT",
   });
 
+  // --- SETTINGS (doivent être enregistrés pendant "init") ---
+  game.settings.register("chants-de-tindalos", "wikiDejaVu", {
+    name: "Wiki déjà consulté",
+    scope: "client",
+    config: false,
+    type: Boolean,
+    default: false,
+  });
+
   chargerTemplates();
   console.log("Chants de Tindalos | Système initialisé !");
 });
 
 Hooks.once("ready", async function () {
-  await initialiserTablesPLP();
-  await initialiserWiki();
+  if (game.user.isGM) {
+    try {
+      await initialiserTablesPLP();
+      await initialiserWiki();
+    } catch (err) {
+      console.error("CDT | Erreur lors de l'initialisation des tables PLP ou du Wiki :", err);
+    }
+  }
   await afficherWikiSiPremiereLancement();
 });
 
@@ -602,15 +623,6 @@ Hooks.once("ready", async function () {
 // ================================================
 async function afficherWikiSiPremiereLancement() {
   const CLE = "wikiDejaVu";
-  if (!game.settings.settings.has(`chants-de-tindalos.${CLE}`)) {
-    game.settings.register("chants-de-tindalos", CLE, {
-      name: "Wiki déjà consulté",
-      scope: "client",
-      config: false,
-      type: Boolean,
-      default: false,
-    });
-  }
   const dejaVu = game.settings.get("chants-de-tindalos", CLE);
   if (!dejaVu) {
     setTimeout(async () => {
@@ -618,6 +630,8 @@ async function afficherWikiSiPremiereLancement() {
       if (journal) {
         journal.sheet.render(true);
         await game.settings.set("chants-de-tindalos", CLE, true);
+      } else {
+        console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
       }
     }, 1500);
   }
@@ -952,9 +966,10 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         const itemId = ev.currentTarget.dataset.itemId;
         const arme = this.actor.items.get(itemId);
         if (!arme) return;
-        const confirme = await Dialog.confirm({
-          title: "Supprimer l'arme",
+        const confirme = await foundry.applications.api.DialogV2.confirm({
+          window: { title: "Supprimer l'arme" },
           content: `<p>Supprimer <b>${arme.name}</b> de l'inventaire ?</p>`,
+          rejectClose: false,
         });
         if (confirme) await arme.delete();
       });
@@ -976,9 +991,10 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         ev.stopPropagation();
         const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
         if (!item) return;
-        const confirme = await Dialog.confirm({
-          title: "Supprimer",
+        const confirme = await foundry.applications.api.DialogV2.confirm({
+          window: { title: "Supprimer" },
           content: `<p>Supprimer <b>${item.name}</b> de l'inventaire ?</p>`,
+          rejectClose: false,
         });
         if (confirme) await item.delete();
       });
