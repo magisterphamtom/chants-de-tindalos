@@ -34,7 +34,7 @@ class CdTFeuilleArme extends foundry.applications.api.HandlebarsApplicationMixin
 
     // Clic sur le portrait pour changer l'image
     html.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
-      const fp = new FilePicker({
+      const fp = new foundry.applications.apps.FilePicker.implementation({
         type: "image",
         current: this.item.img,
         callback: (path) => this.item.update({ img: path }),
@@ -502,7 +502,7 @@ class CdTFeuilleVehicule extends foundry.applications.api.HandlebarsApplicationM
     super._onRender(context, options);
     const html = this.element;
     html.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
-      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+      new foundry.applications.apps.FilePicker.implementation({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
     });
   }
 }
@@ -532,7 +532,7 @@ class CdTFeuilleSubstance extends foundry.applications.api.HandlebarsApplication
     super._onRender(context, options);
     const html = this.element;
     html.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
-      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+      new foundry.applications.apps.FilePicker.implementation({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
     });
     html.querySelector(".btn-consommer")?.addEventListener("click", () => {
       if (this.item.actor) this.item.actor.sheet._consommerSubstance(this.item);
@@ -557,7 +557,7 @@ class CdTFeuilleArtefact extends foundry.applications.api.HandlebarsApplicationM
   _onRender(context, options) {
     super._onRender(context, options);
     this.element.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
-      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+      new foundry.applications.apps.FilePicker.implementation({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
     });
   }
 }
@@ -579,7 +579,7 @@ class CdTFeuilleRevelation extends foundry.applications.api.HandlebarsApplicatio
   _onRender(context, options) {
     super._onRender(context, options);
     this.element.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
-      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+      new foundry.applications.apps.FilePicker.implementation({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
     });
   }
 }
@@ -698,7 +698,7 @@ class CdTFeuilleEquipement extends foundry.applications.api.HandlebarsApplicatio
   _onRender(context, options) {
     super._onRender(context, options);
     this.element.querySelector(".arme-portrait-wrapper")?.addEventListener("click", () => {
-      new FilePicker({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
+      new foundry.applications.apps.FilePicker.implementation({ type: "image", current: this.item.img, callback: (path) => this.item.update({ img: path }) }).browse();
     });
   }
 }
@@ -919,22 +919,22 @@ Hooks.once("init", function () {
   CONFIG.Item.dataModels.substance = SubstanceDataModel;
 
   const Items = foundry.documents.collections.Items;
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleArme, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleArme, {
     types: ["arme"], makeDefault: true, label: "Fiche Arme CDT",
   });
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleVehicule, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleVehicule, {
     types: ["vehicule"], makeDefault: true, label: "Fiche Véhicule CDT",
   });
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleSubstance, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleSubstance, {
     types: ["substance"], makeDefault: true, label: "Fiche Substance CDT",
   });
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleArtefact, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleArtefact, {
     types: ["artefact"], makeDefault: true, label: "Fiche Artefact CDT",
   });
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleRevelation, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleRevelation, {
     types: ["revelation"], makeDefault: true, label: "Fiche Révélation CDT",
   });
-  Items.registerSheet("chants-de-tindalos", CdTFeuilleEquipement, {
+  foundry.documents.collections.Items.registerSheet("chants-de-tindalos", CdTFeuilleEquipement, {
     types: ["equipement"], makeDefault: true, label: "Fiche Équipement CDT",
   });
 });

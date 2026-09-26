@@ -2,10 +2,10 @@
   "id": "chants-de-tindalos",
   "title": "Les Chants de Tindalos",
   "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT v14. Un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par Walpurgis Éditions.",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "compatibility": {
     "minimum": "14",
-    "verified": "14.360",
+    "verified": "14.368",
     "maximum": "14"
   },
   "authors": [
@@ -27,12 +27,72 @@
     "css/chants-de-tindalos.css"
   ],
   "packs": [
-    { "name": "armes",      "label": "⚔️ Armes",       "path": "packs/armes",      "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
-    { "name": "vehicules",  "label": "🚗 Véhicules",   "path": "packs/vehicules",  "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
-    { "name": "substances", "label": "💊 Substances",  "path": "packs/substances", "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
-    { "name": "equipements","label": "🎒 Équipements", "path": "packs/equipements","type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
-    { "name": "artefacts",  "label": "🌙 Artefacts",   "path": "packs/artefacts",  "type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } },
-    { "name": "revelations","label": "📖 Révélations", "path": "packs/revelations","type": "Item", "system": "chants-de-tindalos", "ownership": { "PLAYER": "OBSERVER", "ASSISTANT": "OWNER" } }
+    {
+      "name": "armes",
+      "label": "⚔️ Armes",
+      "path": "packs/armes",
+      "type": "Item",
+      "system": "chants-de-tindalos",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "vehicules",
+      "label": "🚗 Véhicules",
+      "path": "packs/vehicules",
+      "type": "Item",
+      "system": "chants-de-tindalos",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "substances",
+      "label": "💊 Substances",
+      "path": "packs/substances",
+      "type": "Item",
+      "system": "chants-de-tindalos",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "equipements",
+      "label": "🎒 Équipements",
+      "path": "packs/equipements",
+      "type": "Item",
+      "system": "chants-de-tindalos",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "artefacts",
+      "label": "🌙 Artefacts",
+      "path": "packs/artefacts",
+      "type": "Item",
+      "system": "chants-de-tindalos",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "revelations",
+      "label": "📖 Révélations",
+      "path": "packs/revelations",
+      "type": "Item",
+      "system": "chants-de-tindalos",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    }
   ],
   "languages": [
     {

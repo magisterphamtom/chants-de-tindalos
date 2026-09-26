@@ -767,7 +767,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
       img.addEventListener("click", (ev) => {
         ev.preventDefault();
         const attr = ev.currentTarget.dataset.edit;
-        const fp = new FilePicker({
+        const fp = new foundry.applications.apps.FilePicker.implementation({
           type: "image",
           current: foundry.utils.getProperty(this.actor, attr),
           callback: (path) => { this.actor.update({ [attr]: path }); },
@@ -1952,7 +1952,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
       img.addEventListener("click", (ev) => {
         ev.preventDefault();
         const attr = ev.currentTarget.dataset.edit;
-        const fp = new FilePicker({
+        const fp = new foundry.applications.apps.FilePicker.implementation({
           type: "image",
           current: foundry.utils.getProperty(this.actor, attr),
           callback: (path) => { this.actor.update({ [attr]: path }); },
