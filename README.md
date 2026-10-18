@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/banner.png" alt="chants-de-tindalos" width="100%"></p>
+
 # Les Chants de Tindalos — Système Foundry VTT
 
 ![Foundry v14](https://img.shields.io/badge/Foundry-v14-informational)
