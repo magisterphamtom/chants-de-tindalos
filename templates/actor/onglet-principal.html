@@ -208,6 +208,33 @@
            id="tension-input" value="{{system.jauges.tension.valeur}}" />
   </div>
 
+  <!-- CARTES PLP (remplies automatiquement après un jet de Maîtrise raté) -->
+  <div class="section-title">
+    <span>💀 Cartes PLP</span>
+    {{#if plpDerniere}}<button type="button" class="btn-plp-effacer" title="Effacer les cartes enregistrées">🗑️</button>{{/if}}
+  </div>
+  <div class="plp-encadre">
+    {{#if plpDerniere}}
+      <div class="plp-derniere">
+        <div class="plp-entete">Niveau {{plpDerniere.niveau}} · Tension perdue : <b>-{{plpDerniere.perte}}</b> · <span class="plp-date">{{plpDerniere.date}}</span></div>
+        <div class="plp-texte">{{{plpDerniere.texte}}}</div>
+      </div>
+      {{#if plpAnciennes.length}}
+      <details class="plp-anciennes">
+        <summary>Cartes précédentes ({{plpAnciennes.length}})</summary>
+        {{#each plpAnciennes}}
+        <div class="plp-ancienne">
+          <div class="plp-entete">Niveau {{this.niveau}} · -{{this.perte}} · <span class="plp-date">{{this.date}}</span></div>
+          <div class="plp-texte">{{{this.texte}}}</div>
+        </div>
+        {{/each}}
+      </details>
+      {{/if}}
+    {{else}}
+      <div class="plp-vide">Aucune carte PLP pour l'instant. Elle apparaîtra ici automatiquement après un jet de Maîtrise raté.</div>
+    {{/if}}
+  </div>
+
   <!-- ACTIONS -->
   <div class="section-title">Actions</div>
   <div class="actions-barre">

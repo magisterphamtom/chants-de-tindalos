@@ -4,6 +4,7 @@
 // ================================================
 
 import { PersonnageDataModel, PNJDataModel, ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel, ArtefactDataModel, RevelationDataModel } from "./datamodels.js";
+import { regrouperCompetences, calculerDesCompetence, libelleCompetence } from "./competences.js";
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
@@ -146,6 +147,13 @@ async function creerTablePLP(niveau) {
   return table;
 }
 
+// Destinataires d'un message privé : le MJ + les propriétaires de la fiche (jamais les autres joueurs)
+function destinatairesPrives(acteur) {
+  return game.users
+    .filter((u) => u.isGM || (acteur && acteur.testUserPermission(u, "OWNER")))
+    .map((u) => u.id);
+}
+
 async function piocherCartePLP(niveau, acteur) {
   const nomTable = `PLP - Niveau ${niveau}`;
   const table = game.tables.find((t) => t.name === nomTable);
@@ -157,8 +165,13 @@ async function piocherCartePLP(niveau, acteur) {
 
   const perteTension = await calculerPerteTension(niveau);
 
+  // Carte visible uniquement par le MJ et les propriétaires de la fiche
+  // (sans fiche connue : MJ uniquement — jamais un message public)
+  const destinataires = destinatairesPrives(acteur);
+
   await ChatMessage.create({
     speaker: acteur ? ChatMessage.getSpeaker({ actor: acteur }) : {},
+    whisper: destinataires,
     content: `
       <div style="background:#1a0a0a;border:2px solid #8b0000;
                   padding:10px;border-radius:4px;color:#f4e8d0;">
@@ -175,6 +188,23 @@ async function piocherCartePLP(niveau, acteur) {
       </div>
     `,
   });
+
+  // Mémorise la carte dans la fiche (encadré « Cartes PLP »)
+  if (acteur?.isOwner && acteur.system?.plp) {
+    try {
+      const ancien = acteur.system.plp.historique ?? [];
+      const entree = {
+        niveau,
+        texte: carte.text ?? "",
+        perte: perteTension,
+        tension: Number(acteur.system.jauges?.tension?.valeur) || 0,
+        date: new Date().toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }),
+      };
+      await acteur.update({ "system.plp.historique": [entree, ...ancien.map((e) => ({ ...e }))].slice(0, 10) });
+    } catch (err) {
+      console.warn("CDT | Impossible d'enregistrer la carte PLP dans la fiche :", err);
+    }
+  }
 
   return { carte, perteTension };
 }
@@ -264,6 +294,7 @@ async function gagnerXPFolie(acteur, montant = 1) {
 
   await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor: acteur }),
+    whisper: destinatairesPrives(acteur),
     content: `
       <div style="background:#f0d0f0;border:1px solid #6a1a7c;
                   padding:8px;border-radius:4px;">
@@ -301,6 +332,7 @@ async function gagnerXPEspoir(acteur, montant = 1) {
 
   await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor: acteur }),
+    whisper: destinatairesPrives(acteur),
     content: `
       <div style="background:#f0f0d0;border:1px solid #c8a020;
                   padding:8px;border-radius:4px;">
@@ -352,6 +384,7 @@ async function ouvrirDialogueJet(nomAction, nbDesBase, sd, cout, espoir, desMili
     `;
 
   const resultat = await foundry.applications.api.DialogV2.wait({
+    classes: ["cdt-dialog"],
     window: { title: `Jet — ${nomAction}` },
     content: contenu,
     buttons: [
@@ -427,6 +460,7 @@ async function ouvrirDialogueJetDefensif(nbDesBase, sd, defCarac, espoir, reserv
     `;
 
   const resultat = await foundry.applications.api.DialogV2.wait({
+    classes: ["cdt-dialog"],
     window: { title: "Jet Défensif" },
     content: contenu,
     buttons: [
@@ -507,6 +541,7 @@ async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) 
     `;
 
   const resultat = await foundry.applications.api.DialogV2.wait({
+    classes: ["cdt-dialog"],
     window: { title: `Attaque — ${arme.nom || "Arme"}` },
     content: contenu,
     buttons: [
@@ -594,12 +629,13 @@ Hooks.once("init", function () {
   });
 
   // --- SETTINGS (doivent être enregistrés pendant "init") ---
-  game.settings.register("chants-de-tindalos", "wikiDejaVu", {
-    name: "Wiki déjà consulté",
+  game.settings.register("chants-de-tindalos", "wikiOuvertureAuto", {
+    name: "Ouvrir le wiki au lancement",
+    hint: "Ouvre automatiquement le wiki du système à chaque connexion au monde.",
     scope: "client",
-    config: false,
+    config: true,
     type: Boolean,
-    default: false,
+    default: true,
   });
 
   chargerTemplates();
@@ -615,26 +651,39 @@ Hooks.once("ready", async function () {
       console.error("CDT | Erreur lors de l'initialisation des tables PLP ou du Wiki :", err);
     }
   }
-  await afficherWikiSiPremiereLancement();
+  await afficherWikiAuLancement();
 });
 
 // ================================================
-// WIKI — OUVERTURE AUTOMATIQUE AU PREMIER LANCEMENT
+// WIKI — OUVERTURE ET HABILLAGE
 // ================================================
-async function afficherWikiSiPremiereLancement() {
-  const CLE = "wikiDejaVu";
-  const dejaVu = game.settings.get("chants-de-tindalos", CLE);
-  if (!dejaVu) {
-    setTimeout(async () => {
-      const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
-      if (journal) {
-        journal.sheet.render(true);
-        await game.settings.set("chants-de-tindalos", CLE, true);
-      } else {
-        console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
-      }
-    }, 1500);
-  }
+const CDT_NOM_WIKI = "📖 Wiki — Les Chants de Tindalos";
+
+function ouvrirWiki() {
+  const journal = game.journal.find(j => j.name === CDT_NOM_WIKI);
+  if (!journal) return false;
+  journal.sheet.render({ force: true, position: { width: 940, height: 780 } });
+  return true;
+}
+
+// Habille la fenêtre du wiki (classe CSS pour wiki.css)
+for (const hook of ["renderJournalEntrySheet", "renderJournalSheet"]) {
+  Hooks.on(hook, (app, html) => {
+    if (app.document?.name !== CDT_NOM_WIKI) return;
+    const el = html instanceof HTMLElement ? html : (html?.[0] ?? app.element);
+    el?.classList?.add("cdt-wiki-sheet");
+  });
+}
+
+// ================================================
+// WIKI — OUVERTURE AUTOMATIQUE À CHAQUE LANCEMENT
+// (désactivable dans Paramètres → Chants de Tindalos)
+// ================================================
+async function afficherWikiAuLancement() {
+  if (!game.settings.get("chants-de-tindalos", "wikiOuvertureAuto")) return;
+  setTimeout(() => {
+    if (!ouvrirWiki()) console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
+  }, 1500);
 }
 
 // ================================================
@@ -648,9 +697,7 @@ Hooks.on("renderActorDirectory", (app, html) => {
   boutonWiki.innerHTML = "📖 Wiki du système";
   boutonWiki.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#3d1a1a;color:#d4a96a;border:1px solid #8b4513;border-radius:4px;cursor:pointer;font-size:0.9em;";
   boutonWiki.addEventListener("click", () => {
-    const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
-    if (journal) journal.sheet.render(true);
-    else ui.notifications.warn("Wiki introuvable — rechargez la page (F5).");
+    if (!ouvrirWiki()) ui.notifications.warn("Wiki introuvable — rechargez la page (F5).");
   });
 
   footer.prepend(boutonWiki);
@@ -684,7 +731,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   static DEFAULT_OPTIONS = {
     classes: ["chants-de-tindalos", "sheet", "actor"],
-    position: { width: 680, height: 780 },
+    position: { width: 760, height: 800 },
     window: { resizable: true },
   };
 
@@ -728,6 +775,8 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
     context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
     context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
+    context.competences      = regrouperCompetences(this.actor);
+    { const h = this.actor.system.plp?.historique ?? []; context.plpDerniere = h[0] ?? null; context.plpAnciennes = h.slice(1); }
     return context;
   }
 
@@ -742,6 +791,8 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
     context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
     context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
+    context.competences      = regrouperCompetences(this.actor);
+    { const h = this.actor.system.plp?.historique ?? []; context.plpDerniere = h[0] ?? null; context.plpAnciennes = h.slice(1); }
     return context;
   }
 
@@ -760,6 +811,17 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
           : ev.currentTarget.value;
         if (name) this.actor.update({ [name]: value });
       });
+    });
+
+  // --- CARTES PLP : vider l'historique ---
+    html.querySelector(".btn-plp-effacer")?.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      const ok = await foundry.applications.api.DialogV2.confirm({
+        classes: ["cdt-dialog"],
+        window: { title: "Cartes PLP" },
+        content: "<p>Effacer les cartes PLP enregistrées sur cette fiche ?</p>",
+      });
+      if (ok) this.actor.update({ "system.plp.historique": [] });
     });
 
   // --- CHANGEMENT DE PORTRAIT ---
@@ -885,26 +947,72 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
     // --- JETS ---
     html.querySelectorAll(".carac-box.rollable").forEach((el) => {
       el.addEventListener("click", (ev) => {
+        if (ev.target.closest("input")) return; // saisie manuelle de la valeur
         ev.preventDefault();
         ev.stopPropagation();
         this._jetCaracteristique(ev.currentTarget.dataset.carac);
       });
     });
 
-    html.querySelectorAll(".comp-socle.rollable").forEach((el) => {
+    // --- COMPÉTENCES (items) ---
+    html.querySelectorAll(".competence-row.comp-item").forEach((el) => {
       el.addEventListener("click", (ev) => {
+        // On ignore les clics sur le champ de valeur et les boutons
+        if (ev.target.closest("input, button, .comp-actions")) return;
         ev.preventDefault();
         ev.stopPropagation();
-        this._jetCompetence(ev.currentTarget.dataset.comp, "socle");
+        this._jetCompetenceItem(ev.currentTarget.dataset.itemId);
       });
     });
 
-    html.querySelectorAll(".comp-specialite.rollable").forEach((el) => {
+    html.querySelectorAll(".comp-item-value").forEach((input) => {
+      input.addEventListener("click", (ev) => ev.stopPropagation());
+      input.addEventListener("change", async (ev) => {
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (!item) return;
+        const valeur = Math.max(0, Math.min(5, Number(ev.currentTarget.value) || 0));
+        await item.update({ "system.valeur": valeur });
+      });
+    });
+
+    html.querySelectorAll(".btn-ouvrir-competence").forEach((el) => {
       el.addEventListener("click", (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        this._jetCompetence(ev.currentTarget.dataset.comp, "specialite");
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (item) item.sheet.render(true);
       });
+    });
+
+    html.querySelectorAll(".btn-supprimer-competence").forEach((el) => {
+      el.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (!item) return;
+        const confirme = await foundry.applications.api.DialogV2.confirm({
+    classes: ["cdt-dialog"],
+          window: { title: "Retirer la compétence" },
+          content: `<p>Retirer <b>${libelleCompetence(item)}</b> de la fiche ?</p>`,
+          rejectClose: false,
+        });
+        if (confirme) await item.delete();
+      });
+    });
+
+    html.querySelector(".btn-nouvelle-competence")?.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      await this._nouvelleCompetence();
+    });
+
+    html.querySelector(".btn-compendium-competences")?.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const pack = game.packs.get("chants-de-tindalos.competences");
+      if (pack) pack.render(true);
+      else ui.notifications.warn("Compendium des compétences introuvable.");
     });
 
     html.querySelectorAll(".btn-jet-maitrise").forEach((el) => {
@@ -967,6 +1075,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         const arme = this.actor.items.get(itemId);
         if (!arme) return;
         const confirme = await foundry.applications.api.DialogV2.confirm({
+    classes: ["cdt-dialog"],
           window: { title: "Supprimer l'arme" },
           content: `<p>Supprimer <b>${arme.name}</b> de l'inventaire ?</p>`,
           rejectClose: false,
@@ -992,6 +1101,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
         if (!item) return;
         const confirme = await foundry.applications.api.DialogV2.confirm({
+    classes: ["cdt-dialog"],
           window: { title: "Supprimer" },
           content: `<p>Supprimer <b>${item.name}</b> de l'inventaire ?</p>`,
           rejectClose: false,
@@ -1071,6 +1181,9 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       } else if (zoneInv) {
         const type = zoneInv.dataset.type;
         if (item.type !== type) { ui.notifications.warn(`Seuls les éléments de type "${type}" peuvent être glissés ici.`); }
+        else if (type === "competence") {
+          await this._ajouterCompetence(item);
+        }
         else {
           await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
           ui.notifications.info(`✅ ${item.name} ajouté !`);
@@ -1206,21 +1319,82 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
   }
 
   // ------------------------------------------------
-  // JET DE COMPÉTENCE
+  // COMPÉTENCES (items)
   // ------------------------------------------------
-  async _jetCompetence(compId, type) {
+
+  /** Ajoute une compétence (depuis le compendium ou le monde) en évitant les doublons. */
+  async _ajouterCompetence(item) {
+    const data = item.toObject();
+    const nom = data.name.trim().toLowerCase();
+
+    // Compétence "au choix" : on demande la précision avant de créer
+    if (data.system?.auChoix) {
+      const precision = await this._demanderPrecision(data.name);
+      if (precision === null) return;
+      data.system.precision = precision;
+    }
+
+    const doublon = this.actor.items.find(i =>
+      i.type === "competence" &&
+      i.name.trim().toLowerCase() === nom &&
+      (i.system.precision ?? "").trim().toLowerCase() === (data.system?.precision ?? "").trim().toLowerCase()
+    );
+    if (doublon) {
+      ui.notifications.warn(`${libelleCompetence(doublon)} est déjà sur la fiche.`);
+      return;
+    }
+
+    const [cree] = await this.actor.createEmbeddedDocuments("Item", [data]);
+    ui.notifications.info(`📜 ${libelleCompetence(cree)} ajoutée !`);
+  }
+
+  /** Demande la précision d'une compétence "au choix" (Langues → Allemand, etc.). Renvoie null si annulé. */
+  async _demanderPrecision(nom) {
+    try {
+      const resultat = await foundry.applications.api.DialogV2.prompt({
+    classes: ["cdt-dialog"],
+        window: { title: `${nom} — compétence au choix` },
+        content: `<p>Quelle est la précision de <b>${nom}</b> ?</p>
+          <div class="form-group">
+            <label>Précision</label>
+            <input type="text" name="precision" placeholder="Ex : Allemand, Peinture, Avion…" autofocus />
+          </div>`,
+        ok: {
+          label: "Valider",
+          callback: (ev, button) => button.form.elements.precision.value.trim(),
+        },
+        rejectClose: true,
+      });
+      return resultat ?? "";
+    } catch {
+      return null;
+    }
+  }
+
+  /** Crée une compétence personnalisée vierge sur la fiche et ouvre sa fiche d'item. */
+  async _nouvelleCompetence() {
+    const [item] = await this.actor.createEmbeddedDocuments("Item", [{
+      name: "Nouvelle compétence",
+      type: "competence",
+      img: "icons/svg/book.svg",
+      system: { categorie: "specialite", caracteristique: "savoir", socle: "", valeur: 0 },
+    }]);
+    item?.sheet.render(true);
+  }
+
+  /** Jet de compétence : Carac + Socle (spécialité) + Valeur. */
+  async _jetCompetenceItem(itemId) {
+    const item = this.actor.items.get(itemId);
+    if (!item || item.type !== "competence") return;
     const system = this.actor.system;
-    const comp = system.competences?.[type]?.[compId];
-    if (!comp) return;
 
-    const caracVal = system.caracteristiques?.[comp.caracLiee]?.valeur ?? 1;
-    const compVal = comp.valeur ?? 0;
-    const nbDesBase = caracVal + compVal;
+    const { nbDes: nbDesBase, carac, detail } = calculerDesCompetence(this.actor, item);
     const sd = system.seuilDifficulte ?? 3;
-    const cout = system.caracteristiques?.[comp.caracLiee]?.cout ?? 3;
+    const cout = carac?.cout ?? 3;
     const espoir = system.jauges?.espoir?.valeur ?? 0;
+    const nomAction = libelleCompetence(item);
 
-    const choix = await ouvrirDialogueJet(comp.label, nbDesBase, sd, cout, espoir);
+    const choix = await ouvrirDialogueJet(nomAction, nbDesBase, sd, cout, espoir);
     if (!choix.lancer) return;
 
     const nbDes = nbDesBase + choix.desBonus + choix.desMJ;
@@ -1236,7 +1410,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       await this.actor.update({ "system.jauges.espoir.valeur": espoir - 1 });
     }
 
-    const resultat = await lancerDesD6(nbDes, sd, comp.label, choix.depenseEspoir);
+    const resultat = await lancerDesD6(nbDes, sd, `${nomAction} <span style="font-weight:normal;font-size:0.85em;color:#5c3010;">(${detail})</span>`, choix.depenseEspoir);
 
     if (resultat.espoirBonusObtenu) {
       const espoirActuel = this.actor.system.jauges?.espoir?.valeur ?? 0;
@@ -1283,6 +1457,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
 
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      whisper: destinatairesPrives(this.actor),
       rolls: [roll],
       content: `
         <div style="background:#f4e8d0;border:1px solid #8b4513;
@@ -1892,7 +2067,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   static DEFAULT_OPTIONS = {
     classes: ["chants-de-tindalos", "sheet", "actor", "pnj"],
-    position: { width: 480, height: 560 },
+    position: { width: 600, height: 700 },
     window: { resizable: true },
   };
 
@@ -1963,6 +2138,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     html.querySelectorAll(".carac-box.rollable").forEach((el) => {
       el.addEventListener("click", (ev) => {
+        if (ev.target.closest("input")) return; // saisie manuelle de la valeur
         ev.preventDefault();
         ev.stopPropagation();
         this._jetCaracteristique(ev.currentTarget.dataset.carac);
@@ -2016,6 +2192,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      whisper: destinatairesPrives(this.actor),
       rolls: [roll],
       content: `
         <div style="background:#f4e8d0;border:1px solid #8b4513;
@@ -2215,7 +2392,7 @@ async function chargerTemplates() {
 // WIKI — LES CHANTS DE TINDALOS
 // ================================================
 async function initialiserWiki() {
-  const NOM_JOURNAL = "📖 Wiki — Les Chants de Tindalos";
+  const NOM_JOURNAL = CDT_NOM_WIKI;
   const journalExistant = game.journal.find(j => j.name === NOM_JOURNAL);
   if (journalExistant) {
     // Supprimer l'ancien pour le recréer à jour
@@ -2239,12 +2416,14 @@ async function initialiserWiki() {
 <li><strong>🚗 Véhicules</strong> — 13 véhicules avec Vitesse max, Accélération, Manœuvrabilité</li>
 <li><strong>💊 Substances</strong> — Alcool, Cannabis, Cocaïne, Opiacés avec effets automatiques</li>
 <li><strong>🎒 Équipements</strong> — 40 objets du quotidien des années 1920</li>
+<li><strong>🔮 Artefacts</strong> (4) et <strong>📖 Révélations</strong> (27)</li>
+<li><strong>📜 Compétences</strong> — 111 compétences (socles et spécialités), sous forme d'objets</li>
 </ul>
 <p>Glissez-déposez n'importe quel item depuis un compendium directement sur la fiche personnage.</p>
 <h2>📋 Fiche Personnage — 7 onglets</h2>
 <ul>
 <li><strong>Principal</strong> — Caractéristiques, Variables, Jauges, Tension, Actions</li>
-<li><strong>Compétences</strong> — Socle et Spécialité cliquables</li>
+<li><strong>Compétences</strong> — Objets à glisser-déposer depuis le compendium, création de nouvelles compétences, clic pour lancer les dés</li>
 <li><strong>Milieux</strong> — Jets de Charisme avec dés de milieu</li>
 <li><strong>Combat</strong> — Armes équipées, modificateurs, actions</li>
 <li><strong>🎒 Inventaire</strong> — Véhicules, Substances et Équipements en drag & drop</li>
@@ -2258,7 +2437,11 @@ async function initialiserWiki() {
 <li><strong>Jet de Sommeil</strong> — 1d12 + Sommeil + Dettes×5</li>
 </ul>
 <h2>👥 Personnages prétirés</h2>
-<p>4 personnages inclus : <strong>Nora Haddad</strong>, <strong>Delphine Malesherbes</strong>, <strong>Archie Hunter</strong> et <strong>Geneviève de Bouvines</strong>. Voir page 12 pour les importer.</p>
+<p>5 personnages du kit de découverte (<strong>Nora Haddad</strong>, <strong>Delphine Malesherbes</strong>, <strong>Archie Hunter</strong>, <strong>Geneviève de Bouvines</strong> et <strong>Isaac Haddad</strong>) sont importés automatiquement dans le dossier <em>👥 Pré-tirés</em>. Voir page 12.</p>
+<h2>🎨 Personnaliser</h2>
+<p>Chaque joueur peut choisir le <strong>thème visuel</strong> de sa fiche, et le MJ celui des cartes de chat. Voir la page 13.</p>
+<h2>📖 Ce wiki</h2>
+<p>Il s'ouvre automatiquement à chaque lancement du monde (réglage désactivable par chaque joueur) et reste accessible par le bouton <strong>📖 Wiki</strong> du panneau Acteurs.</p>
         `
       }
     },
@@ -2322,21 +2505,35 @@ async function initialiserWiki() {
       text: {
         content: `
 <h1>🎓 Les Compétences</h1>
-<h2>Compétences Socle (4 points)</h2>
+<p>Chaque personnage dispose de <strong>4 points de compétences socles</strong> et de <strong>8 points de compétences de spécialité</strong> à sa création. Une compétence vaut de 0 à 5.</p>
+<h2>Les 19 compétences socles</h2>
 <table>
-<thead><tr><th>Compétence</th><th>Caractéristique</th></tr></thead>
+<thead><tr><th>Caractéristique</th><th>Compétences socles</th></tr></thead>
 <tbody>
-<tr><td>Humanités</td><td>Savoir</td></tr>
-<tr><td>Appréciation</td><td>Perception</td></tr>
-<tr><td>Psychologie</td><td>Perception</td></tr>
-<tr><td>Étiquette</td><td>Charisme</td></tr>
-<tr><td>Bricolage</td><td>Agilité</td></tr>
-<tr><td>Athlétisme</td><td>Vigueur</td></tr>
+<tr><td>📚 Savoir</td><td>Humanités, Sciences, Recherche, Médecine, Technique et Industrie</td></tr>
+<tr><td>👁️ Perception</td><td>Évaluation, Enquête, Psychologie</td></tr>
+<tr><td>🗣️ Charisme</td><td>Apparence, Autorité, Éloquence</td></tr>
+<tr><td>⚡ Agilité</td><td>Bricolage, Conduite, Discrétion, Soins, Tir</td></tr>
+<tr><td>💪 Vigueur</td><td>Athlétisme, Corps-à-corps, Survie</td></tr>
 </tbody>
 </table>
-<h2>Compétences de Spécialité (8 points)</h2>
-<p>Dépendent d'une compétence socle. Jet = Caractéristique + Compétence socle + Spécialité.</p>
-<p>Dans Foundry, cliquez sur la ligne de compétence pour lancer le jet.</p>
+<h2>Les spécialités</h2>
+<p>Chaque spécialité est rattachée à un socle (Folklore à Humanités, Crochetage à Bricolage…). Un personnage peut posséder une spécialité <strong>sans</strong> avoir de point dans le socle correspondant. Le manuel en compte <strong>92</strong>, dont sept « au choix » (Langues, Pseudo-science, Spécialité médicale, Art visuel, Art de la scène, Artisanat, Pilotage) qui demandent une précision.</p>
+<h2>Le jet</h2>
+<p><strong>Jet de socle</strong> = Caractéristique + Socle.</p>
+<p><strong>Jet de spécialité</strong> = Caractéristique + Socle + Spécialité.</p>
+<p>Le détail du calcul s'affiche dans la carte de chat.</p>
+<h2>Dans Foundry : des objets à glisser</h2>
+<p>Les compétences sont des <strong>objets</strong>. Ouvrez le compendium <strong>📜 Compétences</strong> et glissez-les sur l'onglet Compétences de la fiche : elles se rangent automatiquement par caractéristique (socles) et par socle (spécialités).</p>
+<ul>
+<li><strong>Cliquer</strong> sur une ligne lance le jet</li>
+<li><strong>La case de droite</strong> modifie la valeur (0 à 5)</li>
+<li><strong>✏️</strong> ouvre la fiche de la compétence, <strong>🗑️</strong> la retire</li>
+<li>Une compétence « au choix » demande sa précision au moment du glisser-déposer (par exemple Langues : Allemand)</li>
+<li>Une même compétence ne peut pas être ajoutée deux fois (sauf avec une précision différente)</li>
+</ul>
+<h2>Créer ses propres compétences</h2>
+<p>Le bouton <strong>➕ Nouvelle compétence</strong> crée une compétence vierge sur la fiche et ouvre son formulaire : nom, type (socle ou spécialité), caractéristique, socle de rattachement, valeur, description. Les socles inventés apparaissent ensuite dans la liste de rattachement des spécialités. Pour réutiliser une compétence sur plusieurs personnages, créez-la dans l'onglet Objets du monde, elle pourra être glissée comme les autres.</p>
         `
       }
     },
@@ -2408,6 +2605,13 @@ async function initialiserWiki() {
 </tbody>
 </table>
 <p>La Tension revient au niveau de l'<strong>Angoisse</strong> après chaque nuit complète.</p>
+<h2>💀 Jet de Maîtrise raté et cartes PLP</h2>
+<p>Quand un <strong>jet de Maîtrise</strong> est raté, une <strong>carte PLP</strong> (« Perd les pédales ») est tirée automatiquement selon le palier de Tension. Elle est :</p>
+<ul>
+<li><strong>enregistrée sur la fiche</strong>, dans l'encadré <em>💀 Cartes PLP</em> de l'onglet Principal (dernière carte, plus les 10 précédentes, bouton 🗑️ pour vider) ;</li>
+<li><strong>privée</strong> : seuls le joueur concerné et le MJ la voient dans le chat.</li>
+</ul>
+<p>Le jet de Maîtrise lui-même (réussi ou raté) et les cartes « +XP de Folie » / « +XP d'Espoir » qui en découlent sont également privés.</p>
         `
       }
     },
@@ -2547,7 +2751,7 @@ async function initialiserWiki() {
 </ol>
 <p>À la fin, le personnage est créé automatiquement et sa fiche s'ouvre.</p>
 <h2>👥 Personnages prétirés (12 au total)</h2>
-<p>12 personnages issus du manuel sont disponibles. Les 4 du kit de découverte sont créés automatiquement. Les 8 supplémentaires s'importent via le script <strong>pretires.js</strong> dans la console F12.</p>
+<p>12 personnages issus du manuel sont disponibles. Les 5 du kit de découverte (dont Isaac Haddad, variante de Nora) sont importés automatiquement au premier lancement du monde dans le dossier <strong>👥 Pré-tirés</strong>, compétences converties en objets. Pour les ré-importer : <code>CDT.importerPretires(true)</code> dans la console F12.</p>
 <p><strong>Kit de découverte :</strong></p>
 <ul>
 <li><strong>Nora Haddad</strong> — Photographe d'Art (Perception 4)</li>
@@ -2569,11 +2773,47 @@ async function initialiserWiki() {
         `
       }
     },
+    {
+      name: "13. Personnaliser la fiche et la table",
+      text: {
+        content: `
+<h1>🎨 Personnaliser la fiche et la table</h1>
+<h2>🖌️ Thème de la fiche (chaque joueur)</h2>
+<p>Une liste déroulante en haut à droite de l'en-tête de la fiche (ou <em>Configurer les paramètres → Système</em>) permet de choisir son thème. Le choix est <strong>propre à chaque joueur</strong>. Il s'applique à la fiche de personnage, à la fiche PNJ et aux fiches d'objets.</p>
+<table>
+<thead><tr><th>Thème</th><th>Ambiance</th></tr></thead>
+<tbody>
+<tr><td><strong>Classique</strong></td><td>Sépia et marron d'origine</td></tr>
+<tr><td><strong>A · Dossier d'enquête</strong></td><td>Kraft, machine à écrire, tampon « Confidentiel »</td></tr>
+<tr><td><strong>B · Art Déco noir & or</strong></td><td>Fond noir, filets dorés, coins coupés</td></tr>
+<tr><td><strong>C · Grimoire occulte</strong></td><td>Vélin, violet profond, glyphes ✦</td></tr>
+<tr><td><strong>D · Carnet d'explorateur</strong></td><td>Cuir vert, laiton, papier ligné</td></tr>
+<tr><td><strong>E · Couverture pulp</strong></td><td>Rouge, jaune et noir, ombres dures</td></tr>
+<tr><td><strong>F · Télégramme</strong></td><td>Courier, quasi monochrome</td></tr>
+<tr><td><strong>G · Gazette d'Arkham</strong></td><td>Journal de presse, gothique</td></tr>
+<tr><td><strong>H · Tindalos</strong></td><td>Teal sombre, angles coupés, lueur</td></tr>
+</tbody>
+</table>
+<h2>💬 Cartes de chat et dialogues (MJ)</h2>
+<p>Dans <em>Configurer les paramètres → Système</em>, le MJ règle le <strong>thème des cartes de chat et des fenêtres de dialogue</strong> pour toute la table : un thème précis, ou « Identique à la fiche de chaque joueur » (valeur par défaut).</p>
+<h2>🔠 Taille du texte</h2>
+<p>Les fiches de personnage et PNJ utilisent un texte agrandi (18 px), onglets compris.</p>
+<h2>🕵️ Confidentialité</h2>
+<p>Le jet de Maîtrise, la carte PLP et les gains d'XP de Folie et d'Espoir ne sont visibles que par le <strong>joueur concerné</strong> et le <strong>MJ</strong>.</p>
+<h2>🖼️ Scène d'accueil</h2>
+<p>Au premier lancement, le MJ voit une scène « Les Chants de Tindalos — Accueil » (couverture du jeu) se créer et s'activer. Pour la rouvrir : <code>CDT.ouvrirSceneAccueil()</code> dans la console F12, ou cocher <em>Réactiver la scène d'accueil à chaque lancement</em> dans les paramètres.</p>
+        `
+      }
+    },
   ];
 
   await JournalEntry.create({
     name: NOM_JOURNAL,
-    pages: pages,
+    // Chaque page est enveloppée dans .cdt-wiki (habillage : css/wiki.css)
+    pages: pages.map(p => ({
+      ...p,
+      text: { ...p.text, format: CONST.JOURNAL_ENTRY_PAGE_FORMATS?.HTML ?? 1, content: `<div class="cdt-wiki">${p.text.content}</div>` },
+    })),
     ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER },
   });
 

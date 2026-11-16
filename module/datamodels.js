@@ -35,6 +35,17 @@ class PersonnageDataModel extends foundry.abstract.TypeDataModel {
 
   static defineSchema() {
     return {
+      // Cartes PLP tirées après un jet de Maîtrise raté (la plus récente en premier)
+      plp: new SchemaField({
+        historique: new ArrayField(new SchemaField({
+          niveau: new NumberField({ initial: 1, integer: true }),
+          texte:  new StringField({ initial: "" }),
+          perte:  new NumberField({ initial: 0, integer: true }),
+          tension: new NumberField({ initial: 0, integer: true }),
+          date:   new StringField({ initial: "" }),
+        }), { initial: [] }),
+      }),
+
       identite: new SchemaField({
         profession:  new StringField({ initial: "" }),
         origine:     new StringField({ initial: "" }),
@@ -166,6 +177,14 @@ class PersonnageDataModel extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     const c = this.caracteristiques;
     const v = this.variables;
+    // Coût et valeur défensive découlent de la valeur de caractéristique (p.52)
+    const COUT = [0, 4, 3, 2, 2, 1];
+    const DEFENSE = [0, 0, 1, 1, 2, 2];
+    for (const carac of Object.values(c)) {
+      const val = Math.min(5, Math.max(1, carac.valeur ?? 1));
+      carac.cout = COUT[val];
+      carac.defense = DEFENSE[val];
+    }
     // Vitesse = AGI + VIG + 2
     v.vitesse = (c.agilite?.valeur ?? 1) + (c.vigueur?.valeur ?? 1) + 2;
     // Sommeil = 12 - Angoisse
@@ -371,6 +390,25 @@ class RevelationDataModel extends foundry.abstract.TypeDataModel {
 }
 
 // ------------------------------------------------
+// DATAMODEL : Compétence (Item)
+// ------------------------------------------------
+class CompetenceDataModel extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    return {
+      categorie:       new StringField({ initial: "specialite", choices: ["socle", "specialite"] }),
+      caracteristique: new StringField({ initial: "savoir", choices: ["savoir", "perception", "charisme", "agilite", "vigueur"] }),
+      cle:             new StringField({ initial: "" }),   // identifiant d'un socle (ex: "humanites"), utilisé par les spécialités
+      socle:           new StringField({ initial: "" }),   // clé du socle parent (spécialités uniquement)
+      valeur:          new NumberField({ initial: 0, min: 0, max: 5, integer: true }),
+      xp:              new NumberField({ initial: 0, min: 0, integer: true }),
+      auChoix:         new BooleanField({ initial: false }), // compétence "(au choix)" nécessitant une précision
+      precision:       new StringField({ initial: "" }),     // ex: "Allemand" pour Langues
+      description:     new StringField({ initial: "" }),
+    };
+  }
+}
+
+// ------------------------------------------------
 // EXPORTS
 // ------------------------------------------------
 export {
@@ -382,4 +420,5 @@ export {
   SubstanceDataModel,
   ArtefactDataModel,
   RevelationDataModel,
+  CompetenceDataModel,
 };

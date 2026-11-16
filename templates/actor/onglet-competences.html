@@ -1,45 +1,65 @@
 <div class="tab" data-tab="competences" data-group="sheet" role="tabpanel">
 
-  <div class="section-title">Compétences Socle</div>
-  <div class="competences-list">
-    {{#each system.competences.socle as |comp id|}}
-    <div class="competence-row comp-socle rollable"
-         data-action="jetComp" data-comp="{{id}}" data-type="socle">
-      <span class="comp-carac">
-        {{#if (eq comp.caracLiee "savoir")}}📚{{/if}}
-        {{#if (eq comp.caracLiee "perception")}}👁️{{/if}}
-        {{#if (eq comp.caracLiee "charisme")}}🗣️{{/if}}
-        {{#if (eq comp.caracLiee "agilite")}}⚡{{/if}}
-        {{#if (eq comp.caracLiee "vigueur")}}💪{{/if}}
-        {{comp.caracLiee}}
-      </span>
-      <span class="comp-name">{{comp.label}}</span>
-      <input type="number" class="comp-value"
-             name="system.competences.socle.{{id}}.valeur"
-             value="{{comp.valeur}}" min="0" max="5" />
-    </div>
-    {{/each}}
+  <div class="comp-toolbar">
+    <button type="button" class="btn-nouvelle-competence" title="Créer une compétence personnalisée sur cette fiche">➕ Nouvelle compétence</button>
+    <button type="button" class="btn-compendium-competences" title="Ouvrir le compendium des compétences">📜 Compendium</button>
+    <span class="drop-hint">⬇ Glissez des compétences ici</span>
   </div>
 
-  <div class="section-title">Compétences de Spécialité</div>
-  <div class="competences-list">
-    {{#each system.competences.specialite as |comp id|}}
-    <div class="competence-row comp-specialite rollable"
-         data-action="jetComp" data-comp="{{id}}" data-type="specialite">
-      <span class="comp-carac">
-        {{#if (eq comp.caracLiee "savoir")}}📚{{/if}}
-        {{#if (eq comp.caracLiee "perception")}}👁️{{/if}}
-        {{#if (eq comp.caracLiee "charisme")}}🗣️{{/if}}
-        {{#if (eq comp.caracLiee "agilite")}}⚡{{/if}}
-        {{#if (eq comp.caracLiee "vigueur")}}💪{{/if}}
-        {{comp.caracLiee}}
-      </span>
-      <span class="comp-name">{{comp.label}}</span>
-      <input type="number" class="comp-value"
-             name="system.competences.specialite.{{id}}.valeur"
-             value="{{comp.valeur}}" min="0" max="5" />
+  <div class="competences-drop drop-zone" data-type="competence">
+
+    <!-- SOCLES -->
+    <div class="section-title">🏛️ Compétences socles</div>
+    {{#each competences.socles as |grp|}}
+    <div class="comp-groupe">
+      <div class="comp-groupe-titre">{{grp.icone}} {{grp.label}}</div>
+      <div class="competences-list">
+        {{#each grp.items as |c|}}
+        <div class="competence-row comp-item comp-socle rollable" data-item-id="{{c.id}}" title="{{c.description}}">
+          <span class="comp-carac">{{c.caracIcone}} {{c.caracLabel}}</span>
+          <span class="comp-name">{{c.libelle}}</span>
+          <input type="number" class="comp-value comp-item-value" data-item-id="{{c.id}}" value="{{c.valeur}}" min="0" max="5" />
+          <span class="comp-actions">
+            <button type="button" class="btn-ouvrir-competence" data-item-id="{{c.id}}" title="Modifier">✏️</button>
+            <button type="button" class="btn-supprimer-competence" data-item-id="{{c.id}}" title="Retirer">🗑️</button>
+          </span>
+        </div>
+        {{/each}}
+      </div>
     </div>
     {{/each}}
+    {{#unless competences.socles.length}}
+    <div class="inventaire-vide">Aucune compétence socle — glissez-en depuis le compendium 📜</div>
+    {{/unless}}
+
+    <!-- SPÉCIALITÉS -->
+    <div class="section-title">🎯 Compétences de spécialité</div>
+    {{#each competences.specialites as |grp|}}
+    <div class="comp-groupe">
+      <div class="comp-groupe-titre">{{grp.icone}} {{grp.label}} <span class="comp-groupe-socle">(socle {{grp.socleValeur}})</span></div>
+      <div class="competences-list">
+        {{#each grp.items as |c|}}
+        <div class="competence-row comp-item comp-specialite rollable {{#if c.auChoix}}{{#unless c.precision}}comp-a-preciser{{/unless}}{{/if}}" data-item-id="{{c.id}}" title="{{c.description}}">
+          <span class="comp-carac">{{c.caracIcone}} {{c.caracLabel}}</span>
+          <span class="comp-name">{{c.libelle}}{{#if c.auChoix}}{{#unless c.precision}} <em>(à préciser)</em>{{/unless}}{{/if}}</span>
+          <input type="number" class="comp-value comp-item-value" data-item-id="{{c.id}}" value="{{c.valeur}}" min="0" max="5" />
+          <span class="comp-actions">
+            <button type="button" class="btn-ouvrir-competence" data-item-id="{{c.id}}" title="Modifier">✏️</button>
+            <button type="button" class="btn-supprimer-competence" data-item-id="{{c.id}}" title="Retirer">🗑️</button>
+          </span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/each}}
+    {{#unless competences.specialites.length}}
+    <div class="inventaire-vide">Aucune spécialité — glissez-en depuis le compendium 📜</div>
+    {{/unless}}
+
+  </div>
+
+  <div class="comp-aide">
+    Cliquez sur une ligne pour lancer le jet. Jet = Caractéristique + Socle (pour une spécialité) + Valeur.
   </div>
 
 </div>

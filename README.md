@@ -3,7 +3,7 @@
 # Les Chants de Tindalos — Système Foundry VTT
 
 ![Foundry v14](https://img.shields.io/badge/Foundry-v14-informational)
-![Version](https://img.shields.io/badge/version-0.4-blue)
+![Version](https://img.shields.io/badge/version-0.5-blue)
 ![Licence](https://img.shields.io/badge/licence-Walpurgis%20Éditions-red)
 
 Système non officiel pour **Foundry VTT v14** adapté du jeu de rôle **Les Chants de Tindalos** de [Walpurgis Éditions](https://walpurgis.fr).
@@ -27,24 +27,29 @@ Un assistant guidé en **8 étapes** accessible via le bouton **🎲 Créer un p
 8. **Récapitulatif** — aperçu complet avant création de l'acteur
 
 ### 🎒 Compendiums
-Quatre compendiums issus du manuel complet :
+Sept compendiums issus du manuel complet :
 
 | Compendium | Contenu |
 |---|---|
+| 📜 **Compétences** | 111 compétences (19 socles, spécialités) sous forme d'objets |
 | ⚔️ **Armes** | 26 armes (distance et corps-à-corps) avec létalité, blessure, portée |
 | 🚗 **Véhicules** | 13 véhicules avec Vitesse max, Accélération, Manœuvrabilité |
 | 💊 **Substances** | Alcool, Cannabis, Cocaïne, Opiacés avec effets automatiques |
 | 🎒 **Équipements** | 40 objets (tabac, photographie, bureau, outils, médical, accessoires, services) |
+| 🔮 **Artefacts** | 4 artefacts |
+| 📖 **Révélations** | 27 révélations |
 
 Tous les items se glissent-déposent (**drag & drop**) directement sur la fiche personnage.
 
 ### Feuille de personnage joueur
 - 5 **caractéristiques** (Savoir, Perception, Charisme, Agilité, Vigueur)
-- **Compétences socle et spécialité** cliquables pour lancer les dés
+- **Compétences en objets** : glisser-déposer depuis le compendium, création de nouvelles compétences depuis la fiche, clic pour lancer les dés
 - **Barre de Tension** et **Barre d'Onirisme** cliquables
 - **Jauges** : Réserve, Tension, Angoisse, Blessures
 - **Cases XP** Espoir et Folie avec montée automatique
 - **7 onglets** : Principal, Compétences, Milieux, Combat, Inventaire, Avancé, Notes
+- **Cartes PLP** enregistrées automatiquement sur la fiche après un jet de Maîtrise raté (encadré dédié, historique)
+- **Texte agrandi** (18 px) sur les fiches de personnage et PNJ
 - Onglet **Inventaire** : véhicules, substances et équipements en drag & drop
 
 ### Feuille PNJ
@@ -64,13 +69,24 @@ Tous les items se glissent-déposent (**drag & drop**) directement sur la fiche 
 - Gestion Dettes de Sommeil et malus SD
 - Tables PLP (4 niveaux, 54 cartes) générées au lancement
 
+### 🎨 Thèmes visuels
+- **8 thèmes** au choix de chaque joueur pour sa fiche : Dossier d'enquête, Art Déco noir & or, Grimoire occulte, Carnet d'explorateur, Couverture pulp, Télégramme, Gazette d'Arkham, Tindalos (en plus du thème Classique)
+- Appliqués aussi aux **fiches d'objets**, à la **fiche PNJ**, aux **cartes de chat** et aux **dialogues**
+- Le **MJ choisit le thème des cartes de chat et dialogues** pour toute la table (ou « identique à chaque joueur »)
+
+### 🕵️ Confidentialité
+Le jet de Maîtrise, la carte PLP et les gains d'XP de Folie et d'Espoir ne sont visibles que par **le joueur concerné et le MJ**.
+
 ### Wiki intégré
-- **Ouverture automatique** à la première connexion
+- **Ouverture automatique** à chaque lancement du monde (désactivable par joueur)
 - **Bouton 📖 Wiki** dans le panneau Acteurs
-- 12 pages couvrant toutes les règles
+- 13 pages couvrant toutes les règles et la personnalisation, habillées en dossier d'enquête / Art Déco
+
+### 🖼️ Scène d'accueil
+Une scène « Les Chants de Tindalos — Accueil » (couverture du jeu) est créée et activée au premier lancement du monde par le MJ.
 
 ### Personnages prétirés
-12 personnages issus du manuel complet :
+12 personnages issus du manuel complet (les 5 du kit de découverte sont importés automatiquement dans le dossier « 👥 Pré-tirés ») :
 
 | Personnage | Profession | Points forts |
 |---|---|---|
@@ -115,9 +131,15 @@ chants-de-tindalos/
 │   ├── chants-de-tindalos.js     # Logique principale
 │   ├── datamodels.js             # DataModels (PJ, PNJ, Arme, Véhicule, Substance, Équipement)
 │   ├── creation-personnage.js    # Assistant de création
-│   └── items.js                  # Système d'items et compendiums
+│   ├── items.js                  # Système d'items et compendiums
+│   ├── competences.js            # Compétences (items), migration, compendium
+│   ├── pretires.js               # Import automatique des prétirés
+│   ├── themes.js                 # Thèmes de fiche, cartes de chat, dialogues
+│   └── scene-accueil.js          # Scène d'accueil
 ├── css/
-│   └── chants-de-tindalos.css
+│   ├── chants-de-tindalos.css
+│   ├── themes.css                # 8 thèmes
+│   └── wiki.css                  # Habillage du wiki
 ├── system.json
 ├── template.json
 ├── templates/
@@ -136,7 +158,7 @@ chants-de-tindalos/
 │       ├── feuille-vehicule.html
 │       ├── feuille-substance.html
 │       └── feuille-equipement.html
-├── assets/portraits/
+├── assets/                       # portraits, couverture, polices (OFL)
 └── packs/
     ├── armes/
     ├── vehicules/

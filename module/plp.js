@@ -139,6 +139,7 @@ export async function piocherCartePLP(niveau, acteur) {
   // Affiche le résultat dans le chat
   await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor: acteur }),
+    whisper: game.users.filter((u) => u.isGM || (acteur && acteur.testUserPermission(u, "OWNER"))).map((u) => u.id),
     content: `
       <div style="background:#1a0a0a;border:2px solid #8b0000;
                   padding:10px;border-radius:4px;color:#f4e8d0;">
