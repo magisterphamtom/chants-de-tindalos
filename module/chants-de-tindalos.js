@@ -359,6 +359,7 @@ async function ouvrirDialogueJet(nomAction, nbDesBase, sd, cout, espoir, desMili
     `;
 
   const resultat = await foundry.applications.api.DialogV2.wait({
+    classes: ["cdt-dialog"],
     window: { title: `Jet — ${nomAction}` },
     content: contenu,
     buttons: [
@@ -434,6 +435,7 @@ async function ouvrirDialogueJetDefensif(nbDesBase, sd, defCarac, espoir, reserv
     `;
 
   const resultat = await foundry.applications.api.DialogV2.wait({
+    classes: ["cdt-dialog"],
     window: { title: "Jet Défensif" },
     content: contenu,
     buttons: [
@@ -514,6 +516,7 @@ async function ouvrirDialogueAttaque(arme, caracVal, sd, espoir, reserve, cout) 
     `;
 
   const resultat = await foundry.applications.api.DialogV2.wait({
+    classes: ["cdt-dialog"],
     window: { title: `Attaque — ${arme.nom || "Arme"}` },
     content: contenu,
     buttons: [
@@ -951,6 +954,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
         if (!item) return;
         const confirme = await foundry.applications.api.DialogV2.confirm({
+    classes: ["cdt-dialog"],
           window: { title: "Retirer la compétence" },
           content: `<p>Retirer <b>${libelleCompetence(item)}</b> de la fiche ?</p>`,
           rejectClose: false,
@@ -1033,6 +1037,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         const arme = this.actor.items.get(itemId);
         if (!arme) return;
         const confirme = await foundry.applications.api.DialogV2.confirm({
+    classes: ["cdt-dialog"],
           window: { title: "Supprimer l'arme" },
           content: `<p>Supprimer <b>${arme.name}</b> de l'inventaire ?</p>`,
           rejectClose: false,
@@ -1058,6 +1063,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
         const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
         if (!item) return;
         const confirme = await foundry.applications.api.DialogV2.confirm({
+    classes: ["cdt-dialog"],
           window: { title: "Supprimer" },
           content: `<p>Supprimer <b>${item.name}</b> de l'inventaire ?</p>`,
           rejectClose: false,
@@ -1308,6 +1314,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
   async _demanderPrecision(nom) {
     try {
       const resultat = await foundry.applications.api.DialogV2.prompt({
+    classes: ["cdt-dialog"],
         window: { title: `${nom} — compétence au choix` },
         content: `<p>Quelle est la précision de <b>${nom}</b> ?</p>
           <div class="form-group">

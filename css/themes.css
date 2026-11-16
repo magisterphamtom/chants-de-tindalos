@@ -147,7 +147,7 @@
 /* ================================================================
    A — DOSSIER D'ENQUÊTE
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="A"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="A"] {
   --bg:#e9dcc0; --ink:#2b2016; --f-body:"CdT Fell",Georgia,serif; --f-title:"CdT Elite",monospace; --f-label:"CdT Elite",monospace; --f-num:"CdT Elite",monospace;
   --head-bg:#b89a6c; --head-ink:#2b2016; --head-muted:#5c4326; --name-line:3px solid #8b1a1a; --name-tt:uppercase; --name-ls:.03em;
   --portrait-border:6px solid #fff; --portrait-bg:#6a5030; --r-img:1px; --field-head-bg:rgba(255,255,255,.35); --field-head-border:1px dashed #5c4326;
@@ -166,7 +166,7 @@
 /* ================================================================
    B — ART DÉCO NOIR & OR
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="B"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="B"] {
   --bg:#14120f; --ink:#e9e2d0; --f-body:"CdT Cormorant",serif; --f-title:"CdT Limelight",serif; --f-label:"CdT Josefin",sans-serif; --f-num:"CdT Limelight",serif;
   --head-bg:#0c0b09; --head-ink:#e8cf7a; --head-muted:#a08a4a; --name-line:2px solid #c9a84c; --name-ls:.04em;
   --portrait-border:3px double #c9a84c; --portrait-bg:#1a1814; --r-img:0; --field-head-bg:rgba(201,168,76,.06); --field-head-border:1px solid #5a4a22;
@@ -186,7 +186,7 @@
 /* ================================================================
    C — GRIMOIRE OCCULTE
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="C"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="C"] {
   --bg:#efe4c6; --ink:#2a1e2e; --f-body:"CdT Cormorant",serif; --f-title:"CdT CinzelDeco",serif; --f-label:"CdT Cinzel",serif; --f-num:"CdT CinzelDeco",serif;
   --head-bg:#2a1c34; --head-ink:#f0e4c8; --head-muted:#b8a8d0; --name-line:1px solid #8a6a2a;
   --portrait-border:3px solid #8a6a2a; --portrait-bg:#3d2c4e; --r-img:50% 50% 4px 4px; --field-head-bg:rgba(255,255,255,.07); --field-head-border:1px solid #5a4a6a;
@@ -206,7 +206,7 @@
 /* ================================================================
    D — CARNET D'EXPLORATEUR
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="D"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="D"] {
   --bg:#1f3a2e; --ink:#2a2418; --f-body:"CdT OldStd",Georgia,serif; --f-title:"CdT Playfair",serif; --f-label:"CdT Courier",monospace; --f-num:"CdT Playfair",serif;
   --head-bg:#1f3a2e; --head-ink:#f0e6c8; --head-muted:#c8b070; --name-line:2px solid #b8963e;
   --portrait-border:4px solid #b8963e; --portrait-bg:#2a4a3a; --r-img:2px; --field-head-bg:rgba(0,0,0,.2); --field-head-border:1px solid #b8963e;
@@ -225,7 +225,7 @@
 /* ================================================================
    E — COUVERTURE PULP / WEIRD TALES
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="E"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="E"] {
   --bg:#f3e2b0; --ink:#1a1410; --f-body:"CdT Franklin",sans-serif; --f-title:"CdT Anton",sans-serif; --f-label:"CdT Oswald",sans-serif; --f-num:"CdT Anton",sans-serif;
   --head-bg:#c01818; --head-ink:#ffe45c; --head-muted:#ffd0c0; --name-line:4px solid #111; --name-tt:uppercase; --name-ls:.02em;
   --portrait-border:4px solid #111; --portrait-bg:#ffe45c; --r-img:0; --field-head-bg:#111; --field-head-border:2px solid #111;
@@ -246,7 +246,7 @@
 /* ================================================================
    F — TÉLÉGRAMME
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="F"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="F"] {
   --bg:#f1ead2; --ink:#1c1c1c; --f-body:"CdT Courier",monospace; --f-title:"CdT Courier",monospace; --f-label:"CdT Courier",monospace; --f-num:"CdT Courier",monospace;
   --head-bg:#f1ead2; --head-ink:#1c1c1c; --head-muted:#555; --name-line:2px solid #1c1c1c; --name-tt:uppercase; --name-ls:.12em;
   --portrait-border:2px solid #1c1c1c; --portrait-bg:#d8d0b0; --r-img:0; --field-head-bg:transparent; --field-head-border:1px solid #1c1c1c;
@@ -267,7 +267,7 @@
 /* ================================================================
    G — GAZETTE D'ARKHAM
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="G"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="G"] {
   --bg:#e6e0cf; --ink:#1a1a1a; --f-body:"CdT OldStd",serif; --f-title:"CdT Fraktur",serif; --f-label:"CdT Playfair",serif; --f-num:"CdT Playfair",serif;
   --head-bg:#e6e0cf; --head-ink:#111; --head-muted:#555; --name-line:3px double #111;
   --portrait-border:1px solid #111; --portrait-bg:#bbb; --r-img:0; --field-head-bg:transparent; --field-head-border:none;
@@ -288,7 +288,7 @@
 /* ================================================================
    H — TINDALOS
    ================================================================ */
-.chants-de-tindalos[data-cdt-theme="H"] {
+:is(.chants-de-tindalos, .cdt-dialog, .cdt-carte)[data-cdt-theme="H"] {
   --bg:#0a1416; --ink:#cfe6e0; --f-body:"CdT Spectral",serif; --f-title:"CdT Cinzel",serif; --f-label:"CdT Chakra",sans-serif; --f-num:"CdT Chakra",sans-serif;
   --head-bg:linear-gradient(135deg,#0f2226,#08191c); --head-ink:#9ff0dc; --head-muted:#5aa89a; --name-line:1px solid #2aa090; --name-tt:uppercase; --name-ls:.08em;
   --portrait-border:1px solid #2aa090; --portrait-bg:#0f2a2c; --r-img:0; --field-head-bg:rgba(42,160,144,.08); --field-head-border:1px solid #1a5a52;
@@ -305,4 +305,59 @@
   .sheet-header img { clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px)); box-shadow:0 0 22px rgba(42,160,144,.35); }
   .header-infos input.name { text-shadow:0 0 14px rgba(159,240,220,.45); }
   .section-title { text-shadow:0 0 8px rgba(127,224,204,.4); }
+}
+
+
+/* ================================================================
+   CARTES DE CHAT ET DIALOGUES
+   Thème choisi par le MJ (réglage « monde »), ou celui de chaque joueur.
+   ================================================================ */
+.cdt-carte, .cdt-dialog {
+  --good: #2d6a2d; --bad: #8b0000; --warn: #c8860a;
+  --cdt-muted: var(--muted, #8b4513);
+}
+:is(.cdt-carte, .cdt-dialog)[data-cdt-theme="B"],
+:is(.cdt-carte, .cdt-dialog)[data-cdt-theme="H"] { --good: #6fcf6f; --bad: #ff6a6a; --warn: #ffb040; }
+:is(.cdt-carte, .cdt-dialog)[data-cdt-theme="E"] { --bad: #c01818; }
+
+/* --- Cartes de chat --- */
+.cdt-carte[data-cdt-theme] {
+  background-color: var(--paper) !important;
+  background-image: var(--paper-img, none) !important;
+  background-size: var(--paper-size, auto) !important;
+  border: var(--card-border) !important;
+  border-radius: var(--r, 3px) !important;
+  color: var(--ink) !important;
+  font-family: var(--f-body);
+  box-shadow: inset 4px 0 0 var(--cdt-signal, var(--accent)) !important;
+  padding-left: 14px !important;
+}
+.cdt-carte[data-cdt-theme] b, .cdt-carte[data-cdt-theme] strong { font-family: var(--f-label); letter-spacing: .02em; }
+.cdt-carte[data-cdt-theme] [style*="border-top"] { border-top-color: var(--line) !important; }
+.cdt-carte[data-cdt-theme="B"], .cdt-carte[data-cdt-theme="H"] { outline: 1px solid var(--line); outline-offset: -5px; }
+.cdt-carte[data-cdt-theme="C"] { border-radius: 8px !important; }
+.cdt-carte[data-cdt-theme="E"] { box-shadow: inset 4px 0 0 var(--cdt-signal, #c01818), 4px 4px 0 #111 !important; }
+.cdt-carte[data-cdt-theme="F"], .cdt-carte[data-cdt-theme="G"] { border-style: solid !important; }
+
+/* --- Dialogues --- */
+.cdt-dialog[data-cdt-theme] {
+  background: var(--bg);
+  font-family: var(--f-body);
+  .window-header { background: var(--head-bg); color: var(--head-ink); border-bottom: var(--tabs-line); }
+  .window-title { font-family: var(--f-title); letter-spacing: .04em; }
+  .window-content { background-color: var(--paper); background-image: var(--paper-img, none); background-size: var(--paper-size, auto); color: var(--ink); }
+  .cdt-dialogue-jet { color: var(--ink); font-family: var(--f-body); }
+  .dialogue-info { background: var(--head-bg); color: var(--head-ink); border: var(--card-border); border-radius: var(--r); }
+  .dialogue-action { font-family: var(--f-title); }
+  .dialogue-base { color: var(--head-muted); font-family: var(--f-label); }
+  .dialogue-ligne label { color: var(--label-ink); font-family: var(--f-label); }
+  .dialogue-total { background: var(--card-bg); border: var(--card-border); border-radius: var(--r); color: var(--num-ink); font-family: var(--f-num); }
+  input:not([type=checkbox]), select, textarea {
+    background: var(--field-bg); color: var(--ink); border: var(--field-border); border-radius: var(--r); font-family: var(--f-body);
+  }
+  footer button, .form-footer button {
+    background: var(--btn-bg); color: var(--btn-ink); border: var(--btn-border); border-radius: var(--r);
+    font-family: var(--f-label); text-transform: var(--btn-tt, none); letter-spacing: .06em; box-shadow: var(--btn-shadow, none);
+  }
+  footer button:hover, .form-footer button:hover { border-color: var(--accent); filter: brightness(1.18); }
 }
