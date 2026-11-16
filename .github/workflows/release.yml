@@ -28,7 +28,18 @@ jobs:
       - name: Créer system.zip (system.json à la racine)
         run: |
           zip -r system.zip . \
-            -x ".git/*" ".github/*" "screenshots/*" "*.zip" "README*.md" "gitignore"
+            -x ".git/*" ".github/*" "screenshots/*" "*.zip" "README*.md" "CHANGELOG.md" "release_notes.md" "gitignore"
+
+      - name: Extraire les notes de version depuis CHANGELOG.md
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v v="$VERSION" '
+            $0 ~ "^## "v"( |$)" {on=1; next}
+            on && /^## / {exit}
+            on {print}
+          ' CHANGELOG.md > release_notes.md
+          if [ ! -s release_notes.md ]; then echo "Version ${VERSION}" > release_notes.md; fi
+          cat release_notes.md
 
       - name: Publier la Release
         uses: softprops/action-gh-release@v2
@@ -36,4 +47,5 @@ jobs:
           files: |
             system.json
             system.zip
+          body_path: release_notes.md
           generate_release_notes: true

@@ -1,7 +1,7 @@
 # Les Chants de Tindalos — Foundry VTT System
 
 ![Foundry v14](https://img.shields.io/badge/Foundry-v14-informational)
-![Version](https://img.shields.io/badge/version-0.4-blue)
+![Version](https://img.shields.io/badge/version-0.5-blue)
 ![Licence](https://img.shields.io/badge/licence-Walpurgis%20Éditions-red)
 
 Unofficial system for **Foundry VTT v14** adapted from the tabletop RPG **Les Chants de Tindalos** (*The Songs of Tindalos*) by [Walpurgis Éditions](https://walpurgis.fr).
@@ -25,24 +25,29 @@ A guided **8-step wizard** accessible via the **🎲 Create a Character** button
 8. **Summary** — full recap before actor creation
 
 ### 🎒 Compendiums
-Four compendiums from the complete rulebook:
+Seven compendiums from the complete rulebook:
 
 | Compendium | Contents |
 |---|---|
+| 📜 **Skills** | 111 skills (19 socles, specialties) as items |
 | ⚔️ **Weapons** | 26 weapons (ranged and melee) with lethality, wound, range |
 | 🚗 **Vehicles** | 13 vehicles with Max Speed, Acceleration, Maneuverability |
 | 💊 **Substances** | Alcohol, Cannabis, Cocaine, Opiates with automatic effects |
 | 🎒 **Equipment** | 40 items (tobacco, photography, office, tools, medical, accessories, services) |
+| 🔮 **Artifacts** | 4 artifacts |
+| 📖 **Revelations** | 27 revelations |
 
 All items support **drag & drop** directly onto the character sheet.
 
 ### Player Character Sheet
 - 5 **characteristics** (Knowledge, Perception, Charisma, Agility, Vigor)
-- Clickable **socle and specialty skills** to roll dice
+- **Skills as items**: drag & drop from the compendium, create new skills from the sheet, click to roll dice
 - Clickable **Tension bar** and **Oneirism bar**
 - **Gauges**: Reserve, Tension, Anguish, Wounds
 - **XP boxes** for Hope and Madness with automatic level-up
 - **7 tabs**: Main, Skills, Milieus, Combat, Inventory, Advanced, Notes
+- **PLP cards** automatically saved on the sheet after a failed Mastery roll (dedicated box with history)
+- **Larger text** (18 px) on character and NPC sheets
 - **Inventory tab**: vehicles, substances and equipment via drag & drop
 
 ### NPC Sheet
@@ -62,10 +67,21 @@ All items support **drag & drop** directly onto the character sheet.
 - Sleep Debt management and SD penalty
 - PLP tables (4 levels, 54 cards) generated at launch
 
+### 🎨 Visual Themes
+- **8 themes** chosen by each player for their sheet: Case File, Art Deco black & gold, Occult Grimoire, Explorer's Notebook, Pulp Cover, Telegram, Arkham Gazette, Tindalos (plus the Classic look)
+- Also applied to **item sheets**, the **NPC sheet**, **chat cards** and **dialogs**
+- The **GM picks the theme of chat cards and dialogs** for the whole table (or "same as each player")
+
+### 🕵️ Privacy
+The Mastery roll, the PLP card and Madness/Hope XP gains are visible only to **the player concerned and the GM**.
+
 ### Built-in Wiki
-- **Automatically opens** on each player's first login
+- **Opens automatically** at every world launch (each player can turn it off)
 - **📖 Wiki button** in the Actors panel
-- 12 pages covering all rules
+- 13 pages covering all rules and customization, styled as a case file / Art Deco
+
+### 🖼️ Welcome Scene
+A "Les Chants de Tindalos — Accueil" scene (game cover) is created and activated by the GM at first launch.
 
 ### Pre-generated Characters
 12 ready-to-play characters from the complete rulebook:
@@ -113,9 +129,15 @@ chants-de-tindalos/
 │   ├── chants-de-tindalos.js     # Main system logic
 │   ├── datamodels.js             # DataModels (PC, NPC, Weapon, Vehicle, Substance, Equipment)
 │   ├── creation-personnage.js    # Character creation wizard
-│   └── items.js                  # Item system and compendiums
+│   ├── items.js                  # Item system and compendiums
+│   ├── competences.js            # Skills (items), migration, compendium
+│   ├── pretires.js               # Automatic import of pre-generated characters
+│   ├── themes.js                 # Sheet, chat card and dialog themes
+│   └── scene-accueil.js          # Welcome scene
 ├── css/
-│   └── chants-de-tindalos.css
+│   ├── chants-de-tindalos.css
+│   ├── themes.css                # 8 themes
+│   └── wiki.css                  # Wiki styling
 ├── system.json
 ├── template.json
 ├── templates/

@@ -2416,12 +2416,14 @@ async function initialiserWiki() {
 <li><strong>🚗 Véhicules</strong> — 13 véhicules avec Vitesse max, Accélération, Manœuvrabilité</li>
 <li><strong>💊 Substances</strong> — Alcool, Cannabis, Cocaïne, Opiacés avec effets automatiques</li>
 <li><strong>🎒 Équipements</strong> — 40 objets du quotidien des années 1920</li>
+<li><strong>🔮 Artefacts</strong> (4) et <strong>📖 Révélations</strong> (27)</li>
+<li><strong>📜 Compétences</strong> — 111 compétences (socles et spécialités), sous forme d'objets</li>
 </ul>
 <p>Glissez-déposez n'importe quel item depuis un compendium directement sur la fiche personnage.</p>
 <h2>📋 Fiche Personnage — 7 onglets</h2>
 <ul>
 <li><strong>Principal</strong> — Caractéristiques, Variables, Jauges, Tension, Actions</li>
-<li><strong>Compétences</strong> — Socle et Spécialité cliquables</li>
+<li><strong>Compétences</strong> — Objets à glisser-déposer depuis le compendium, création de nouvelles compétences, clic pour lancer les dés</li>
 <li><strong>Milieux</strong> — Jets de Charisme avec dés de milieu</li>
 <li><strong>Combat</strong> — Armes équipées, modificateurs, actions</li>
 <li><strong>🎒 Inventaire</strong> — Véhicules, Substances et Équipements en drag & drop</li>
@@ -2435,7 +2437,11 @@ async function initialiserWiki() {
 <li><strong>Jet de Sommeil</strong> — 1d12 + Sommeil + Dettes×5</li>
 </ul>
 <h2>👥 Personnages prétirés</h2>
-<p>4 personnages inclus : <strong>Nora Haddad</strong>, <strong>Delphine Malesherbes</strong>, <strong>Archie Hunter</strong> et <strong>Geneviève de Bouvines</strong>. Voir page 12 pour les importer.</p>
+<p>5 personnages du kit de découverte (<strong>Nora Haddad</strong>, <strong>Delphine Malesherbes</strong>, <strong>Archie Hunter</strong>, <strong>Geneviève de Bouvines</strong> et <strong>Isaac Haddad</strong>) sont importés automatiquement dans le dossier <em>👥 Pré-tirés</em>. Voir page 12.</p>
+<h2>🎨 Personnaliser</h2>
+<p>Chaque joueur peut choisir le <strong>thème visuel</strong> de sa fiche, et le MJ celui des cartes de chat. Voir la page 13.</p>
+<h2>📖 Ce wiki</h2>
+<p>Il s'ouvre automatiquement à chaque lancement du monde (réglage désactivable par chaque joueur) et reste accessible par le bouton <strong>📖 Wiki</strong> du panneau Acteurs.</p>
         `
       }
     },
@@ -2599,6 +2605,13 @@ async function initialiserWiki() {
 </tbody>
 </table>
 <p>La Tension revient au niveau de l'<strong>Angoisse</strong> après chaque nuit complète.</p>
+<h2>💀 Jet de Maîtrise raté et cartes PLP</h2>
+<p>Quand un <strong>jet de Maîtrise</strong> est raté, une <strong>carte PLP</strong> (« Perd les pédales ») est tirée automatiquement selon le palier de Tension. Elle est :</p>
+<ul>
+<li><strong>enregistrée sur la fiche</strong>, dans l'encadré <em>💀 Cartes PLP</em> de l'onglet Principal (dernière carte, plus les 10 précédentes, bouton 🗑️ pour vider) ;</li>
+<li><strong>privée</strong> : seuls le joueur concerné et le MJ la voient dans le chat.</li>
+</ul>
+<p>Le jet de Maîtrise lui-même (réussi ou raté) et les cartes « +XP de Folie » / « +XP d'Espoir » qui en découlent sont également privés.</p>
         `
       }
     },
@@ -2757,6 +2770,38 @@ async function initialiserWiki() {
 <li><strong>Tomah Neptune</strong> — Prestidigitateur (Perception 3, Charisme 3)</li>
 <li><strong>August Köhler</strong> — Inventeur (Intuition 7 !)</li>
 </ul>
+        `
+      }
+    },
+    {
+      name: "13. Personnaliser la fiche et la table",
+      text: {
+        content: `
+<h1>🎨 Personnaliser la fiche et la table</h1>
+<h2>🖌️ Thème de la fiche (chaque joueur)</h2>
+<p>Une liste déroulante en haut à droite de l'en-tête de la fiche (ou <em>Configurer les paramètres → Système</em>) permet de choisir son thème. Le choix est <strong>propre à chaque joueur</strong>. Il s'applique à la fiche de personnage, à la fiche PNJ et aux fiches d'objets.</p>
+<table>
+<thead><tr><th>Thème</th><th>Ambiance</th></tr></thead>
+<tbody>
+<tr><td><strong>Classique</strong></td><td>Sépia et marron d'origine</td></tr>
+<tr><td><strong>A · Dossier d'enquête</strong></td><td>Kraft, machine à écrire, tampon « Confidentiel »</td></tr>
+<tr><td><strong>B · Art Déco noir & or</strong></td><td>Fond noir, filets dorés, coins coupés</td></tr>
+<tr><td><strong>C · Grimoire occulte</strong></td><td>Vélin, violet profond, glyphes ✦</td></tr>
+<tr><td><strong>D · Carnet d'explorateur</strong></td><td>Cuir vert, laiton, papier ligné</td></tr>
+<tr><td><strong>E · Couverture pulp</strong></td><td>Rouge, jaune et noir, ombres dures</td></tr>
+<tr><td><strong>F · Télégramme</strong></td><td>Courier, quasi monochrome</td></tr>
+<tr><td><strong>G · Gazette d'Arkham</strong></td><td>Journal de presse, gothique</td></tr>
+<tr><td><strong>H · Tindalos</strong></td><td>Teal sombre, angles coupés, lueur</td></tr>
+</tbody>
+</table>
+<h2>💬 Cartes de chat et dialogues (MJ)</h2>
+<p>Dans <em>Configurer les paramètres → Système</em>, le MJ règle le <strong>thème des cartes de chat et des fenêtres de dialogue</strong> pour toute la table : un thème précis, ou « Identique à la fiche de chaque joueur » (valeur par défaut).</p>
+<h2>🔠 Taille du texte</h2>
+<p>Les fiches de personnage et PNJ utilisent un texte agrandi (18 px), onglets compris.</p>
+<h2>🕵️ Confidentialité</h2>
+<p>Le jet de Maîtrise, la carte PLP et les gains d'XP de Folie et d'Espoir ne sont visibles que par le <strong>joueur concerné</strong> et le <strong>MJ</strong>.</p>
+<h2>🖼️ Scène d'accueil</h2>
+<p>Au premier lancement, le MJ voit une scène « Les Chants de Tindalos — Accueil » (couverture du jeu) se créer et s'activer. Pour la rouvrir : <code>CDT.ouvrirSceneAccueil()</code> dans la console F12, ou cocher <em>Réactiver la scène d'accueil à chaque lancement</em> dans les paramètres.</p>
         `
       }
     },
