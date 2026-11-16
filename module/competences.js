@@ -393,6 +393,64 @@ async function ajouterCompetencesParNoms(actor, noms, valeur = 1) {
 // MIGRATION : anciennes compétences (schéma fixe) → items
 // ------------------------------------------------
 const CDT_MIGRATION_SOCLES = { appreciation: "evaluation" }; // anciens identifiants → nouvelles clés
+const CDT_ICONES_CARAC = { savoir: "icons/svg/book.svg", perception: "icons/svg/eye.svg", charisme: "icons/svg/sound.svg", agilite: "icons/svg/lightning.svg", vigueur: "icons/svg/combat.svg" };
+
+/**
+ * Construit des données d'items "competence" à partir de l'ancien format
+ * `{ socle: { id: {label, valeur, caracLiee, xp} }, specialite: { id: {label, valeur, caracLiee, compSocle, xp} } }`.
+ * Les compétences connues sont prises dans le compendium (description, icône), les autres sont créées sur mesure.
+ * @param {object} legacy   ancien objet competences
+ * @param {Document[]} docs documents du compendium des compétences (optionnel)
+ * @param {object} options  { inclureZero: false } pour garder aussi les compétences à 0
+ */
+function itemsDepuisCompetencesLegacy(legacy, docs = [], { inclureZero = false } = {}) {
+  const aCreer = [];
+  const trouver = (nom, categorie) => docs.find(d => d.system?.categorie === categorie && slugCompetence(d.name) === slugCompetence(nom));
+
+  for (const [id, c] of Object.entries(legacy?.socle ?? {})) {
+    if (!c) continue;
+    const valeur = c.valeur ?? 0;
+    if (!inclureZero && !(valeur > 0)) continue;
+    const cle = CDT_MIGRATION_SOCLES[id] ?? slugCompetence(id);
+    const nomOfficiel = CDT_SOCLES[cle]?.label;
+    const doc = trouver(nomOfficiel ?? c.label ?? id, "socle");
+    if (doc) {
+      const data = doc.toObject();
+      data.system.valeur = valeur; data.system.xp = c.xp ?? 0;
+      aCreer.push(data);
+    } else {
+      const carac = c.caracLiee ?? CDT_SOCLES[cle]?.carac ?? "savoir";
+      aCreer.push({
+        name: c.label ?? nomOfficiel ?? id, type: "competence", img: CDT_ICONES_CARAC[carac] ?? "icons/svg/book.svg",
+        system: { categorie: "socle", caracteristique: carac, cle, socle: "", valeur, xp: c.xp ?? 0, auChoix: false, precision: "", description: "" },
+      });
+    }
+  }
+
+  for (const [id, c] of Object.entries(legacy?.specialite ?? {})) {
+    if (!c) continue;
+    const valeur = c.valeur ?? 0;
+    if (!inclureZero && !(valeur > 0)) continue;
+    const socle = CDT_MIGRATION_SOCLES[c.compSocle] ?? (c.compSocle ? slugCompetence(c.compSocle) : "");
+    const norm = normaliserNomCompetence(c.label ?? id) ?? { nom: c.label ?? id, precision: "" };
+    const doc = trouver(norm.nom, "specialite");
+    if (doc) {
+      const data = doc.toObject();
+      data.system.valeur = valeur; data.system.xp = c.xp ?? 0;
+      if (norm.precision) data.system.precision = norm.precision;
+      // On conserve le rattachement d'origine s'il existe sur la fiche, sinon celui du compendium
+      if (socle) data.system.socle = socle;
+      aCreer.push(data);
+    } else {
+      const carac = c.caracLiee ?? CDT_SOCLES[socle]?.carac ?? "savoir";
+      aCreer.push({
+        name: c.label ?? id, type: "competence", img: CDT_ICONES_CARAC[carac] ?? "icons/svg/book.svg",
+        system: { categorie: "specialite", caracteristique: carac, cle: "", socle, valeur, xp: c.xp ?? 0, auChoix: false, precision: "", description: "" },
+      });
+    }
+  }
+  return aCreer;
+}
 
 async function migrerCompetencesActeur(actor) {
   if (actor.type !== "personnage") return false;
@@ -402,26 +460,8 @@ async function migrerCompetencesActeur(actor) {
     return false;
   }
 
-  const legacy = actor.system.competences ?? {};
-  const aCreer = [];
-  const icone = (c) => ({ savoir: "icons/svg/book.svg", perception: "icons/svg/eye.svg", charisme: "icons/svg/sound.svg", agilite: "icons/svg/lightning.svg", vigueur: "icons/svg/combat.svg" })[c] ?? "icons/svg/book.svg";
-
-  for (const [id, c] of Object.entries(legacy.socle ?? {})) {
-    if (!(c?.valeur > 0)) continue;
-    const cle = CDT_MIGRATION_SOCLES[id] ?? id;
-    aCreer.push({
-      name: CDT_SOCLES[cle]?.label ?? c.label ?? id, type: "competence", img: icone(c.caracLiee),
-      system: { categorie: "socle", caracteristique: c.caracLiee ?? CDT_SOCLES[cle]?.carac ?? "savoir", cle, socle: "", valeur: c.valeur, xp: c.xp ?? 0, auChoix: false, precision: "", description: "" },
-    });
-  }
-  for (const [id, c] of Object.entries(legacy.specialite ?? {})) {
-    if (!(c?.valeur > 0)) continue;
-    const socle = CDT_MIGRATION_SOCLES[c.compSocle] ?? c.compSocle ?? "";
-    aCreer.push({
-      name: c.label ?? id, type: "competence", img: icone(c.caracLiee),
-      system: { categorie: "specialite", caracteristique: c.caracLiee ?? "savoir", cle: "", socle, valeur: c.valeur, xp: c.xp ?? 0, auChoix: false, precision: "", description: "" },
-    });
-  }
+  const docs = await (game.packs.get("chants-de-tindalos.competences")?.getDocuments() ?? []);
+  const aCreer = itemsDepuisCompetencesLegacy(actor.system.competences ?? {}, docs);
 
   if (aCreer.length) {
     await actor.createEmbeddedDocuments("Item", aCreer);
@@ -477,7 +517,7 @@ Hooks.once("init", function () {
 
   // Rend les constantes accessibles ailleurs (console, macros, autres modules)
   globalThis.CDT = globalThis.CDT ?? {};
-  Object.assign(globalThis.CDT, { CDT_CARACS, CDT_SOCLES, slugCompetence, cleSocle, regrouperCompetences, calculerDesCompetence, ajouterCompetencesParNoms });
+  Object.assign(globalThis.CDT, { CDT_CARACS, CDT_SOCLES, slugCompetence, cleSocle, regrouperCompetences, calculerDesCompetence, ajouterCompetencesParNoms, itemsDepuisCompetencesLegacy, migrerCompetencesActeur });
 });
 
 Hooks.once("ready", async function () {
@@ -506,5 +546,6 @@ export {
   calculerDesCompetence,
   ajouterCompetencesParNoms,
   normaliserNomCompetence,
+  itemsDepuisCompetencesLegacy,
   migrerCompetencesActeur,
 };

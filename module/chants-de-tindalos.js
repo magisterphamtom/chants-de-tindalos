@@ -2660,7 +2660,7 @@ async function initialiserWiki() {
 </ol>
 <p>À la fin, le personnage est créé automatiquement et sa fiche s'ouvre.</p>
 <h2>👥 Personnages prétirés (12 au total)</h2>
-<p>12 personnages issus du manuel sont disponibles. Les 4 du kit de découverte sont créés automatiquement. Les 8 supplémentaires s'importent via le script <strong>pretires.js</strong> dans la console F12.</p>
+<p>12 personnages issus du manuel sont disponibles. Les 5 du kit de découverte (dont Isaac Haddad, variante de Nora) sont importés automatiquement au premier lancement du monde dans le dossier <strong>👥 Pré-tirés</strong>, compétences converties en objets. Pour les ré-importer : <code>CDT.importerPretires(true)</code> dans la console F12.</p>
 <p><strong>Kit de découverte :</strong></p>
 <ul>
 <li><strong>Nora Haddad</strong> — Photographe d'Art (Perception 4)</li>
