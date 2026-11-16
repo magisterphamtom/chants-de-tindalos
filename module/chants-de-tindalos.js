@@ -2452,21 +2452,35 @@ async function initialiserWiki() {
       text: {
         content: `
 <h1>🎓 Les Compétences</h1>
-<h2>Compétences Socle (4 points)</h2>
+<p>Chaque personnage dispose de <strong>4 points de compétences socles</strong> et de <strong>8 points de compétences de spécialité</strong> à sa création. Une compétence vaut de 0 à 5.</p>
+<h2>Les 19 compétences socles</h2>
 <table>
-<thead><tr><th>Compétence</th><th>Caractéristique</th></tr></thead>
+<thead><tr><th>Caractéristique</th><th>Compétences socles</th></tr></thead>
 <tbody>
-<tr><td>Humanités</td><td>Savoir</td></tr>
-<tr><td>Appréciation</td><td>Perception</td></tr>
-<tr><td>Psychologie</td><td>Perception</td></tr>
-<tr><td>Étiquette</td><td>Charisme</td></tr>
-<tr><td>Bricolage</td><td>Agilité</td></tr>
-<tr><td>Athlétisme</td><td>Vigueur</td></tr>
+<tr><td>📚 Savoir</td><td>Humanités, Sciences, Recherche, Médecine, Technique et Industrie</td></tr>
+<tr><td>👁️ Perception</td><td>Évaluation, Enquête, Psychologie</td></tr>
+<tr><td>🗣️ Charisme</td><td>Apparence, Autorité, Éloquence</td></tr>
+<tr><td>⚡ Agilité</td><td>Bricolage, Conduite, Discrétion, Soins, Tir</td></tr>
+<tr><td>💪 Vigueur</td><td>Athlétisme, Corps-à-corps, Survie</td></tr>
 </tbody>
 </table>
-<h2>Compétences de Spécialité (8 points)</h2>
-<p>Dépendent d'une compétence socle. Jet = Caractéristique + Compétence socle + Spécialité.</p>
-<p>Dans Foundry, les compétences sont des <strong>objets</strong> : glissez-les depuis le compendium <strong>📜 Compétences</strong> (19 socles, 92 spécialités) vers l'onglet Compétences de la fiche. Le bouton <strong>➕ Nouvelle compétence</strong> permet d'en créer de nouvelles directement sur la fiche. Cliquez sur la ligne de compétence pour lancer le jet.</p>
+<h2>Les spécialités</h2>
+<p>Chaque spécialité est rattachée à un socle (Folklore à Humanités, Crochetage à Bricolage…). Un personnage peut posséder une spécialité <strong>sans</strong> avoir de point dans le socle correspondant. Le manuel en compte <strong>92</strong>, dont sept « au choix » (Langues, Pseudo-science, Spécialité médicale, Art visuel, Art de la scène, Artisanat, Pilotage) qui demandent une précision.</p>
+<h2>Le jet</h2>
+<p><strong>Jet de socle</strong> = Caractéristique + Socle.</p>
+<p><strong>Jet de spécialité</strong> = Caractéristique + Socle + Spécialité.</p>
+<p>Le détail du calcul s'affiche dans la carte de chat.</p>
+<h2>Dans Foundry : des objets à glisser</h2>
+<p>Les compétences sont des <strong>objets</strong>. Ouvrez le compendium <strong>📜 Compétences</strong> et glissez-les sur l'onglet Compétences de la fiche : elles se rangent automatiquement par caractéristique (socles) et par socle (spécialités).</p>
+<ul>
+<li><strong>Cliquer</strong> sur une ligne lance le jet</li>
+<li><strong>La case de droite</strong> modifie la valeur (0 à 5)</li>
+<li><strong>✏️</strong> ouvre la fiche de la compétence, <strong>🗑️</strong> la retire</li>
+<li>Une compétence « au choix » demande sa précision au moment du glisser-déposer (par exemple Langues : Allemand)</li>
+<li>Une même compétence ne peut pas être ajoutée deux fois (sauf avec une précision différente)</li>
+</ul>
+<h2>Créer ses propres compétences</h2>
+<p>Le bouton <strong>➕ Nouvelle compétence</strong> crée une compétence vierge sur la fiche et ouvre son formulaire : nom, type (socle ou spécialité), caractéristique, socle de rattachement, valeur, description. Les socles inventés apparaissent ensuite dans la liste de rattachement des spécialités. Pour réutiliser une compétence sur plusieurs personnages, créez-la dans l'onglet Objets du monde, elle pourra être glissée comme les autres.</p>
         `
       }
     },
