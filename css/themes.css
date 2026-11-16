@@ -170,7 +170,7 @@
   --bg:#14120f; --ink:#e9e2d0; --f-body:"CdT Cormorant",serif; --f-title:"CdT Limelight",serif; --f-label:"CdT Josefin",sans-serif; --f-num:"CdT Limelight",serif;
   --head-bg:#0c0b09; --head-ink:#e8cf7a; --head-muted:#a08a4a; --name-line:2px solid #c9a84c; --name-ls:.04em;
   --portrait-border:3px double #c9a84c; --portrait-bg:#1a1814; --r-img:0; --field-head-bg:rgba(201,168,76,.06); --field-head-border:1px solid #5a4a22;
-  --tabs-bg:#0c0b09; --tabs-line:2px solid #c9a84c; --tab-ink:#a08a4a; --tab-on-bg:linear-gradient(180deg,#c9a84c,#e8cf7a); --tab-on-ink:#0c0b09; --tab-ls:.16em;
+  --tabs-bg:#0c0b09; --tabs-line:2px solid #c9a84c; --tab-ink:#a08a4a; --tab-on-bg:linear-gradient(180deg,#c9a84c,#e8cf7a); --tab-on-ink:#0c0b09; --tab-ls:.05em;
   --paper:#1a1814; --paper-img:repeating-linear-gradient(45deg,transparent 0 26px,rgba(201,168,76,.035) 26px 28px);
   --sec-ink:#e8cf7a; --sec-line:none; --sec-bg:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent); --sec-pad:5px 0;
   --card-bg:#201d17; --card-border:1px solid #5a4a22; --label-ink:#c9a84c; --num-ink:#e8cf7a; --muted:#8a7a4a; --r:0; --r-case:0; --line:#5a4a22; --accent:#c9a84c;
@@ -229,7 +229,7 @@
   --bg:#f3e2b0; --ink:#1a1410; --f-body:"CdT Franklin",sans-serif; --f-title:"CdT Anton",sans-serif; --f-label:"CdT Oswald",sans-serif; --f-num:"CdT Anton",sans-serif;
   --head-bg:#c01818; --head-ink:#ffe45c; --head-muted:#ffd0c0; --name-line:4px solid #111; --name-tt:uppercase; --name-ls:.02em;
   --portrait-border:4px solid #111; --portrait-bg:#ffe45c; --r-img:0; --field-head-bg:#111; --field-head-border:2px solid #111;
-  --tabs-bg:#111; --tabs-line:4px solid #111; --tab-ink:#ffe45c; --tab-on-bg:#ffe45c; --tab-on-ink:#111; --tab-ls:.1em;
+  --tabs-bg:#111; --tabs-line:4px solid #111; --tab-ink:#ffe45c; --tab-on-bg:#ffe45c; --tab-on-ink:#111; --tab-ls:.05em;
   --paper:#f3e2b0; --paper-img:radial-gradient(circle,rgba(160,60,20,.18) 1.2px,transparent 1.6px); --paper-size:8px 8px;
   --sec-ink:#fff; --sec-line:none; --sec-bg:#111; --sec-pad:4px 10px; --card-bg:#fff6d0; --card-border:3px solid #111;
   --label-ink:#111; --num-ink:#c01818; --muted:#6a5a30; --r:0; --r-case:0; --line:#111; --accent:#111;
@@ -250,7 +250,7 @@
   --bg:#f1ead2; --ink:#1c1c1c; --f-body:"CdT Courier",monospace; --f-title:"CdT Courier",monospace; --f-label:"CdT Courier",monospace; --f-num:"CdT Courier",monospace;
   --head-bg:#f1ead2; --head-ink:#1c1c1c; --head-muted:#555; --name-line:2px solid #1c1c1c; --name-tt:uppercase; --name-ls:.12em;
   --portrait-border:2px solid #1c1c1c; --portrait-bg:#d8d0b0; --r-img:0; --field-head-bg:transparent; --field-head-border:1px solid #1c1c1c;
-  --tabs-bg:#1c1c1c; --tabs-line:none; --tab-ink:#d8d0b0; --tab-on-bg:#f1ead2; --tab-on-ink:#1c1c1c; --tab-ls:.1em;
+  --tabs-bg:#1c1c1c; --tabs-line:none; --tab-ink:#d8d0b0; --tab-on-bg:#f1ead2; --tab-on-ink:#1c1c1c; --tab-ls:.03em;
   --paper:#f1ead2; --paper-img:repeating-linear-gradient(180deg,transparent 0 3px,rgba(0,0,0,.025) 3px 4px);
   --sec-ink:#1c1c1c; --sec-line:2px solid #1c1c1c; --card-bg:transparent; --card-border:1px solid #1c1c1c;
   --label-ink:#1c1c1c; --num-ink:#1c1c1c; --muted:#666; --r:0; --r-case:0; --line:#1c1c1c; --accent:#1c1c1c;
@@ -271,7 +271,7 @@
   --bg:#e6e0cf; --ink:#1a1a1a; --f-body:"CdT OldStd",serif; --f-title:"CdT Fraktur",serif; --f-label:"CdT Playfair",serif; --f-num:"CdT Playfair",serif;
   --head-bg:#e6e0cf; --head-ink:#111; --head-muted:#555; --name-line:3px double #111;
   --portrait-border:1px solid #111; --portrait-bg:#bbb; --r-img:0; --field-head-bg:transparent; --field-head-border:none;
-  --tabs-bg:#e6e0cf; --tabs-line:3px double #111; --tab-ink:#111; --tab-on-bg:#111; --tab-on-ink:#e6e0cf; --tab-ls:.1em;
+  --tabs-bg:#e6e0cf; --tabs-line:3px double #111; --tab-ink:#111; --tab-on-bg:#111; --tab-on-ink:#e6e0cf; --tab-ls:.04em;
   --paper:#e6e0cf; --paper-img:radial-gradient(ellipse at top,rgba(255,255,255,.35),transparent 60%);
   --sec-ink:#111; --sec-line:3px double #111; --card-bg:transparent; --card-border:1px solid #111;
   --label-ink:#111; --num-ink:#111; --muted:#555; --r:0; --r-case:0; --line:#111; --accent:#111;
@@ -292,7 +292,7 @@
   --bg:#0a1416; --ink:#cfe6e0; --f-body:"CdT Spectral",serif; --f-title:"CdT Cinzel",serif; --f-label:"CdT Chakra",sans-serif; --f-num:"CdT Chakra",sans-serif;
   --head-bg:linear-gradient(135deg,#0f2226,#08191c); --head-ink:#9ff0dc; --head-muted:#5aa89a; --name-line:1px solid #2aa090; --name-tt:uppercase; --name-ls:.08em;
   --portrait-border:1px solid #2aa090; --portrait-bg:#0f2a2c; --r-img:0; --field-head-bg:rgba(42,160,144,.08); --field-head-border:1px solid #1a5a52;
-  --tabs-bg:#08191c; --tabs-line:1px solid #2aa090; --tab-ink:#5aa89a; --tab-on-bg:linear-gradient(180deg,rgba(42,160,144,.35),rgba(42,160,144,.08)); --tab-on-ink:#9ff0dc; --tab-ls:.14em;
+  --tabs-bg:#08191c; --tabs-line:1px solid #2aa090; --tab-ink:#5aa89a; --tab-on-bg:linear-gradient(180deg,rgba(42,160,144,.35),rgba(42,160,144,.08)); --tab-on-ink:#9ff0dc; --tab-ls:.05em;
   --paper:#0d1d20; --paper-img:linear-gradient(135deg,rgba(42,160,144,.05) 25%,transparent 25% 50%,rgba(42,160,144,.05) 50% 75%,transparent 75%); --paper-size:26px 26px;
   --sec-ink:#7fe0cc; --sec-line:1px solid #1a5a52; --card-bg:rgba(15,42,44,.8); --card-border:1px solid #1a6a60;
   --label-ink:#5aa89a; --num-ink:#9ff0dc; --muted:#4a8a80; --r:0; --r-case:0; --line:#1a6a60; --accent:#2aa090;
