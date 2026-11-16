@@ -706,7 +706,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   static DEFAULT_OPTIONS = {
     classes: ["chants-de-tindalos", "sheet", "actor"],
-    position: { width: 680, height: 780 },
+    position: { width: 760, height: 800 },
     window: { resizable: true },
   };
 
@@ -2028,7 +2028,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 
   static DEFAULT_OPTIONS = {
     classes: ["chants-de-tindalos", "sheet", "actor", "pnj"],
-    position: { width: 480, height: 560 },
+    position: { width: 600, height: 700 },
     window: { resizable: true },
   };
 

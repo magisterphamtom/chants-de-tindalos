@@ -1369,3 +1369,8 @@
   font-style: italic;
   text-align: center;
 }
+
+/* --- TAILLE DU TEXTE : 18 px (fiches de personnage et PNJ) --- */
+.chants-de-tindalos.sheet .window-content { font-size: 18px; }
+.chants-de-tindalos .tab { max-height: 560px; }
+.chants-de-tindalos .sheet-tabs .item { padding: 8px 10px; letter-spacing: .5px; }
