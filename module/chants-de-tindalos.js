@@ -159,9 +159,10 @@ async function piocherCartePLP(niveau, acteur) {
   const perteTension = await calculerPerteTension(niveau);
 
   // Carte visible uniquement par le MJ et les propriétaires de la fiche
-  const destinataires = acteur
-    ? game.users.filter((u) => u.isGM || acteur.testUserPermission(u, "OWNER")).map((u) => u.id)
-    : [];
+  // (sans fiche connue : MJ uniquement — jamais un message public)
+  const destinataires = game.users
+    .filter((u) => u.isGM || (acteur && acteur.testUserPermission(u, "OWNER")))
+    .map((u) => u.id);
 
   await ChatMessage.create({
     speaker: acteur ? ChatMessage.getSpeaker({ actor: acteur }) : {},
