@@ -954,7 +954,6 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       if (pack) pack.render(true);
       else ui.notifications.warn("Compendium des compétences introuvable.");
     });
-    });
 
     html.querySelectorAll(".btn-jet-maitrise").forEach((el) => {
       el.addEventListener("click", (ev) => {
