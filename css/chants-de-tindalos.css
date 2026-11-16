@@ -1258,3 +1258,114 @@
   resize: vertical;
   box-sizing: border-box;
 }
+/* --- COMPÉTENCES (items, drag & drop) --- */
+.chants-de-tindalos .comp-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.chants-de-tindalos .comp-toolbar button {
+  padding: 5px 10px;
+  border: 1px solid #8b4513;
+  border-radius: 4px;
+  background: #fff8e8;
+  color: #5a2a2a;
+  font-size: 0.85em;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.chants-de-tindalos .comp-toolbar button:hover {
+  background: #f0d080;
+}
+
+.chants-de-tindalos .comp-toolbar .drop-hint {
+  margin-left: auto;
+  font-size: 0.75em;
+  color: #aaa;
+  font-weight: normal;
+}
+
+.chants-de-tindalos .competences-drop {
+  min-height: 120px;
+  border: 1px dashed #d4a96a;
+  border-radius: 4px;
+  padding: 6px 8px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.chants-de-tindalos .competences-drop.drag-over {
+  background: #f0e0a0;
+  border-color: #8b4513;
+}
+
+.chants-de-tindalos .comp-groupe {
+  margin-bottom: 8px;
+}
+
+.chants-de-tindalos .comp-groupe-titre {
+  font-size: 0.78em;
+  font-weight: bold;
+  color: #5a2a2a;
+  padding: 2px 4px;
+  margin-bottom: 2px;
+  border-bottom: 1px solid #d4a96a;
+}
+
+.chants-de-tindalos .comp-groupe-socle {
+  font-weight: normal;
+  color: #8b4513;
+  font-style: italic;
+}
+
+.chants-de-tindalos .competence-row.comp-item .comp-carac {
+  width: 86px;
+}
+
+.chants-de-tindalos .competence-row.comp-a-preciser .comp-name {
+  color: #a05a00;
+}
+
+.chants-de-tindalos .competence-row .comp-name em {
+  font-size: 0.85em;
+  color: #a05a00;
+}
+
+.chants-de-tindalos .comp-actions {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+  opacity: 0.35;
+  transition: opacity 0.15s;
+}
+
+.chants-de-tindalos .competence-row:hover .comp-actions {
+  opacity: 1;
+}
+
+.chants-de-tindalos .comp-actions button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #d4a96a;
+  background: #fff8e8;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8em;
+  line-height: 1;
+}
+
+.chants-de-tindalos .comp-actions button:hover {
+  background: #f0d080;
+}
+
+.chants-de-tindalos .comp-aide {
+  margin-top: 8px;
+  font-size: 0.78em;
+  color: #8b4513;
+  font-style: italic;
+  text-align: center;
+}

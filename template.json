@@ -1,16 +1,28 @@
 {
   "Actor": {
-    "types": ["personnage", "pnj"],
+    "types": [
+      "personnage",
+      "pnj"
+    ],
     "personnage": {},
     "pnj": {}
   },
   "Item": {
-    "types": ["arme", "equipement", "vehicule", "substance", "artefact", "revelation"],
+    "types": [
+      "arme",
+      "equipement",
+      "vehicule",
+      "substance",
+      "artefact",
+      "revelation",
+      "competence"
+    ],
     "arme": {},
     "equipement": {},
     "vehicule": {},
     "substance": {},
     "artefact": {},
-    "revelation": {}
+    "revelation": {},
+    "competence": {}
   }
 }

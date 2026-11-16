@@ -4,6 +4,7 @@
 // ================================================
 
 import { PersonnageDataModel, PNJDataModel, ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel, ArtefactDataModel, RevelationDataModel } from "./datamodels.js";
+import { regrouperCompetences, calculerDesCompetence, libelleCompetence } from "./competences.js";
 
 const { ActorSheetV2 } = foundry.applications.sheets;
 const { HandlebarsApplicationMixin } = foundry.applications.api;
@@ -728,6 +729,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
     context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
     context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
+    context.competences      = regrouperCompetences(this.actor);
     return context;
   }
 
@@ -742,6 +744,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.itemsEquipements = this.actor.items.filter(i => i.type === "equipement");
     context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
     context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
+    context.competences      = regrouperCompetences(this.actor);
     return context;
   }
 
@@ -891,20 +894,65 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       });
     });
 
-    html.querySelectorAll(".comp-socle.rollable").forEach((el) => {
+    // --- COMPÉTENCES (items) ---
+    html.querySelectorAll(".competence-row.comp-item").forEach((el) => {
       el.addEventListener("click", (ev) => {
+        // On ignore les clics sur le champ de valeur et les boutons
+        if (ev.target.closest("input, button, .comp-actions")) return;
         ev.preventDefault();
         ev.stopPropagation();
-        this._jetCompetence(ev.currentTarget.dataset.comp, "socle");
+        this._jetCompetenceItem(ev.currentTarget.dataset.itemId);
       });
     });
 
-    html.querySelectorAll(".comp-specialite.rollable").forEach((el) => {
+    html.querySelectorAll(".comp-item-value").forEach((input) => {
+      input.addEventListener("click", (ev) => ev.stopPropagation());
+      input.addEventListener("change", async (ev) => {
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (!item) return;
+        const valeur = Math.max(0, Math.min(5, Number(ev.currentTarget.value) || 0));
+        await item.update({ "system.valeur": valeur });
+      });
+    });
+
+    html.querySelectorAll(".btn-ouvrir-competence").forEach((el) => {
       el.addEventListener("click", (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        this._jetCompetence(ev.currentTarget.dataset.comp, "specialite");
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (item) item.sheet.render(true);
       });
+    });
+
+    html.querySelectorAll(".btn-supprimer-competence").forEach((el) => {
+      el.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const item = this.actor.items.get(ev.currentTarget.dataset.itemId);
+        if (!item) return;
+        const confirme = await foundry.applications.api.DialogV2.confirm({
+          window: { title: "Retirer la compétence" },
+          content: `<p>Retirer <b>${libelleCompetence(item)}</b> de la fiche ?</p>`,
+          rejectClose: false,
+        });
+        if (confirme) await item.delete();
+      });
+    });
+
+    html.querySelector(".btn-nouvelle-competence")?.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      await this._nouvelleCompetence();
+    });
+
+    html.querySelector(".btn-compendium-competences")?.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      const pack = game.packs.get("chants-de-tindalos.competences");
+      if (pack) pack.render(true);
+      else ui.notifications.warn("Compendium des compétences introuvable.");
+    });
     });
 
     html.querySelectorAll(".btn-jet-maitrise").forEach((el) => {
@@ -1071,6 +1119,9 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       } else if (zoneInv) {
         const type = zoneInv.dataset.type;
         if (item.type !== type) { ui.notifications.warn(`Seuls les éléments de type "${type}" peuvent être glissés ici.`); }
+        else if (type === "competence") {
+          await this._ajouterCompetence(item);
+        }
         else {
           await this.actor.createEmbeddedDocuments("Item", [item.toObject()]);
           ui.notifications.info(`✅ ${item.name} ajouté !`);
@@ -1206,21 +1257,81 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
   }
 
   // ------------------------------------------------
-  // JET DE COMPÉTENCE
+  // COMPÉTENCES (items)
   // ------------------------------------------------
-  async _jetCompetence(compId, type) {
+
+  /** Ajoute une compétence (depuis le compendium ou le monde) en évitant les doublons. */
+  async _ajouterCompetence(item) {
+    const data = item.toObject();
+    const nom = data.name.trim().toLowerCase();
+
+    // Compétence "au choix" : on demande la précision avant de créer
+    if (data.system?.auChoix) {
+      const precision = await this._demanderPrecision(data.name);
+      if (precision === null) return;
+      data.system.precision = precision;
+    }
+
+    const doublon = this.actor.items.find(i =>
+      i.type === "competence" &&
+      i.name.trim().toLowerCase() === nom &&
+      (i.system.precision ?? "").trim().toLowerCase() === (data.system?.precision ?? "").trim().toLowerCase()
+    );
+    if (doublon) {
+      ui.notifications.warn(`${libelleCompetence(doublon)} est déjà sur la fiche.`);
+      return;
+    }
+
+    const [cree] = await this.actor.createEmbeddedDocuments("Item", [data]);
+    ui.notifications.info(`📜 ${libelleCompetence(cree)} ajoutée !`);
+  }
+
+  /** Demande la précision d'une compétence "au choix" (Langues → Allemand, etc.). Renvoie null si annulé. */
+  async _demanderPrecision(nom) {
+    try {
+      const resultat = await foundry.applications.api.DialogV2.prompt({
+        window: { title: `${nom} — compétence au choix` },
+        content: `<p>Quelle est la précision de <b>${nom}</b> ?</p>
+          <div class="form-group">
+            <label>Précision</label>
+            <input type="text" name="precision" placeholder="Ex : Allemand, Peinture, Avion…" autofocus />
+          </div>`,
+        ok: {
+          label: "Valider",
+          callback: (ev, button) => button.form.elements.precision.value.trim(),
+        },
+        rejectClose: true,
+      });
+      return resultat ?? "";
+    } catch {
+      return null;
+    }
+  }
+
+  /** Crée une compétence personnalisée vierge sur la fiche et ouvre sa fiche d'item. */
+  async _nouvelleCompetence() {
+    const [item] = await this.actor.createEmbeddedDocuments("Item", [{
+      name: "Nouvelle compétence",
+      type: "competence",
+      img: "icons/svg/book.svg",
+      system: { categorie: "specialite", caracteristique: "savoir", socle: "", valeur: 0 },
+    }]);
+    item?.sheet.render(true);
+  }
+
+  /** Jet de compétence : Carac + Socle (spécialité) + Valeur. */
+  async _jetCompetenceItem(itemId) {
+    const item = this.actor.items.get(itemId);
+    if (!item || item.type !== "competence") return;
     const system = this.actor.system;
-    const comp = system.competences?.[type]?.[compId];
-    if (!comp) return;
 
-    const caracVal = system.caracteristiques?.[comp.caracLiee]?.valeur ?? 1;
-    const compVal = comp.valeur ?? 0;
-    const nbDesBase = caracVal + compVal;
+    const { nbDes: nbDesBase, carac, detail } = calculerDesCompetence(this.actor, item);
     const sd = system.seuilDifficulte ?? 3;
-    const cout = system.caracteristiques?.[comp.caracLiee]?.cout ?? 3;
+    const cout = carac?.cout ?? 3;
     const espoir = system.jauges?.espoir?.valeur ?? 0;
+    const nomAction = libelleCompetence(item);
 
-    const choix = await ouvrirDialogueJet(comp.label, nbDesBase, sd, cout, espoir);
+    const choix = await ouvrirDialogueJet(nomAction, nbDesBase, sd, cout, espoir);
     if (!choix.lancer) return;
 
     const nbDes = nbDesBase + choix.desBonus + choix.desMJ;
@@ -1236,7 +1347,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
       await this.actor.update({ "system.jauges.espoir.valeur": espoir - 1 });
     }
 
-    const resultat = await lancerDesD6(nbDes, sd, comp.label, choix.depenseEspoir);
+    const resultat = await lancerDesD6(nbDes, sd, `${nomAction} <span style="font-weight:normal;font-size:0.85em;color:#5c3010;">(${detail})</span>`, choix.depenseEspoir);
 
     if (resultat.espoirBonusObtenu) {
       const espoirActuel = this.actor.system.jauges?.espoir?.valeur ?? 0;
@@ -2336,7 +2447,7 @@ async function initialiserWiki() {
 </table>
 <h2>Compétences de Spécialité (8 points)</h2>
 <p>Dépendent d'une compétence socle. Jet = Caractéristique + Compétence socle + Spécialité.</p>
-<p>Dans Foundry, cliquez sur la ligne de compétence pour lancer le jet.</p>
+<p>Dans Foundry, les compétences sont des <strong>objets</strong> : glissez-les depuis le compendium <strong>📜 Compétences</strong> (19 socles, 92 spécialités) vers l'onglet Compétences de la fiche. Le bouton <strong>➕ Nouvelle compétence</strong> permet d'en créer de nouvelles directement sur la fiche. Cliquez sur la ligne de compétence pour lancer le jet.</p>
         `
       }
     },

@@ -1,0 +1,116 @@
+<div class="arme-sheet-body competence-sheet-body">
+<style>
+.competence-sheet-body { display:flex; flex-direction:column; height:100%; background:#f4e8d0; font-family:inherit; }
+.competence-sheet-body .arme-header { display:flex; gap:16px; padding:14px 16px; background:#3d1a1a; align-items:center; }
+.competence-sheet-body .arme-portrait-wrapper { position:relative; width:72px; height:72px; flex-shrink:0; cursor:pointer; border-radius:6px; overflow:hidden; border:2px solid #8b4513; background:#f4e8d0; }
+.competence-sheet-body .arme-portrait { width:100%; height:100%; object-fit:contain; display:block; padding:6px; box-sizing:border-box; }
+.competence-sheet-body .arme-portrait-overlay { position:absolute; inset:0; background:rgba(0,0,0,0.5); display:flex; align-items:center; justify-content:center; font-size:1.5em; opacity:0; transition:opacity 0.2s; }
+.competence-sheet-body .arme-portrait-wrapper:hover .arme-portrait-overlay { opacity:1; }
+.competence-sheet-body .arme-header-infos { flex:1; display:flex; flex-direction:column; gap:8px; min-width:0; }
+.competence-sheet-body .arme-nom-input { background:transparent; border:none; border-bottom:1px solid #8b4513; color:#d4a96a; font-size:1.3em; font-weight:bold; width:100%; padding:2px 0; }
+.competence-sheet-body .arme-nom-input:focus { outline:none; border-bottom-color:#f0d080; }
+.competence-sheet-body .arme-badges { display:flex; flex-wrap:wrap; gap:6px; }
+.competence-sheet-body .arme-badge { padding:3px 10px; border-radius:12px; font-size:0.82em; font-weight:bold; background:#5a2a2a; color:#d4a96a; border:1px solid #8b4513; }
+.competence-sheet-body .arme-content { flex:1; overflow-y:auto; padding:14px 16px; }
+.competence-sheet-body .section-title { font-weight:bold; font-size:0.8em; letter-spacing:0.1em; text-transform:uppercase; color:#8b4513; border-bottom:1px solid #d4a96a; padding-bottom:4px; margin:12px 0 8px 0; }
+.competence-sheet-body .arme-stat-group { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px; }
+.competence-sheet-body .arme-stat-box { display:flex; flex-direction:column; gap:3px; }
+.competence-sheet-body .arme-stat-box.pleine-largeur { grid-column:1 / -1; }
+.competence-sheet-body .arme-stat-box label { font-size:0.78em; font-weight:bold; color:#8b4513; text-transform:uppercase; }
+.competence-sheet-body .arme-stat-box input, .competence-sheet-body .arme-stat-box select { padding:6px 8px; border:1px solid #d4a96a; border-radius:4px; background:#fff8e8; color:#2c1810; font-size:0.95em; }
+.competence-sheet-body .arme-stat-box .case-a-cocher { display:flex; align-items:center; gap:8px; padding:6px 0; font-size:0.9em; color:#2c1810; text-transform:none; font-weight:normal; }
+.competence-sheet-body .arme-description-box textarea { width:100%; min-height:90px; padding:8px 10px; border:1px solid #d4a96a; border-radius:4px; background:#fff8e8; color:#2c1810; resize:vertical; font-size:0.95em; box-sizing:border-box; }
+.competence-sheet-body .competence-aide { font-size:0.82em; color:#8b4513; font-style:italic; margin:4px 0 8px 0; }
+.competence-sheet-body .btn-jet-competence-item { margin-top:10px; width:100%; padding:8px; border:none; border-radius:4px; background:#8b4513; color:#fff; font-weight:bold; cursor:pointer; font-size:1em; }
+.competence-sheet-body .btn-jet-competence-item:hover { background:#6d340e; }
+</style>
+
+  <header class="arme-header">
+    <div class="arme-portrait-wrapper">
+      <img class="arme-portrait" src="{{item.img}}" title="Cliquer pour changer" />
+      <div class="arme-portrait-overlay">🖼️</div>
+    </div>
+    <div class="arme-header-infos">
+      <input class="arme-nom-input" type="text" name="name" value="{{item.name}}" />
+      <div class="arme-badges">
+        <span class="arme-badge">{{#if estSocle}}🏛️ Socle{{else}}🎯 Spécialité{{/if}}</span>
+        <span class="arme-badge">{{caracLabel}}</span>
+        {{#unless estSocle}}{{#if socleLabel}}<span class="arme-badge">↳ {{socleLabel}}</span>{{/if}}{{/unless}}
+        {{#if system.precision}}<span class="arme-badge">({{system.precision}})</span>{{/if}}
+      </div>
+    </div>
+  </header>
+
+  <div class="arme-content">
+    <div class="section-title">Définition</div>
+    <div class="arme-stat-group">
+      <div class="arme-stat-box">
+        <label>Type</label>
+        <select name="system.categorie">
+          <option value="socle"      {{#if estSocle}}selected{{/if}}>Compétence socle</option>
+          <option value="specialite" {{#unless estSocle}}selected{{/unless}}>Compétence de spécialité</option>
+        </select>
+      </div>
+      <div class="arme-stat-box">
+        <label>Caractéristique</label>
+        <select name="system.caracteristique">
+          {{#each caracs as |c|}}
+          <option value="{{c.cle}}" {{#if c.selected}}selected{{/if}}>{{c.icone}} {{c.label}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      {{#if estSocle}}
+      <div class="arme-stat-box pleine-largeur">
+        <label>Clé du socle</label>
+        <input type="text" name="system.cle" value="{{system.cle}}" placeholder="{{cleAffichee}}" />
+        <div class="competence-aide">Identifiant utilisé par les spécialités pour se rattacher à ce socle. Laissez vide pour utiliser « {{cleAffichee}} ».</div>
+      </div>
+      {{else}}
+      <div class="arme-stat-box pleine-largeur">
+        <label>Socle de rattachement</label>
+        <select name="system.socle">
+          <option value="" {{#unless system.socle}}selected{{/unless}}>— Aucun —</option>
+          {{#each socles as |s|}}
+          <option value="{{s.cle}}" {{#if s.selected}}selected{{/if}}>{{s.label}}</option>
+          {{/each}}
+        </select>
+        <div class="competence-aide">Jet = Caractéristique + Socle + Spécialité. Les socles personnalisés du personnage apparaissent aussi dans la liste.</div>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="section-title">Valeurs</div>
+    <div class="arme-stat-group">
+      <div class="arme-stat-box">
+        <label>Valeur (0–5)</label>
+        <input type="number" name="system.valeur" value="{{system.valeur}}" min="0" max="5" />
+      </div>
+      <div class="arme-stat-box">
+        <label>XP</label>
+        <input type="number" name="system.xp" value="{{system.xp}}" min="0" />
+      </div>
+      <div class="arme-stat-box">
+        <label>Au choix</label>
+        <label class="case-a-cocher">
+          <input type="checkbox" name="system.auChoix" {{#if system.auChoix}}checked{{/if}} />
+          Nécessite une précision
+        </label>
+      </div>
+      <div class="arme-stat-box">
+        <label>Précision</label>
+        <input type="text" name="system.precision" value="{{system.precision}}" placeholder="Ex : Allemand, Peinture…" />
+      </div>
+    </div>
+
+    <div class="section-title">Description</div>
+    <div class="arme-description-box">
+      <textarea name="system.description" placeholder="Description de la compétence...">{{system.description}}</textarea>
+    </div>
+
+    {{#if item.actor}}
+    <button type="button" class="btn-jet-competence-item">🎲 Lancer {{libelle}}</button>
+    {{/if}}
+  </div>
+
+</div>

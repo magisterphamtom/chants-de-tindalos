@@ -371,6 +371,25 @@ class RevelationDataModel extends foundry.abstract.TypeDataModel {
 }
 
 // ------------------------------------------------
+// DATAMODEL : Compétence (Item)
+// ------------------------------------------------
+class CompetenceDataModel extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    return {
+      categorie:       new StringField({ initial: "specialite", choices: ["socle", "specialite"] }),
+      caracteristique: new StringField({ initial: "savoir", choices: ["savoir", "perception", "charisme", "agilite", "vigueur"] }),
+      cle:             new StringField({ initial: "" }),   // identifiant d'un socle (ex: "humanites"), utilisé par les spécialités
+      socle:           new StringField({ initial: "" }),   // clé du socle parent (spécialités uniquement)
+      valeur:          new NumberField({ initial: 0, min: 0, max: 5, integer: true }),
+      xp:              new NumberField({ initial: 0, min: 0, integer: true }),
+      auChoix:         new BooleanField({ initial: false }), // compétence "(au choix)" nécessitant une précision
+      precision:       new StringField({ initial: "" }),     // ex: "Allemand" pour Langues
+      description:     new StringField({ initial: "" }),
+    };
+  }
+}
+
+// ------------------------------------------------
 // EXPORTS
 // ------------------------------------------------
 export {
@@ -382,4 +401,5 @@ export {
   SubstanceDataModel,
   ArtefactDataModel,
   RevelationDataModel,
+  CompetenceDataModel,
 };

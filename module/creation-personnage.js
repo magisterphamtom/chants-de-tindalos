@@ -3,6 +3,8 @@
 // Les Chants de Tindalos — Foundry VTT
 // ================================================
 
+import { ajouterCompetencesParNoms } from "./competences.js";
+
 // ------------------------------------------------
 // DONNÉES : PROFESSIONS
 // ------------------------------------------------
@@ -1861,6 +1863,23 @@ class CdTCreationPersonnage extends foundry.applications.api.ApplicationV2 {
     };
 
     const acteur = await Actor.create(actorData);
+
+    // Compétences suggérées par le parcours (métier + profession + expérience),
+    // ajoutées depuis le compendium avec 1 point chacune — à ajuster sur la fiche.
+    try {
+      const nomsCompetences = [];
+      if (d.milieu && d.champ && d.metier && d.profession) {
+        const metier = CDT_PROFESSIONS[d.milieu].champs[d.champ].metiers[d.metier];
+        const prof = metier.professions[d.profession];
+        nomsCompetences.push(...(metier.socles ?? []), ...(prof.specialites ?? []));
+      }
+      if (exp) nomsCompetences.push(exp.spec1, exp.spec2);
+      const nb = await ajouterCompetencesParNoms(acteur, nomsCompetences, 1);
+      if (nb) ui.notifications.info(`📜 ${nb} compétence(s) ajoutée(s) depuis le compendium.`);
+    } catch (e) {
+      console.error("CDT | Ajout des compétences du parcours :", e);
+    }
+
     ui.notifications.info(`✨ ${acteur.name} a été créé avec succès !`);
     acteur.sheet.render(true);
     this.close();
