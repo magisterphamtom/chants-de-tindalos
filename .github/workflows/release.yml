@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mettre à jour system.json avec la version du tag
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          REPO="${GITHUB_REPOSITORY}"
+          jq --arg v "$VERSION" \
+             --arg manifest "https://github.com/${REPO}/releases/latest/download/system.json" \
+             --arg download "https://github.com/${REPO}/releases/download/${GITHUB_REF_NAME}/system.zip" \
+             '.version = $v | .manifest = $manifest | .download = $download' \
+             system.json > system.tmp && mv system.tmp system.json
+          cat system.json
+
+      - name: Créer system.zip (system.json à la racine)
+        run: |
+          zip -r system.zip . \
+            -x ".git/*" ".github/*" "screenshots/*" "*.zip" "README*.md" "gitignore"
+
+      - name: Publier la Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            system.json
+            system.zip
+          generate_release_notes: true

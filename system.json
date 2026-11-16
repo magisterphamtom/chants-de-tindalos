@@ -2,7 +2,7 @@
   "id": "chants-de-tindalos",
   "title": "Les Chants de Tindalos",
   "description": "Adaptation du système PLP des Chants de Tindalos pour Foundry VTT v14. Un jeu de rôle d'horreur lovecraftienne se déroulant dans l'Amérique des années 1920, publié par Walpurgis Éditions.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "compatibility": {
     "minimum": "14",
     "verified": "14.368",
@@ -103,11 +103,10 @@
   ],
   "socket": false,
   "url": "https://github.com/magisterphamtom/chants-de-tindalos",
-  "manifest": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/system.json",
-  "download": "https://github.com/magisterphamtom/chants-de-tindalos/archive/refs/heads/main.zip",
+  "manifest": "https://github.com/magisterphamtom/chants-de-tindalos/releases/latest/download/system.json",
+  "download": "https://github.com/magisterphamtom/chants-de-tindalos/releases/download/v0.4.2/system.zip",
   "readme": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/README.md",
   "bugs": "https://github.com/magisterphamtom/chants-de-tindalos/issues",
-  "changelog": "https://raw.githubusercontent.com/magisterphamtom/chants-de-tindalos/main/CHANGELOG.md",
   "license": "All rights reserved - Walpurgis Éditions",
   "media": [
     {
