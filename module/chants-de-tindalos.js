@@ -601,12 +601,13 @@ Hooks.once("init", function () {
   });
 
   // --- SETTINGS (doivent être enregistrés pendant "init") ---
-  game.settings.register("chants-de-tindalos", "wikiDejaVu", {
-    name: "Wiki déjà consulté",
+  game.settings.register("chants-de-tindalos", "wikiOuvertureAuto", {
+    name: "Ouvrir le wiki au lancement",
+    hint: "Ouvre automatiquement le wiki du système à chaque connexion au monde.",
     scope: "client",
-    config: false,
+    config: true,
     type: Boolean,
-    default: false,
+    default: true,
   });
 
   chargerTemplates();
@@ -622,26 +623,20 @@ Hooks.once("ready", async function () {
       console.error("CDT | Erreur lors de l'initialisation des tables PLP ou du Wiki :", err);
     }
   }
-  await afficherWikiSiPremiereLancement();
+  await afficherWikiAuLancement();
 });
 
 // ================================================
-// WIKI — OUVERTURE AUTOMATIQUE AU PREMIER LANCEMENT
+// WIKI — OUVERTURE AUTOMATIQUE À CHAQUE LANCEMENT
+// (désactivable dans Paramètres → Chants de Tindalos)
 // ================================================
-async function afficherWikiSiPremiereLancement() {
-  const CLE = "wikiDejaVu";
-  const dejaVu = game.settings.get("chants-de-tindalos", CLE);
-  if (!dejaVu) {
-    setTimeout(async () => {
-      const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
-      if (journal) {
-        journal.sheet.render(true);
-        await game.settings.set("chants-de-tindalos", CLE, true);
-      } else {
-        console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
-      }
-    }, 1500);
-  }
+async function afficherWikiAuLancement() {
+  if (!game.settings.get("chants-de-tindalos", "wikiOuvertureAuto")) return;
+  setTimeout(() => {
+    const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
+    if (journal) journal.sheet.render(true);
+    else console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
+  }, 1500);
 }
 
 // ================================================
