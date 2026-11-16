@@ -147,6 +147,13 @@ async function creerTablePLP(niveau) {
   return table;
 }
 
+// Destinataires d'un message privé : le MJ + les propriétaires de la fiche (jamais les autres joueurs)
+function destinatairesPrives(acteur) {
+  return game.users
+    .filter((u) => u.isGM || (acteur && acteur.testUserPermission(u, "OWNER")))
+    .map((u) => u.id);
+}
+
 async function piocherCartePLP(niveau, acteur) {
   const nomTable = `PLP - Niveau ${niveau}`;
   const table = game.tables.find((t) => t.name === nomTable);
@@ -160,9 +167,7 @@ async function piocherCartePLP(niveau, acteur) {
 
   // Carte visible uniquement par le MJ et les propriétaires de la fiche
   // (sans fiche connue : MJ uniquement — jamais un message public)
-  const destinataires = game.users
-    .filter((u) => u.isGM || (acteur && acteur.testUserPermission(u, "OWNER")))
-    .map((u) => u.id);
+  const destinataires = destinatairesPrives(acteur);
 
   await ChatMessage.create({
     speaker: acteur ? ChatMessage.getSpeaker({ actor: acteur }) : {},
@@ -289,6 +294,7 @@ async function gagnerXPFolie(acteur, montant = 1) {
 
   await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor: acteur }),
+    whisper: destinatairesPrives(acteur),
     content: `
       <div style="background:#f0d0f0;border:1px solid #6a1a7c;
                   padding:8px;border-radius:4px;">
@@ -326,6 +332,7 @@ async function gagnerXPEspoir(acteur, montant = 1) {
 
   await ChatMessage.create({
     speaker: ChatMessage.getSpeaker({ actor: acteur }),
+    whisper: destinatairesPrives(acteur),
     content: `
       <div style="background:#f0f0d0;border:1px solid #c8a020;
                   padding:8px;border-radius:4px;">
@@ -1450,6 +1457,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
 
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      whisper: destinatairesPrives(this.actor),
       rolls: [roll],
       content: `
         <div style="background:#f4e8d0;border:1px solid #8b4513;
@@ -2184,6 +2192,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      whisper: destinatairesPrives(this.actor),
       rolls: [roll],
       content: `
         <div style="background:#f4e8d0;border:1px solid #8b4513;
