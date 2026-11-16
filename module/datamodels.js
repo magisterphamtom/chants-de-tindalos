@@ -35,6 +35,17 @@ class PersonnageDataModel extends foundry.abstract.TypeDataModel {
 
   static defineSchema() {
     return {
+      // Cartes PLP tirées après un jet de Maîtrise raté (la plus récente en premier)
+      plp: new SchemaField({
+        historique: new ArrayField(new SchemaField({
+          niveau: new NumberField({ initial: 1, integer: true }),
+          texte:  new StringField({ initial: "" }),
+          perte:  new NumberField({ initial: 0, integer: true }),
+          tension: new NumberField({ initial: 0, integer: true }),
+          date:   new StringField({ initial: "" }),
+        }), { initial: [] }),
+      }),
+
       identite: new SchemaField({
         profession:  new StringField({ initial: "" }),
         origine:     new StringField({ initial: "" }),

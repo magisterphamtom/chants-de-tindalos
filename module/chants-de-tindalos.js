@@ -183,6 +183,23 @@ async function piocherCartePLP(niveau, acteur) {
     `,
   });
 
+  // Mémorise la carte dans la fiche (encadré « Cartes PLP »)
+  if (acteur?.isOwner && acteur.system?.plp) {
+    try {
+      const ancien = acteur.system.plp.historique ?? [];
+      const entree = {
+        niveau,
+        texte: carte.text ?? "",
+        perte: perteTension,
+        tension: Number(acteur.system.jauges?.tension?.valeur) || 0,
+        date: new Date().toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }),
+      };
+      await acteur.update({ "system.plp.historique": [entree, ...ancien.map((e) => ({ ...e }))].slice(0, 10) });
+    } catch (err) {
+      console.warn("CDT | Impossible d'enregistrer la carte PLP dans la fiche :", err);
+    }
+  }
+
   return { carte, perteTension };
 }
 
@@ -751,6 +768,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
     context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
     context.competences      = regrouperCompetences(this.actor);
+    { const h = this.actor.system.plp?.historique ?? []; context.plpDerniere = h[0] ?? null; context.plpAnciennes = h.slice(1); }
     return context;
   }
 
@@ -766,6 +784,7 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.itemsArtefacts   = this.actor.items.filter(i => i.type === "artefact");
     context.itemsRevelations = this.actor.items.filter(i => i.type === "revelation");
     context.competences      = regrouperCompetences(this.actor);
+    { const h = this.actor.system.plp?.historique ?? []; context.plpDerniere = h[0] ?? null; context.plpAnciennes = h.slice(1); }
     return context;
   }
 
@@ -784,6 +803,17 @@ class CdTFeuillePersonnage extends HandlebarsApplicationMixin(ActorSheetV2) {
           : ev.currentTarget.value;
         if (name) this.actor.update({ [name]: value });
       });
+    });
+
+  // --- CARTES PLP : vider l'historique ---
+    html.querySelector(".btn-plp-effacer")?.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      const ok = await foundry.applications.api.DialogV2.confirm({
+        classes: ["cdt-dialog"],
+        window: { title: "Cartes PLP" },
+        content: "<p>Effacer les cartes PLP enregistrées sur cette fiche ?</p>",
+      });
+      if (ok) this.actor.update({ "system.plp.historique": [] });
     });
 
   // --- CHANGEMENT DE PORTRAIT ---

@@ -392,3 +392,12 @@
   }
   .btn-attaquer-item:hover, .btn-consommer:hover, .btn-jet-competence-item:hover { filter: brightness(1.18); }
 }
+
+/* --- Encadré Cartes PLP --- */
+.chants-de-tindalos[data-cdt-theme] .plp-encadre {
+  background-color: var(--card-bg); background-image: none; color: var(--ink);
+  border: var(--card-border); border-left: 5px solid var(--t4); border-radius: var(--r); box-shadow: none;
+}
+.chants-de-tindalos[data-cdt-theme] .plp-entete, .chants-de-tindalos[data-cdt-theme] .plp-anciennes summary { color: var(--label-ink); font-family: var(--f-label); }
+.chants-de-tindalos[data-cdt-theme] .plp-vide { color: var(--muted); }
+.chants-de-tindalos[data-cdt-theme] .plp-anciennes { border-top: var(--row-line); }
