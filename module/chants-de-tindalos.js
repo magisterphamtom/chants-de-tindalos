@@ -627,15 +627,34 @@ Hooks.once("ready", async function () {
 });
 
 // ================================================
+// WIKI — OUVERTURE ET HABILLAGE
+// ================================================
+const CDT_NOM_WIKI = "📖 Wiki — Les Chants de Tindalos";
+
+function ouvrirWiki() {
+  const journal = game.journal.find(j => j.name === CDT_NOM_WIKI);
+  if (!journal) return false;
+  journal.sheet.render({ force: true, position: { width: 940, height: 780 } });
+  return true;
+}
+
+// Habille la fenêtre du wiki (classe CSS pour wiki.css)
+for (const hook of ["renderJournalEntrySheet", "renderJournalSheet"]) {
+  Hooks.on(hook, (app, html) => {
+    if (app.document?.name !== CDT_NOM_WIKI) return;
+    const el = html instanceof HTMLElement ? html : (html?.[0] ?? app.element);
+    el?.classList?.add("cdt-wiki-sheet");
+  });
+}
+
+// ================================================
 // WIKI — OUVERTURE AUTOMATIQUE À CHAQUE LANCEMENT
 // (désactivable dans Paramètres → Chants de Tindalos)
 // ================================================
 async function afficherWikiAuLancement() {
   if (!game.settings.get("chants-de-tindalos", "wikiOuvertureAuto")) return;
   setTimeout(() => {
-    const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
-    if (journal) journal.sheet.render(true);
-    else console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
+    if (!ouvrirWiki()) console.warn("CDT | Wiki introuvable au moment de l'ouverture automatique.");
   }, 1500);
 }
 
@@ -650,9 +669,7 @@ Hooks.on("renderActorDirectory", (app, html) => {
   boutonWiki.innerHTML = "📖 Wiki du système";
   boutonWiki.style.cssText = "width:100%;margin:4px 0;padding:6px;background:#3d1a1a;color:#d4a96a;border:1px solid #8b4513;border-radius:4px;cursor:pointer;font-size:0.9em;";
   boutonWiki.addEventListener("click", () => {
-    const journal = game.journal.find(j => j.name === "📖 Wiki — Les Chants de Tindalos");
-    if (journal) journal.sheet.render(true);
-    else ui.notifications.warn("Wiki introuvable — rechargez la page (F5).");
+    if (!ouvrirWiki()) ui.notifications.warn("Wiki introuvable — rechargez la page (F5).");
   });
 
   footer.prepend(boutonWiki);
@@ -2328,7 +2345,7 @@ async function chargerTemplates() {
 // WIKI — LES CHANTS DE TINDALOS
 // ================================================
 async function initialiserWiki() {
-  const NOM_JOURNAL = "📖 Wiki — Les Chants de Tindalos";
+  const NOM_JOURNAL = CDT_NOM_WIKI;
   const journalExistant = game.journal.find(j => j.name === NOM_JOURNAL);
   if (journalExistant) {
     // Supprimer l'ancien pour le recréer à jour
@@ -2686,7 +2703,11 @@ async function initialiserWiki() {
 
   await JournalEntry.create({
     name: NOM_JOURNAL,
-    pages: pages,
+    // Chaque page est enveloppée dans .cdt-wiki (habillage : css/wiki.css)
+    pages: pages.map(p => ({
+      ...p,
+      text: { ...p.text, format: CONST.JOURNAL_ENTRY_PAGE_FORMATS?.HTML ?? 1, content: `<div class="cdt-wiki">${p.text.content}</div>` },
+    })),
     ownership: { default: CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER },
   });
 

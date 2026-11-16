@@ -1,0 +1,216 @@
+/* ================================================================
+   WIKI — Les Chants de Tindalos
+   Corps : dossier d'enquête (papier, machine à écrire)
+   Bandeaux : Art Déco noir & or
+   Polices (licence OFL) : IM Fell English, Special Elite, Limelight, Josefin Sans
+   ================================================================ */
+
+@font-face { font-family: "CdT Fell"; src: url("../assets/fonts/im-fell-english-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Fell"; src: url("../assets/fonts/im-fell-english-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "CdT Elite"; src: url("../assets/fonts/special-elite-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Limelight"; src: url("../assets/fonts/limelight-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Josefin"; src: url("../assets/fonts/josefin-sans-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Josefin"; src: url("../assets/fonts/josefin-sans-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+/* ---------- Page (le papier) ---------- */
+.cdt-wiki {
+  --cdt-or: #c9a84c;
+  --cdt-or-clair: #e8cf7a;
+  --cdt-noir: #1a1814;
+  --cdt-rouge: #8b1a1a;
+  --cdt-encre: #2b2016;
+  position: relative;
+  box-sizing: border-box;
+  padding: 26px 34px 30px;
+  margin: 0;
+  color: var(--cdt-encre);
+  font-family: "CdT Fell", Georgia, serif;
+  font-size: 19px;          /* base Foundry ≈ 14px : texte nettement agrandi */
+  line-height: 1.6;
+  background:
+    radial-gradient(ellipse at 15% 8%, rgba(255,255,255,.28), transparent 50%),
+    radial-gradient(ellipse at 92% 92%, rgba(60,30,0,.22), transparent 55%),
+    #e9dcc0;
+  border: 1px solid #b89a6c;
+  box-shadow: inset 0 0 40px rgba(120,80,30,.18);
+}
+.cdt-wiki::before {            /* filet intérieur façon dossier */
+  content: "";
+  position: absolute; inset: 8px;
+  border: 1px solid rgba(90,60,30,.3);
+  pointer-events: none;
+}
+.cdt-wiki > *:first-child { margin-top: 0; }
+
+/* ---------- Bandeaux Art Déco ---------- */
+.cdt-wiki h1 {
+  position: relative;
+  margin: 0 -34px 22px;        /* pleine largeur du papier */
+  padding: 20px 34px 18px;
+  font-family: "CdT Limelight", serif;
+  font-weight: 400;
+  font-size: 2em;
+  letter-spacing: .05em;
+  text-align: center;
+  color: var(--cdt-or-clair);
+  text-shadow: 0 2px 0 rgba(0,0,0,.5);
+  background:
+    linear-gradient(180deg, rgba(201,168,76,.10), transparent 60%),
+    repeating-linear-gradient(45deg, transparent 0 22px, rgba(201,168,76,.05) 22px 24px),
+    var(--cdt-noir);
+  border: none;
+  border-top: 3px solid var(--cdt-or);
+  border-bottom: 3px solid var(--cdt-or);
+  box-shadow: 0 0 0 1px #000, 0 3px 0 -1px var(--cdt-or), 0 5px 10px rgba(0,0,0,.35);
+}
+.cdt-wiki h1::before,
+.cdt-wiki h1::after {          /* frise de losanges */
+  content: "◆   ◆   ◆";
+  display: block;
+  font-family: "CdT Josefin", sans-serif;
+  font-size: .32em;
+  letter-spacing: .35em;
+  color: var(--cdt-or);
+  opacity: .9;
+}
+.cdt-wiki h1::before { margin-bottom: 8px; }
+.cdt-wiki h1::after  { margin-top: 8px; }
+
+.cdt-wiki h2 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 30px -12px 12px;
+  padding: 8px 18px;
+  font-family: "CdT Josefin", sans-serif;
+  font-weight: 600;
+  font-size: .78em;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--cdt-or-clair);
+  background: var(--cdt-noir);
+  border: none;
+  border-left: 5px solid var(--cdt-or);
+  border-right: 5px solid var(--cdt-or);
+  box-shadow: 0 2px 6px rgba(0,0,0,.3);
+}
+.cdt-wiki h2::before,
+.cdt-wiki h2::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cdt-or));
+}
+.cdt-wiki h2::before {            /* losange dessiné en CSS, centré verticalement */
+  content: "";
+  flex: 0 0 9px;
+  width: 9px; height: 9px;
+  background: var(--cdt-or);
+  transform: rotate(45deg);
+}
+.cdt-wiki h2::after  { background: linear-gradient(90deg, var(--cdt-or), transparent); }
+
+/* Sous-titres : machine à écrire, rouge tampon */
+.cdt-wiki h3 {
+  margin: 22px 0 6px;
+  font-family: "CdT Elite", monospace;
+  font-weight: 400;
+  font-size: 1.05em;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--cdt-rouge);
+  border: none;
+  border-bottom: 1px dashed #8a6a42;
+  padding-bottom: 3px;
+}
+
+/* ---------- Corps de texte ---------- */
+.cdt-wiki p { margin: 10px 0; }
+.cdt-wiki strong, .cdt-wiki b { color: #5c1a1a; }
+.cdt-wiki em, .cdt-wiki i { color: #4a3a22; }
+.cdt-wiki a { color: var(--cdt-rouge); text-decoration: underline dotted; }
+
+.cdt-wiki ul, .cdt-wiki ol { margin: 8px 0 8px; padding-left: 1.4em; }
+.cdt-wiki li { margin: 6px 0; padding-left: 2px; }
+.cdt-wiki ul li::marker { content: "◆  "; color: var(--cdt-or); font-size: .75em; }
+.cdt-wiki ol li::marker { font-family: "CdT Elite", monospace; color: var(--cdt-rouge); }
+
+.cdt-wiki code {
+  font-family: "CdT Elite", monospace;
+  font-size: .82em;
+  padding: 1px 6px;
+  color: #3a2914;
+  background: rgba(60,40,15,.13);
+  border: 1px solid rgba(60,40,15,.25);
+  border-radius: 3px;
+}
+
+.cdt-wiki blockquote {
+  margin: 14px 18px;
+  padding: 6px 14px;
+  border-left: 4px solid var(--cdt-or);
+  background: rgba(255,255,255,.25);
+  font-style: italic;
+}
+
+.cdt-wiki hr {
+  border: none; height: 1px; margin: 22px 0;
+  background: linear-gradient(90deg, transparent, var(--cdt-or), transparent);
+}
+
+/* ---------- Tableaux ---------- */
+.cdt-wiki table {
+  width: 100%;
+  margin: 14px 0;
+  border-collapse: collapse;
+  font-size: .92em;
+  background: rgba(255,255,255,.22);
+  border: 1px solid #8a6a42;
+}
+.cdt-wiki thead th, .cdt-wiki th {
+  padding: 7px 10px;
+  font-family: "CdT Josefin", sans-serif;
+  font-weight: 600;
+  font-size: .8em;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--cdt-or-clair);
+  background: var(--cdt-noir);
+  border: 1px solid #000;
+}
+.cdt-wiki td { padding: 6px 10px; border: 1px solid rgba(138,106,66,.5); }
+.cdt-wiki tbody tr:nth-child(even) td { background: rgba(120,80,30,.08); }
+
+.cdt-wiki img { max-width: 100%; border: 1px solid #8a6a42; box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+
+/* Tampon décoratif optionnel : <span class="cdt-tampon">Confidentiel</span> */
+.cdt-wiki .cdt-tampon {
+  display: inline-block;
+  transform: rotate(-6deg);
+  padding: 3px 12px;
+  font-family: "CdT Elite", monospace;
+  font-size: .8em;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--cdt-rouge);
+  border: 3px double var(--cdt-rouge);
+  opacity: .8;
+}
+
+/* ---------- Fenêtre du journal (barre latérale, fond) ---------- */
+.cdt-wiki-sheet .window-content { background: #5c4326; }
+.cdt-wiki-sheet .journal-entry-pages,
+.cdt-wiki-sheet .journal-entry-content { background: #b89a6c; }
+.cdt-wiki-sheet .journal-entry-page,
+.cdt-wiki-sheet .journal-page-content { padding: 0; }
+.cdt-wiki-sheet .journal-sidebar,
+.cdt-wiki-sheet .pages-list { background: #3a2914; color: #e8d8b8; font-family: "CdT Elite", monospace; }
+.cdt-wiki-sheet .journal-sidebar a,
+.cdt-wiki-sheet .pages-list a,
+.cdt-wiki-sheet .page-heading,
+.cdt-wiki-sheet .page-title { color: #e8d8b8; font-family: "CdT Elite", monospace; font-size: 1em; }
+.cdt-wiki-sheet .pages-list .active,
+.cdt-wiki-sheet .pages-list .page.active { background: #e8d8b8; }
+.cdt-wiki-sheet .pages-list .active a,
+.cdt-wiki-sheet .pages-list .active .page-title { color: #3a2914; }

@@ -27,7 +27,8 @@
     "module/pretires.js"
   ],
   "styles": [
-    "css/chants-de-tindalos.css"
+    "css/chants-de-tindalos.css",
+    "css/wiki.css"
   ],
   "packs": [
     {
