@@ -889,6 +889,7 @@ html.querySelectorAll(".pnj-possession-item input[type='checkbox']").forEach((ch
     // --- JETS ---
     html.querySelectorAll(".carac-box.rollable").forEach((el) => {
       el.addEventListener("click", (ev) => {
+        if (ev.target.closest("input")) return; // saisie manuelle de la valeur
         ev.preventDefault();
         ev.stopPropagation();
         this._jetCaracteristique(ev.currentTarget.dataset.carac);
@@ -2074,6 +2075,7 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 
     html.querySelectorAll(".carac-box.rollable").forEach((el) => {
       el.addEventListener("click", (ev) => {
+        if (ev.target.closest("input")) return; // saisie manuelle de la valeur
         ev.preventDefault();
         ev.stopPropagation();
         this._jetCaracteristique(ev.currentTarget.dataset.carac);

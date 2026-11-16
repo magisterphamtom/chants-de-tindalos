@@ -166,6 +166,14 @@ class PersonnageDataModel extends foundry.abstract.TypeDataModel {
   prepareDerivedData() {
     const c = this.caracteristiques;
     const v = this.variables;
+    // Coût et valeur défensive découlent de la valeur de caractéristique (p.52)
+    const COUT = [0, 4, 3, 2, 2, 1];
+    const DEFENSE = [0, 0, 1, 1, 2, 2];
+    for (const carac of Object.values(c)) {
+      const val = Math.min(5, Math.max(1, carac.valeur ?? 1));
+      carac.cout = COUT[val];
+      carac.defense = DEFENSE[val];
+    }
     // Vitesse = AGI + VIG + 2
     v.vitesse = (c.agilite?.valeur ?? 1) + (c.vigueur?.valeur ?? 1) + 2;
     // Sommeil = 12 - Angoisse
