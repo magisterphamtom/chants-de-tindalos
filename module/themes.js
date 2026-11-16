@@ -24,7 +24,7 @@ function themeActuel() {
 
 // Applique le thème à une fiche (élément racine) et synchronise le sélecteur
 function appliquerTheme(element) {
-  if (!element?.classList?.contains("chants-de-tindalos")) return;
+  if (!element?.classList?.contains("chants-de-tindalos") && !element?.classList?.contains("cdt")) return;
   const theme = themeActuel();
   if (theme) element.dataset.cdtTheme = theme;
   else delete element.dataset.cdtTheme;
@@ -129,6 +129,7 @@ Hooks.on("renderChatMessageHTML", (message, html) => habillerCarte(trouverCarte(
 
 Hooks.on("renderApplicationV2", (app, element) => {
   if (element?.classList?.contains("cdt-dialog")) { appliquerThemeDialogue(element); return; }
+  if (element?.classList?.contains("cdt")) { appliquerTheme(element); return; }
   if (!element?.classList?.contains("chants-de-tindalos")) return;
   appliquerTheme(element);
   const select = element.querySelector(".cdt-theme-select");

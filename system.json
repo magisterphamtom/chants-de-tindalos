@@ -25,7 +25,8 @@
     "module/items.js",
     "module/competences.js",
     "module/pretires.js",
-    "module/themes.js"
+    "module/themes.js",
+    "module/scene-accueil.js"
   ],
   "styles": [
     "css/chants-de-tindalos.css",
