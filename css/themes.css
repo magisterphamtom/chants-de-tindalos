@@ -1,0 +1,308 @@
+@font-face { font-family: "CdT Cinzel"; src: url("../assets/fonts/cinzel-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Cinzel"; src: url("../assets/fonts/cinzel-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT CinzelDeco"; src: url("../assets/fonts/cinzel-decorative-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT CinzelDeco"; src: url("../assets/fonts/cinzel-decorative-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Cormorant"; src: url("../assets/fonts/cormorant-garamond-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Cormorant"; src: url("../assets/fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Cormorant"; src: url("../assets/fonts/cormorant-garamond-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "CdT OldStd"; src: url("../assets/fonts/old-standard-tt-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT OldStd"; src: url("../assets/fonts/old-standard-tt-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Playfair"; src: url("../assets/fonts/playfair-display-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Playfair"; src: url("../assets/fonts/playfair-display-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Courier"; src: url("../assets/fonts/courier-prime-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Courier"; src: url("../assets/fonts/courier-prime-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Anton"; src: url("../assets/fonts/anton-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Oswald"; src: url("../assets/fonts/oswald-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Oswald"; src: url("../assets/fonts/oswald-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Franklin"; src: url("../assets/fonts/libre-franklin-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Franklin"; src: url("../assets/fonts/libre-franklin-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Fraktur"; src: url("../assets/fonts/unifrakturcook-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Spectral"; src: url("../assets/fonts/spectral-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Spectral"; src: url("../assets/fonts/spectral-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "CdT Chakra"; src: url("../assets/fonts/chakra-petch-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "CdT Chakra"; src: url("../assets/fonts/chakra-petch-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+
+/* ================================================================
+   THÈMES DE LA FICHE — choisis par chaque joueur (réglage client)
+   Sans thème (« Classique »), la fiche garde l'habillage d'origine.
+   Polices : licence OFL (@fontsource).
+   ================================================================ */
+
+/* ---------- Sélecteur dans l'en-tête ---------- */
+.chants-de-tindalos .sheet-header-wrapper { position: relative; }
+.chants-de-tindalos .cdt-theme-select {
+  position: absolute; right: 8px; top: 6px; z-index: 5;
+  width: auto; max-width: 190px; height: 24px; padding: 0 6px;
+  font-size: 12px; line-height: 1; cursor: pointer;
+  background: rgba(0,0,0,.55); color: #f4e8d0;
+  border: 1px solid rgba(255,255,255,.35); border-radius: 4px;
+}
+.chants-de-tindalos .cdt-theme-select option { background: #222; color: #eee; }
+
+/* ---------- Mécanique commune (variables → éléments réels) ---------- */
+.chants-de-tindalos[data-cdt-theme] {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+
+  .window-header { background: var(--head-bg); color: var(--head-ink); border-bottom: var(--tabs-line); }
+  .window-title { font-family: var(--f-title); letter-spacing: .04em; }
+  .window-content { background: var(--bg); color: var(--ink); }
+
+  .sheet-header { background: var(--head-bg); position: relative; border-radius: 0; }
+  .sheet-header img { border: var(--portrait-border); border-radius: var(--r-img); background: var(--portrait-bg); }
+  .header-infos input.name {
+    font-family: var(--f-title); color: var(--head-ink);
+    border-bottom: var(--name-line); text-transform: var(--name-tt, none); letter-spacing: var(--name-ls, 0);
+  }
+  .identite-champ label { color: var(--head-muted); font-family: var(--f-label); font-size: 15px; letter-spacing: .12em; }
+  .identite-champ input {
+    color: var(--head-ink); font-family: var(--f-body);
+    background: var(--field-head-bg); border: var(--field-head-border); border-radius: var(--r);
+  }
+
+  .sheet-tabs { background: var(--tabs-bg); border-top: none; border-bottom: var(--tabs-line); }
+  .sheet-tabs .item {
+    color: var(--tab-ink); font-family: var(--f-label);
+    text-transform: var(--tab-tt, uppercase); letter-spacing: var(--tab-ls, .06em);
+    border-bottom: 3px solid transparent;
+  }
+  .sheet-tabs .item:hover { color: var(--tab-on-ink); }
+  .sheet-tabs .item.active { color: var(--tab-on-ink); background: var(--tab-on-bg); border-bottom: 3px solid var(--accent); }
+
+  .tab { background-color: var(--paper); background-image: var(--paper-img, none); background-size: var(--paper-size, auto); color: var(--ink); }
+  .tab::-webkit-scrollbar-track { background: var(--case-bg); }
+  .tab::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  .section-title {
+    color: var(--sec-ink); font-family: var(--f-label);
+    border-bottom: var(--sec-line); background: var(--sec-bg, transparent); padding: var(--sec-pad, 0 0 2px);
+  }
+
+  /* Cartes */
+  .carac-box, .variable-box, .jauge-box {
+    background: var(--card-bg); color: var(--ink);
+    border: var(--card-border); border-radius: var(--r); box-shadow: var(--card-shadow, none);
+  }
+  .carac-box:hover { background: var(--card-hover, var(--card-bg)); border-color: var(--accent); }
+  .carac-box .carac-label, .variable-box label, .jauge-label, .xp-label { color: var(--label-ink); font-family: var(--f-label); }
+  .carac-sous, .jauge-max { color: var(--muted); font-family: var(--f-label); }
+  .variable-box input[readonly] { color: var(--muted); }
+  .sd-valeur, .tension-valeur-label { color: var(--num-ink); font-family: var(--f-num); }
+
+  /* Cases XP / Tension */
+  .xp-case, .tension-case { background: var(--case-bg); border: var(--case-border); border-radius: var(--r-case, 2px); }
+  .xp-cases .xp-case:nth-child(4) { border-right: 2px solid var(--accent); }
+  .tension-case.palier { border-left: 2px solid var(--accent); }
+  .tension-case.mort { border-left: 2px solid var(--t5); }
+  #xp-espoir-cases .xp-case.active { background: var(--c-espoir); border-color: var(--c-espoir); }
+  #xp-folie-cases .xp-case.active { background: var(--c-folie); border-color: var(--c-folie); }
+  .tension-cases:not(.onirisme-cases) .tension-case:nth-child(-n+10).active { background: var(--t1); border-color: var(--t1); }
+  .tension-cases:not(.onirisme-cases) .tension-case:nth-child(n+11):nth-child(-n+13).active { background: var(--t2); border-color: var(--t2); }
+  .tension-cases:not(.onirisme-cases) .tension-case:nth-child(n+14):nth-child(-n+16).active { background: var(--t3); border-color: var(--t3); }
+  .tension-cases:not(.onirisme-cases) .tension-case:nth-child(n+17):nth-child(-n+19).active { background: var(--t4); border-color: var(--t4); }
+  .tension-cases:not(.onirisme-cases) .tension-case:nth-child(20).active { background: var(--t5); border-color: var(--t4); }
+
+  /* Boutons de jet */
+  .btn-jet-maitrise, .btn-jet-defensif, .btn-jet-sommeil, .btn-attaquer, .btn-jet-arcanes {
+    background: var(--btn-bg); color: var(--btn-ink); border: var(--btn-border);
+    border-radius: var(--r); font-family: var(--f-label); text-transform: var(--btn-tt, none);
+    letter-spacing: .06em; box-shadow: var(--btn-shadow, none);
+  }
+  .btn-jet-maitrise:hover, .btn-jet-defensif:hover, .btn-jet-sommeil:hover, .btn-attaquer:hover, .btn-jet-arcanes:hover {
+    background: var(--btn-bg); color: var(--btn-ink); border-color: var(--accent); filter: brightness(1.18);
+  }
+
+  /* Compétences, milieux, combat… */
+  .competence-row { border-bottom: var(--row-line); }
+  .competence-row:hover { background: var(--row-hover); }
+  .comp-carac { color: var(--muted); font-family: var(--f-label); }
+  .comp-groupe-titre { color: var(--sec-ink); font-family: var(--f-label); }
+  .comp-toolbar button { background: var(--card-bg); color: var(--ink); border: var(--card-border); border-radius: var(--r); font-family: var(--f-label); }
+  .comp-toolbar button:hover { background: var(--row-hover); }
+  .competences-drop { border-color: var(--accent); }
+  .milieu-row, .arme-row, .revelation-row, .contact-milieu-box, .arcane-row, .pnj-possession-item {
+    background: var(--card-bg); color: var(--ink); border: var(--card-border); border-radius: var(--r);
+  }
+  .milieu-row label, .arme-stat label, .arcane-modif-box label { color: var(--label-ink); font-family: var(--f-label); }
+
+  /* Champs de saisie du corps de fiche */
+  .tab :is(input:not([type=checkbox]):not([type=range]), select, textarea) {
+    background: var(--field-bg); color: var(--ink); font-family: var(--f-body);
+    border-color: var(--line); border-radius: var(--r);
+  }
+  .tab ::placeholder { color: var(--muted); }
+}
+
+/* Champs « nus » (valeurs dans les cartes) : on force la transparence */
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] .tab :is(.carac-box, .variable-box, .jauge-box) input {
+  background: transparent; color: var(--num-ink); font-family: var(--f-num);
+  border: none; border-bottom: 1px solid var(--line); border-radius: 0;
+}
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] .tab .variable-box input[readonly] { color: var(--muted); }
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] .tab .comp-value {
+  background: var(--field-bg); color: var(--num-ink); font-family: var(--f-num); border: var(--field-border); border-radius: var(--r);
+}
+
+/* ================================================================
+   A — DOSSIER D'ENQUÊTE
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="A"] {
+  --bg:#e9dcc0; --ink:#2b2016; --f-body:"CdT Fell",Georgia,serif; --f-title:"CdT Elite",monospace; --f-label:"CdT Elite",monospace; --f-num:"CdT Elite",monospace;
+  --head-bg:#b89a6c; --head-ink:#2b2016; --head-muted:#5c4326; --name-line:3px solid #8b1a1a; --name-tt:uppercase; --name-ls:.03em;
+  --portrait-border:6px solid #fff; --portrait-bg:#6a5030; --r-img:1px; --field-head-bg:rgba(255,255,255,.35); --field-head-border:1px dashed #5c4326;
+  --tabs-bg:#5c4326; --tabs-line:3px solid #3a2914; --tab-ink:#e8d8b8; --tab-on-bg:#e9dcc0; --tab-on-ink:#3a2914;
+  --paper:#e9dcc0; --paper-img:radial-gradient(ellipse at 15% 8%,rgba(255,255,255,.3),transparent 50%),radial-gradient(ellipse at 92% 92%,rgba(60,30,0,.2),transparent 55%);
+  --sec-ink:#8b1a1a; --sec-line:1px dashed #8a6a42; --card-bg:rgba(255,255,255,.35); --card-border:1px solid #8a6a42;
+  --label-ink:#5c4326; --num-ink:#3a2914; --muted:#7a6040; --r:1px; --r-case:0; --line:#8a6a42; --accent:#8b1a1a;
+  --case-bg:rgba(255,255,255,.4); --case-border:1px solid #8a6a42; --c-espoir:#b07a10; --c-folie:#6a2a6a;
+  --t1:#5a7a3a; --t2:#c8a020; --t3:#c06a18; --t4:#8b1a1a; --t5:#2a0a0a;
+  --btn-bg:#8b1a1a; --btn-ink:#f4ead0; --btn-border:2px solid #5a1010; --btn-tt:uppercase;
+  --row-line:1px dashed #8a6a42; --row-hover:rgba(255,255,255,.4); --field-bg:rgba(255,255,255,.4); --field-border:1px solid #8a6a42;
+  .sheet-header::after { content:"CONFIDENTIEL"; position:absolute; right:16px; bottom:14px; transform:rotate(-6deg); font-family:"CdT Elite",monospace; color:#8b1a1a; border:3px double #8b1a1a; padding:3px 10px; font-size:14px; letter-spacing:.18em; opacity:.75; pointer-events:none; }
+  .sheet-header img { transform:rotate(-2deg); }
+}
+
+/* ================================================================
+   B — ART DÉCO NOIR & OR
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="B"] {
+  --bg:#14120f; --ink:#e9e2d0; --f-body:"CdT Cormorant",serif; --f-title:"CdT Limelight",serif; --f-label:"CdT Josefin",sans-serif; --f-num:"CdT Limelight",serif;
+  --head-bg:#0c0b09; --head-ink:#e8cf7a; --head-muted:#a08a4a; --name-line:2px solid #c9a84c; --name-ls:.04em;
+  --portrait-border:3px double #c9a84c; --portrait-bg:#1a1814; --r-img:0; --field-head-bg:rgba(201,168,76,.06); --field-head-border:1px solid #5a4a22;
+  --tabs-bg:#0c0b09; --tabs-line:2px solid #c9a84c; --tab-ink:#a08a4a; --tab-on-bg:linear-gradient(180deg,#c9a84c,#e8cf7a); --tab-on-ink:#0c0b09; --tab-ls:.16em;
+  --paper:#1a1814; --paper-img:repeating-linear-gradient(45deg,transparent 0 26px,rgba(201,168,76,.035) 26px 28px);
+  --sec-ink:#e8cf7a; --sec-line:none; --sec-bg:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent); --sec-pad:5px 0;
+  --card-bg:#201d17; --card-border:1px solid #5a4a22; --label-ink:#c9a84c; --num-ink:#e8cf7a; --muted:#8a7a4a; --r:0; --r-case:0; --line:#5a4a22; --accent:#c9a84c;
+  --case-bg:#16140f; --case-border:1px solid #3a3220; --c-espoir:#e8cf7a; --c-folie:#8a5ab0;
+  --t1:#6a9a4a; --t2:#c9a84c; --t3:#d4731a; --t4:#c0282a; --t5:#400808;
+  --btn-bg:linear-gradient(180deg,#e8cf7a,#b8962e); --btn-ink:#0c0b09; --btn-border:1px solid #6a5418; --btn-tt:uppercase;
+  --row-line:1px solid #2a2418; --row-hover:#26221a; --field-bg:#16140f; --field-border:1px solid #5a4a22;
+  .section-title { justify-content:center; gap:10px; }
+  .section-title::before, .section-title::after { content:"◆"; font-size:.7em; color:#c9a84c; }
+  .carac-box, .jauge-box, .variable-box { clip-path:polygon(8px 0,calc(100% - 8px) 0,100% 8px,100% calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,0 calc(100% - 8px),0 8px); }
+}
+
+/* ================================================================
+   C — GRIMOIRE OCCULTE
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="C"] {
+  --bg:#efe4c6; --ink:#2a1e2e; --f-body:"CdT Cormorant",serif; --f-title:"CdT CinzelDeco",serif; --f-label:"CdT Cinzel",serif; --f-num:"CdT CinzelDeco",serif;
+  --head-bg:#2a1c34; --head-ink:#f0e4c8; --head-muted:#b8a8d0; --name-line:1px solid #8a6a2a;
+  --portrait-border:3px solid #8a6a2a; --portrait-bg:#3d2c4e; --r-img:50% 50% 4px 4px; --field-head-bg:rgba(255,255,255,.07); --field-head-border:1px solid #5a4a6a;
+  --tabs-bg:#3d2c4e; --tabs-line:2px solid #8a6a2a; --tab-ink:#cfc3e0; --tab-on-bg:#efe4c6; --tab-on-ink:#3d2c4e; --tab-tt:none;
+  --paper:#efe4c6; --paper-img:radial-gradient(circle at 50% 0,rgba(255,250,230,.4),transparent 60%),radial-gradient(circle at 0 100%,rgba(80,40,90,.2),transparent 50%),radial-gradient(circle at 100% 100%,rgba(80,40,90,.2),transparent 50%);
+  --sec-ink:#5a2a6a; --sec-line:1px solid #8a7a9a; --card-bg:rgba(255,255,255,.32); --card-border:1px solid #8a7a9a;
+  --label-ink:#5a2a6a; --num-ink:#3d2c4e; --muted:#7a6a8a; --r:2px; --r-case:50%; --line:#8a7a9a; --accent:#8a6a2a;
+  --case-bg:rgba(255,255,255,.5); --case-border:1px solid #8a7a9a; --c-espoir:#c8a030; --c-folie:#6a2a8a;
+  --t1:#4a8a5a; --t2:#c8a030; --t3:#b8601a; --t4:#7a1a3a; --t5:#1a0a1a;
+  --btn-bg:#3d2c4e; --btn-ink:#f0e4c8; --btn-border:1px solid #8a6a2a;
+  --row-line:1px solid #c8bca0; --row-hover:rgba(255,255,255,.45); --field-bg:rgba(255,255,255,.5); --field-border:1px solid #8a7a9a;
+  .section-title::before { content:"✦"; margin-right:8px; color:#8a6a2a; }
+  .section-title { justify-content:flex-start; }
+  .section-title .tension-valeur-label { margin-left:auto; }
+}
+
+/* ================================================================
+   D — CARNET D'EXPLORATEUR
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="D"] {
+  --bg:#1f3a2e; --ink:#2a2418; --f-body:"CdT OldStd",Georgia,serif; --f-title:"CdT Playfair",serif; --f-label:"CdT Courier",monospace; --f-num:"CdT Playfair",serif;
+  --head-bg:#1f3a2e; --head-ink:#f0e6c8; --head-muted:#c8b070; --name-line:2px solid #b8963e;
+  --portrait-border:4px solid #b8963e; --portrait-bg:#2a4a3a; --r-img:2px; --field-head-bg:rgba(0,0,0,.2); --field-head-border:1px solid #b8963e;
+  --tabs-bg:#162b22; --tabs-line:3px solid #b8963e; --tab-ink:#c8b070; --tab-on-bg:#f0e6c8; --tab-on-ink:#1f3a2e;
+  --paper:#f2e8cc; --paper-img:repeating-linear-gradient(180deg,transparent 0 27px,rgba(80,110,140,.18) 27px 28px);
+  --sec-ink:#1f3a2e; --sec-line:2px solid #b8963e; --card-bg:#fbf4dc; --card-border:1px solid #b8963e;
+  --label-ink:#4a3a18; --num-ink:#1f3a2e; --muted:#8a7a4a; --r:2px; --r-case:1px; --line:#b8963e; --accent:#b8963e;
+  --case-bg:#fbf4dc; --case-border:1px solid #b8963e; --c-espoir:#b8963e; --c-folie:#5a3a7a;
+  --t1:#4a7a3a; --t2:#c8a020; --t3:#c0701a; --t4:#9a1a1a; --t5:#2a0808;
+  --btn-bg:linear-gradient(180deg,#c8a850,#a08030); --btn-ink:#1f3a2e; --btn-border:1px solid #6a5418; --btn-tt:uppercase; --btn-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+  --row-line:1px solid rgba(80,110,140,.3); --row-hover:rgba(184,150,62,.18); --field-bg:#fbf4dc; --field-border:1px solid #b8963e;
+  .window-content { border-left:6px solid #162b22; }
+  .tab { box-shadow:inset 5px 0 0 -1px rgba(184,150,62,.5); }
+}
+
+/* ================================================================
+   E — COUVERTURE PULP / WEIRD TALES
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="E"] {
+  --bg:#f3e2b0; --ink:#1a1410; --f-body:"CdT Franklin",sans-serif; --f-title:"CdT Anton",sans-serif; --f-label:"CdT Oswald",sans-serif; --f-num:"CdT Anton",sans-serif;
+  --head-bg:#c01818; --head-ink:#ffe45c; --head-muted:#ffd0c0; --name-line:4px solid #111; --name-tt:uppercase; --name-ls:.02em;
+  --portrait-border:4px solid #111; --portrait-bg:#ffe45c; --r-img:0; --field-head-bg:#111; --field-head-border:2px solid #111;
+  --tabs-bg:#111; --tabs-line:4px solid #111; --tab-ink:#ffe45c; --tab-on-bg:#ffe45c; --tab-on-ink:#111; --tab-ls:.1em;
+  --paper:#f3e2b0; --paper-img:radial-gradient(circle,rgba(160,60,20,.18) 1.2px,transparent 1.6px); --paper-size:8px 8px;
+  --sec-ink:#fff; --sec-line:none; --sec-bg:#111; --sec-pad:4px 10px; --card-bg:#fff6d0; --card-border:3px solid #111;
+  --label-ink:#111; --num-ink:#c01818; --muted:#6a5a30; --r:0; --r-case:0; --line:#111; --accent:#111;
+  --case-bg:#fff6d0; --case-border:2px solid #111; --c-espoir:#ffb800; --c-folie:#6a1a8a;
+  --t1:#2a8a3a; --t2:#ffb800; --t3:#ff6a00; --t4:#c01818; --t5:#111;
+  --btn-bg:#ffe45c; --btn-ink:#111; --btn-border:3px solid #111; --btn-tt:uppercase; --btn-shadow:4px 4px 0 #111;
+  --row-line:2px solid #111; --row-hover:rgba(255,228,92,.6); --field-bg:#fff6d0; --field-border:2px solid #111;
+  .section-title { width:fit-content; min-width:40%; gap:14px; transform:skewX(-8deg); letter-spacing:.12em; }
+  .carac-box, .variable-box, .jauge-box { box-shadow:3px 3px 0 #111; }
+  .carac-box .carac-label, .variable-box label, .jauge-label { color:#111; }
+  .comp-groupe-titre, .comp-carac { color:#111; }
+}
+
+/* ================================================================
+   F — TÉLÉGRAMME
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="F"] {
+  --bg:#f1ead2; --ink:#1c1c1c; --f-body:"CdT Courier",monospace; --f-title:"CdT Courier",monospace; --f-label:"CdT Courier",monospace; --f-num:"CdT Courier",monospace;
+  --head-bg:#f1ead2; --head-ink:#1c1c1c; --head-muted:#555; --name-line:2px solid #1c1c1c; --name-tt:uppercase; --name-ls:.12em;
+  --portrait-border:2px solid #1c1c1c; --portrait-bg:#d8d0b0; --r-img:0; --field-head-bg:transparent; --field-head-border:1px solid #1c1c1c;
+  --tabs-bg:#1c1c1c; --tabs-line:none; --tab-ink:#d8d0b0; --tab-on-bg:#f1ead2; --tab-on-ink:#1c1c1c; --tab-ls:.1em;
+  --paper:#f1ead2; --paper-img:repeating-linear-gradient(180deg,transparent 0 3px,rgba(0,0,0,.025) 3px 4px);
+  --sec-ink:#1c1c1c; --sec-line:2px solid #1c1c1c; --card-bg:transparent; --card-border:1px solid #1c1c1c;
+  --label-ink:#1c1c1c; --num-ink:#1c1c1c; --muted:#666; --r:0; --r-case:0; --line:#1c1c1c; --accent:#1c1c1c;
+  --case-bg:transparent; --case-border:1px solid #1c1c1c; --c-espoir:#1c1c1c; --c-folie:#1c1c1c;
+  --t1:#1c1c1c; --t2:#1c1c1c; --t3:#1c1c1c; --t4:#b01818; --t5:#b01818;
+  --btn-bg:#1c1c1c; --btn-ink:#f1ead2; --btn-border:1px solid #1c1c1c; --btn-tt:uppercase;
+  --row-line:1px dashed #1c1c1c; --row-hover:rgba(0,0,0,.06); --field-bg:transparent; --field-border:1px solid #1c1c1c;
+  .sheet-header { background:repeating-linear-gradient(90deg,#1c1c1c 0 14px,transparent 14px 20px) top/100% 8px no-repeat,#f1ead2; padding-top:24px; border-bottom:2px solid #1c1c1c; }
+  .sheet-header::after { content:"WESTERN UNION · TELEGRAM · STOP"; position:absolute; right:14px; bottom:6px; font-size:11px; letter-spacing:.25em; color:#666; pointer-events:none; }
+  .section-title::after { content:" STOP"; font-size:.8em; opacity:.5; margin-left:auto; }
+  .section-title .tension-valeur-label { margin-left:auto; }
+}
+
+/* ================================================================
+   G — GAZETTE D'ARKHAM
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="G"] {
+  --bg:#e6e0cf; --ink:#1a1a1a; --f-body:"CdT OldStd",serif; --f-title:"CdT Fraktur",serif; --f-label:"CdT Playfair",serif; --f-num:"CdT Playfair",serif;
+  --head-bg:#e6e0cf; --head-ink:#111; --head-muted:#555; --name-line:3px double #111;
+  --portrait-border:1px solid #111; --portrait-bg:#bbb; --r-img:0; --field-head-bg:transparent; --field-head-border:none;
+  --tabs-bg:#e6e0cf; --tabs-line:3px double #111; --tab-ink:#111; --tab-on-bg:#111; --tab-on-ink:#e6e0cf; --tab-ls:.1em;
+  --paper:#e6e0cf; --paper-img:radial-gradient(ellipse at top,rgba(255,255,255,.35),transparent 60%);
+  --sec-ink:#111; --sec-line:3px double #111; --card-bg:transparent; --card-border:1px solid #111;
+  --label-ink:#111; --num-ink:#111; --muted:#555; --r:0; --r-case:0; --line:#111; --accent:#111;
+  --case-bg:transparent; --case-border:1px solid #111; --c-espoir:#111; --c-folie:#111;
+  --t1:#777; --t2:#555; --t3:#333; --t4:#a01010; --t5:#a01010;
+  --btn-bg:#111; --btn-ink:#e6e0cf; --btn-border:1px solid #111; --btn-tt:uppercase;
+  --row-line:1px solid #999; --row-hover:rgba(0,0,0,.07); --field-bg:transparent; --field-border:1px solid #111;
+  .sheet-header { padding-top:34px; border-bottom:1px solid #111; }
+  .sheet-header::before { content:"LA GAZETTE D'ARKHAM — Édition spéciale — 3 cents"; position:absolute; left:0; right:0; top:0; text-align:center; font-family:"CdT Playfair",serif; font-size:11px; letter-spacing:.2em; text-transform:uppercase; padding:3px; border-bottom:1px solid #111; border-top:1px solid #111; background:#d8d2bf; color:#111; pointer-events:none; }
+  .sheet-header img { filter:grayscale(1) contrast(1.1); }
+  .header-infos input.name { font-size:2.1em; }
+}
+
+/* ================================================================
+   H — TINDALOS
+   ================================================================ */
+.chants-de-tindalos[data-cdt-theme="H"] {
+  --bg:#0a1416; --ink:#cfe6e0; --f-body:"CdT Spectral",serif; --f-title:"CdT Cinzel",serif; --f-label:"CdT Chakra",sans-serif; --f-num:"CdT Chakra",sans-serif;
+  --head-bg:linear-gradient(135deg,#0f2226,#08191c); --head-ink:#9ff0dc; --head-muted:#5aa89a; --name-line:1px solid #2aa090; --name-tt:uppercase; --name-ls:.08em;
+  --portrait-border:1px solid #2aa090; --portrait-bg:#0f2a2c; --r-img:0; --field-head-bg:rgba(42,160,144,.08); --field-head-border:1px solid #1a5a52;
+  --tabs-bg:#08191c; --tabs-line:1px solid #2aa090; --tab-ink:#5aa89a; --tab-on-bg:linear-gradient(180deg,rgba(42,160,144,.35),rgba(42,160,144,.08)); --tab-on-ink:#9ff0dc; --tab-ls:.14em;
+  --paper:#0d1d20; --paper-img:linear-gradient(135deg,rgba(42,160,144,.05) 25%,transparent 25% 50%,rgba(42,160,144,.05) 50% 75%,transparent 75%); --paper-size:26px 26px;
+  --sec-ink:#7fe0cc; --sec-line:1px solid #1a5a52; --card-bg:rgba(15,42,44,.8); --card-border:1px solid #1a6a60;
+  --label-ink:#5aa89a; --num-ink:#9ff0dc; --muted:#4a8a80; --r:0; --r-case:0; --line:#1a6a60; --accent:#2aa090;
+  --case-bg:#0a1a1c; --case-border:1px solid #164a46; --c-espoir:#9ff0dc; --c-folie:#c060e0;
+  --t1:#2aa090; --t2:#8ac040; --t3:#e0a020; --t4:#e03040; --t5:#600010;
+  --btn-bg:rgba(42,160,144,.18); --btn-ink:#9ff0dc; --btn-border:1px solid #2aa090; --btn-tt:uppercase; --btn-shadow:0 0 12px rgba(42,160,144,.25);
+  --row-line:1px solid #123a38; --row-hover:rgba(42,160,144,.12); --field-bg:#0a1a1c; --field-border:1px solid #1a6a60;
+  .carac-box, .jauge-box, .variable-box { clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px)); box-shadow:0 0 14px rgba(42,160,144,.08); }
+  .btn-jet-maitrise, .btn-jet-defensif, .btn-jet-sommeil { clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px); }
+  .sheet-header img { clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px)); box-shadow:0 0 22px rgba(42,160,144,.35); }
+  .header-infos input.name { text-shadow:0 0 14px rgba(159,240,220,.45); }
+  .section-title { text-shadow:0 0 8px rgba(127,224,204,.4); }
+}

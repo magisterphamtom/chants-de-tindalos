@@ -24,11 +24,13 @@
     "module/creation-personnage.js",
     "module/items.js",
     "module/competences.js",
-    "module/pretires.js"
+    "module/pretires.js",
+    "module/themes.js"
   ],
   "styles": [
     "css/chants-de-tindalos.css",
-    "css/wiki.css"
+    "css/wiki.css",
+    "css/themes.css"
   ],
   "packs": [
     {
