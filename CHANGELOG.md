@@ -6,6 +6,8 @@
 - La fiche PNJ **suit maintenant les 8 thèmes** (fond, chiffres, libellés, possessions, arme) et dispose du **sélecteur de thème**.
 - **Cadenas 🔒/🔓** dans l'en-tête de la fenêtre (à côté des trois petits points), sur les fiches PJ et PNJ : une fois la fiche réglée, on la verrouille et plus rien ne se modifie par erreur (champs, cases, portrait, retrait d'objets) ; les jets restent possibles.
 
+- **Caractéristiques libres** : le Gardien peut saisir de 0 à 10 (PJ et PNJ) au lieu de 1 à 5 ; Coût et Défense restent calculés sur la table 1–5.
+
 ### Lisibilité des thèmes
 - Contrôle de contraste de tous les textes dans les 9 styles : textes secondaires (aides, « glissez ici », C/D, /20, Dés d'Arcanes…) assombris ou éclaircis selon le thème, zone Notes et boutons lisibles partout.
 

@@ -12,7 +12,7 @@ class CaracteristiqueField extends SchemaField {
   constructor(options = {}) {
     super({
       label:   new StringField({ initial: "" }),
-      valeur:  new NumberField({ initial: 2, min: 1, max: 5, integer: true }),
+      valeur:  new NumberField({ initial: 2, min: 0, max: 10, integer: true }),
       cout:    new NumberField({ initial: 3, integer: true }),
       defense: new NumberField({ initial: 1, integer: true }),
     }, options);
@@ -23,7 +23,7 @@ class CaracteristiquePNJField extends SchemaField {
   constructor(options = {}) {
     super({
       label:  new StringField({ initial: "" }),
-      valeur: new NumberField({ initial: 2, min: 1, max: 5, integer: true }),
+      valeur: new NumberField({ initial: 2, min: 0, max: 10, integer: true }),
     }, options);
   }
 }
@@ -181,6 +181,7 @@ class PersonnageDataModel extends foundry.abstract.TypeDataModel {
     const COUT = [0, 4, 3, 2, 2, 1];
     const DEFENSE = [0, 0, 1, 1, 2, 2];
     for (const carac of Object.values(c)) {
+      // Le Gardien peut saisir 0 à 10 ; la table de coût/défense s'arrête à 1–5
       const val = Math.min(5, Math.max(1, carac.valeur ?? 1));
       carac.cout = COUT[val];
       carac.defense = DEFENSE[val];
