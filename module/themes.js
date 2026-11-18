@@ -40,6 +40,34 @@ function appliquerTheme(element) {
   }
 }
 
+// Cadenas : verrouille les caractéristiques, variables (et niveau PNJ) d'une fiche
+const CHAMPS_VERROUILLABLES = ".carac-box input, .variable-box input, .pnj-niveau-box input";
+
+function appliquerVerrou(app, element) {
+  const acteur = app.document ?? app.actor;
+  const bouton = element.querySelector(".cdt-verrou");
+  if (!acteur || !bouton) return;
+  const verrouille = !!acteur.getFlag(SYSTEME, "verrou");
+  element.classList.toggle("cdt-verrouille", verrouille);
+  bouton.textContent = verrouille ? "🔒" : "🔓";
+  bouton.title = verrouille
+    ? "Caractéristiques verrouillées — cliquer pour déverrouiller"
+    : "Caractéristiques déverrouillées — cliquer pour verrouiller";
+  element.querySelectorAll(CHAMPS_VERROUILLABLES).forEach((champ) => {
+    champ.readOnly = verrouille;
+    champ.tabIndex = verrouille ? -1 : 0;
+  });
+  if (!bouton.dataset.cdtBranche) {
+    bouton.dataset.cdtBranche = "1";
+    bouton.disabled = !acteur.isOwner;
+    bouton.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      acteur.setFlag(SYSTEME, "verrou", !acteur.getFlag(SYSTEME, "verrou"));
+    });
+  }
+}
+
 // Thème des cartes de chat et dialogues : choisi par le MJ pour toute la table
 // (« perso » = chacun voit le thème qu'il a choisi pour sa fiche)
 function themeCartes() {
@@ -132,6 +160,7 @@ Hooks.on("renderApplicationV2", (app, element) => {
   if (element?.classList?.contains("cdt")) { appliquerTheme(element); return; }
   if (!element?.classList?.contains("chants-de-tindalos")) return;
   appliquerTheme(element);
+  appliquerVerrou(app, element);
   const select = element.querySelector(".cdt-theme-select");
   if (select && !select.dataset.cdtBranche) {
     select.dataset.cdtBranche = "1";

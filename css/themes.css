@@ -70,9 +70,9 @@
   .sheet-tabs .item:hover { color: var(--tab-on-ink); }
   .sheet-tabs .item.active { color: var(--tab-on-ink); background: var(--tab-on-bg); border-bottom: 3px solid var(--accent); }
 
-  .tab { background-color: var(--paper); background-image: var(--paper-img, none); background-size: var(--paper-size, auto); color: var(--ink); }
-  .tab::-webkit-scrollbar-track { background: var(--case-bg); }
-  .tab::-webkit-scrollbar-thumb { background: var(--accent); }
+  :is(.tab, .pnj-body) { background-color: var(--paper); background-image: var(--paper-img, none); background-size: var(--paper-size, auto); color: var(--ink); }
+  :is(.tab, .pnj-body)::-webkit-scrollbar-track { background: var(--case-bg); }
+  :is(.tab, .pnj-body)::-webkit-scrollbar-thumb { background: var(--accent); }
 
   .section-title {
     color: var(--sec-ink); font-family: var(--f-label);
@@ -127,20 +127,20 @@
   .milieu-row label, .arme-stat label, .arcane-modif-box label { color: var(--label-ink); font-family: var(--f-label); }
 
   /* Champs de saisie du corps de fiche */
-  .tab :is(input:not([type=checkbox]):not([type=range]), select, textarea) {
+  :is(.tab, .pnj-body) :is(input:not([type=checkbox]):not([type=range]), select, textarea) {
     background: var(--field-bg); color: var(--ink); font-family: var(--f-body);
     border-color: var(--line); border-radius: var(--r);
   }
-  .tab ::placeholder { color: var(--muted); }
+  :is(.tab, .pnj-body) ::placeholder { color: var(--muted); }
 }
 
 /* Champs « nus » (valeurs dans les cartes) : on force la transparence */
-.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] .tab :is(.carac-box, .variable-box, .jauge-box) input {
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] :is(.tab, .pnj-body) :is(.carac-box, .variable-box, .jauge-box) input {
   background: transparent; color: var(--num-ink); font-family: var(--f-num);
   border: none; border-bottom: 1px solid var(--line); border-radius: 0;
 }
-.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] .tab .variable-box input[readonly] { color: var(--muted); }
-.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] .tab .comp-value {
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] :is(.tab, .pnj-body) .variable-box input[readonly] { color: var(--muted); }
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme][data-cdt-theme] :is(.tab, .pnj-body) .comp-value {
   background: var(--field-bg); color: var(--num-ink); font-family: var(--f-num); border: var(--field-border); border-radius: var(--r);
 }
 
@@ -149,12 +149,12 @@
    ================================================================ */
 :is(.chants-de-tindalos, .cdt-dialog, .cdt-carte, .cdt)[data-cdt-theme="A"] {
   --bg:#e9dcc0; --ink:#2b2016; --f-body:"CdT Fell",Georgia,serif; --f-title:"CdT Elite",monospace; --f-label:"CdT Elite",monospace; --f-num:"CdT Elite",monospace;
-  --head-bg:#b89a6c; --head-ink:#2b2016; --head-muted:#5c4326; --name-line:3px solid #8b1a1a; --name-tt:uppercase; --name-ls:.03em;
+  --head-bg:#b89a6c; --head-ink:#2b2016; --head-muted:#3d2a12; --name-line:3px solid #8b1a1a; --name-tt:uppercase; --name-ls:.03em;
   --portrait-border:6px solid #fff; --portrait-bg:#6a5030; --r-img:1px; --field-head-bg:rgba(255,255,255,.35); --field-head-border:1px dashed #5c4326;
   --tabs-bg:#5c4326; --tabs-line:3px solid #3a2914; --tab-ink:#e8d8b8; --tab-on-bg:#e9dcc0; --tab-on-ink:#3a2914;
   --paper:#e9dcc0; --paper-img:radial-gradient(ellipse at 15% 8%,rgba(255,255,255,.3),transparent 50%),radial-gradient(ellipse at 92% 92%,rgba(60,30,0,.2),transparent 55%);
   --sec-ink:#8b1a1a; --sec-line:1px dashed #8a6a42; --card-bg:rgba(255,255,255,.35); --card-border:1px solid #8a6a42;
-  --label-ink:#5c4326; --num-ink:#3a2914; --muted:#7a6040; --r:1px; --r-case:0; --line:#8a6a42; --accent:#8b1a1a;
+  --label-ink:#5c4326; --num-ink:#3a2914; --muted:#5e4426; --r:1px; --r-case:0; --line:#8a6a42; --accent:#8b1a1a;
   --case-bg:rgba(255,255,255,.4); --case-border:1px solid #8a6a42; --c-espoir:#b07a10; --c-folie:#6a2a6a;
   --t1:#5a7a3a; --t2:#c8a020; --t3:#c06a18; --t4:#8b1a1a; --t5:#2a0a0a;
   --btn-bg:#8b1a1a; --btn-ink:#f4ead0; --btn-border:2px solid #5a1010; --btn-tt:uppercase;
@@ -173,7 +173,7 @@
   --tabs-bg:#0c0b09; --tabs-line:2px solid #c9a84c; --tab-ink:#a08a4a; --tab-on-bg:linear-gradient(180deg,#c9a84c,#e8cf7a); --tab-on-ink:#0c0b09; --tab-ls:.05em;
   --paper:#1a1814; --paper-img:repeating-linear-gradient(45deg,transparent 0 26px,rgba(201,168,76,.035) 26px 28px);
   --sec-ink:#e8cf7a; --sec-line:none; --sec-bg:linear-gradient(90deg,transparent,rgba(201,168,76,.18),transparent); --sec-pad:5px 0;
-  --card-bg:#201d17; --card-border:1px solid #5a4a22; --label-ink:#c9a84c; --num-ink:#e8cf7a; --muted:#8a7a4a; --r:0; --r-case:0; --line:#5a4a22; --accent:#c9a84c;
+  --card-bg:#201d17; --card-border:1px solid #5a4a22; --label-ink:#c9a84c; --num-ink:#e8cf7a; --muted:#aa9a62; --r:0; --r-case:0; --line:#5a4a22; --accent:#c9a84c;
   --case-bg:#16140f; --case-border:1px solid #3a3220; --c-espoir:#e8cf7a; --c-folie:#8a5ab0;
   --t1:#6a9a4a; --t2:#c9a84c; --t3:#d4731a; --t4:#c0282a; --t5:#400808;
   --btn-bg:linear-gradient(180deg,#e8cf7a,#b8962e); --btn-ink:#0c0b09; --btn-border:1px solid #6a5418; --btn-tt:uppercase;
@@ -193,7 +193,7 @@
   --tabs-bg:#3d2c4e; --tabs-line:2px solid #8a6a2a; --tab-ink:#cfc3e0; --tab-on-bg:#efe4c6; --tab-on-ink:#3d2c4e; --tab-tt:none;
   --paper:#efe4c6; --paper-img:radial-gradient(circle at 50% 0,rgba(255,250,230,.4),transparent 60%),radial-gradient(circle at 0 100%,rgba(80,40,90,.2),transparent 50%),radial-gradient(circle at 100% 100%,rgba(80,40,90,.2),transparent 50%);
   --sec-ink:#5a2a6a; --sec-line:1px solid #8a7a9a; --card-bg:rgba(255,255,255,.32); --card-border:1px solid #8a7a9a;
-  --label-ink:#5a2a6a; --num-ink:#3d2c4e; --muted:#7a6a8a; --r:2px; --r-case:50%; --line:#8a7a9a; --accent:#8a6a2a;
+  --label-ink:#5a2a6a; --num-ink:#3d2c4e; --muted:#58476a; --r:2px; --r-case:50%; --line:#8a7a9a; --accent:#8a6a2a;
   --case-bg:rgba(255,255,255,.5); --case-border:1px solid #8a7a9a; --c-espoir:#c8a030; --c-folie:#6a2a8a;
   --t1:#4a8a5a; --t2:#c8a030; --t3:#b8601a; --t4:#7a1a3a; --t5:#1a0a1a;
   --btn-bg:#3d2c4e; --btn-ink:#f0e4c8; --btn-border:1px solid #8a6a2a;
@@ -213,10 +213,10 @@
   --tabs-bg:#162b22; --tabs-line:3px solid #b8963e; --tab-ink:#c8b070; --tab-on-bg:#f0e6c8; --tab-on-ink:#1f3a2e;
   --paper:#f2e8cc; --paper-img:repeating-linear-gradient(180deg,transparent 0 27px,rgba(80,110,140,.18) 27px 28px);
   --sec-ink:#1f3a2e; --sec-line:2px solid #b8963e; --card-bg:#fbf4dc; --card-border:1px solid #b8963e;
-  --label-ink:#4a3a18; --num-ink:#1f3a2e; --muted:#8a7a4a; --r:2px; --r-case:1px; --line:#b8963e; --accent:#b8963e;
+  --label-ink:#4a3a18; --num-ink:#1f3a2e; --muted:#675725; --r:2px; --r-case:1px; --line:#b8963e; --accent:#b8963e;
   --case-bg:#fbf4dc; --case-border:1px solid #b8963e; --c-espoir:#b8963e; --c-folie:#5a3a7a;
   --t1:#4a7a3a; --t2:#c8a020; --t3:#c0701a; --t4:#9a1a1a; --t5:#2a0808;
-  --btn-bg:linear-gradient(180deg,#c8a850,#a08030); --btn-ink:#1f3a2e; --btn-border:1px solid #6a5418; --btn-tt:uppercase; --btn-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+  --btn-bg:linear-gradient(180deg,#c8a850,#a08030); --btn-ink:#0f1f17; --btn-border:1px solid #6a5418; --btn-tt:uppercase; --btn-shadow:inset 0 1px 0 rgba(255,255,255,.4);
   --row-line:1px solid rgba(80,110,140,.3); --row-hover:rgba(184,150,62,.18); --field-bg:#fbf4dc; --field-border:1px solid #b8963e;
   .window-content { border-left:6px solid #162b22; }
   .tab { box-shadow:inset 5px 0 0 -1px rgba(184,150,62,.5); }
@@ -227,12 +227,12 @@
    ================================================================ */
 :is(.chants-de-tindalos, .cdt-dialog, .cdt-carte, .cdt)[data-cdt-theme="E"] {
   --bg:#f3e2b0; --ink:#1a1410; --f-body:"CdT Franklin",sans-serif; --f-title:"CdT Anton",sans-serif; --f-label:"CdT Oswald",sans-serif; --f-num:"CdT Anton",sans-serif;
-  --head-bg:#c01818; --head-ink:#ffe45c; --head-muted:#ffd0c0; --name-line:4px solid #111; --name-tt:uppercase; --name-ls:.02em;
+  --head-bg:#c01818; --head-ink:#ffe45c; --head-muted:#ffeee4; --name-line:4px solid #111; --name-tt:uppercase; --name-ls:.02em;
   --portrait-border:4px solid #111; --portrait-bg:#ffe45c; --r-img:0; --field-head-bg:#111; --field-head-border:2px solid #111;
   --tabs-bg:#111; --tabs-line:4px solid #111; --tab-ink:#ffe45c; --tab-on-bg:#ffe45c; --tab-on-ink:#111; --tab-ls:.05em;
   --paper:#f3e2b0; --paper-img:radial-gradient(circle,rgba(160,60,20,.18) 1.2px,transparent 1.6px); --paper-size:8px 8px;
   --sec-ink:#fff; --sec-line:none; --sec-bg:#111; --sec-pad:4px 10px; --card-bg:#fff6d0; --card-border:3px solid #111;
-  --label-ink:#111; --num-ink:#c01818; --muted:#6a5a30; --r:0; --r-case:0; --line:#111; --accent:#111;
+  --label-ink:#111; --num-ink:#c01818; --muted:#4f4120; --r:0; --r-case:0; --line:#111; --accent:#111;
   --case-bg:#fff6d0; --case-border:2px solid #111; --c-espoir:#ffb800; --c-folie:#6a1a8a;
   --t1:#2a8a3a; --t2:#ffb800; --t3:#ff6a00; --t4:#c01818; --t5:#111;
   --btn-bg:#ffe45c; --btn-ink:#111; --btn-border:3px solid #111; --btn-tt:uppercase; --btn-shadow:4px 4px 0 #111;
@@ -295,7 +295,7 @@
   --tabs-bg:#08191c; --tabs-line:1px solid #2aa090; --tab-ink:#5aa89a; --tab-on-bg:linear-gradient(180deg,rgba(42,160,144,.35),rgba(42,160,144,.08)); --tab-on-ink:#9ff0dc; --tab-ls:.05em;
   --paper:#0d1d20; --paper-img:linear-gradient(135deg,rgba(42,160,144,.05) 25%,transparent 25% 50%,rgba(42,160,144,.05) 50% 75%,transparent 75%); --paper-size:26px 26px;
   --sec-ink:#7fe0cc; --sec-line:1px solid #1a5a52; --card-bg:rgba(15,42,44,.8); --card-border:1px solid #1a6a60;
-  --label-ink:#5aa89a; --num-ink:#9ff0dc; --muted:#4a8a80; --r:0; --r-case:0; --line:#1a6a60; --accent:#2aa090;
+  --label-ink:#5aa89a; --num-ink:#9ff0dc; --muted:#62a89c; --r:0; --r-case:0; --line:#1a6a60; --accent:#2aa090;
   --case-bg:#0a1a1c; --case-border:1px solid #164a46; --c-espoir:#9ff0dc; --c-folie:#c060e0;
   --t1:#2aa090; --t2:#8ac040; --t3:#e0a020; --t4:#e03040; --t5:#600010;
   --btn-bg:rgba(42,160,144,.18); --btn-ink:#9ff0dc; --btn-border:1px solid #2aa090; --btn-tt:uppercase; --btn-shadow:0 0 12px rgba(42,160,144,.25);
@@ -401,3 +401,30 @@
 .chants-de-tindalos[data-cdt-theme] .plp-entete, .chants-de-tindalos[data-cdt-theme] .plp-anciennes summary { color: var(--label-ink); font-family: var(--f-label); }
 .chants-de-tindalos[data-cdt-theme] .plp-vide { color: var(--muted); }
 .chants-de-tindalos[data-cdt-theme] .plp-anciennes { border-top: var(--row-line); }
+
+
+/* ---------- Fiche PNJ : mêmes règles que le corps de la fiche PJ ---------- */
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme].pnj .pnj-body {
+  background-color: var(--paper); background-image: var(--paper-img, none); background-size: var(--paper-size, auto); color: var(--ink);
+}
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme].pnj .sheet-header { background: var(--head-bg); }
+.chants-de-tindalos[data-cdt-theme] .pnj-niveau-box label { color: var(--head-muted); font-family: var(--f-label); }
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme] .pnj-niveau-box input {
+  color: var(--head-ink); background: var(--field-head-bg); border: var(--field-head-border); border-radius: var(--r); font-family: var(--f-num);
+}
+.chants-de-tindalos[data-cdt-theme] .pnj-poss-label { color: var(--label-ink); font-family: var(--f-label); }
+.chants-de-tindalos[data-cdt-theme] .pnj-possession-item.active { background: var(--btn-bg); border-color: var(--accent); }
+.chants-de-tindalos[data-cdt-theme] .pnj-possession-item.active .pnj-poss-label { color: var(--btn-ink); }
+.chants-de-tindalos[data-cdt-theme] .pnj-body .notes-box textarea { background: var(--field-bg); color: var(--ink); border: var(--field-border); }
+
+/* ---------- Textes d'aide et zones libres ---------- */
+.chants-de-tindalos[data-cdt-theme] .notes-libre { background: var(--field-bg); color: var(--ink); border: var(--field-border); border-radius: var(--r); font-family: var(--f-body); }
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme] :is(.drop-hint, .inventaire-vide, .aide-milieux, .comp-aide) { color: var(--muted); }
+.chants-de-tindalos[data-cdt-theme] .cdt-verrou { font-family: inherit; }
+
+.chants-de-tindalos[data-cdt-theme="E"] .section-title .tension-valeur-label { color: #ffe45c; }
+.chants-de-tindalos[data-cdt-theme] .arcanes-des-box { background: var(--card-bg); color: var(--ink); border: var(--card-border); border-radius: var(--r); }
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme] .arcanes-des-select { background: var(--field-bg); color: var(--ink); border: var(--field-border); }
+.chants-de-tindalos[data-cdt-theme] .arcanes-des-select option { background: var(--paper); color: var(--ink); }
+.chants-de-tindalos[data-cdt-theme] .arcanes-des-box label { color: var(--label-ink); }
+.chants-de-tindalos[data-cdt-theme="E"] .section-title .drop-hint { color: #ffd98a; }
