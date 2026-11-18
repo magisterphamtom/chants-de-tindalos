@@ -104,12 +104,12 @@
   .tension-cases:not(.onirisme-cases) .tension-case:nth-child(20).active { background: var(--t5); border-color: var(--t4); }
 
   /* Boutons de jet */
-  .btn-jet-maitrise, .btn-jet-defensif, .btn-jet-sommeil, .btn-attaquer, .btn-jet-arcanes {
+  .btn-jet-maitrise, .btn-jet-defensif, .btn-jet-sommeil, .btn-attaquer, .btn-jet-arcanes, .btn-attaque-creature {
     background: var(--btn-bg); color: var(--btn-ink); border: var(--btn-border);
     border-radius: var(--r); font-family: var(--f-label); text-transform: var(--btn-tt, none);
     letter-spacing: .06em; box-shadow: var(--btn-shadow, none);
   }
-  .btn-jet-maitrise:hover, .btn-jet-defensif:hover, .btn-jet-sommeil:hover, .btn-attaquer:hover, .btn-jet-arcanes:hover {
+  .btn-jet-maitrise:hover, .btn-jet-defensif:hover, .btn-jet-sommeil:hover, .btn-attaquer:hover, .btn-jet-arcanes:hover, .btn-attaque-creature:hover {
     background: var(--btn-bg); color: var(--btn-ink); border-color: var(--accent); filter: brightness(1.18);
   }
 
@@ -427,3 +427,8 @@
 .chants-de-tindalos[data-cdt-theme] .arcanes-des-select option { background: var(--paper); color: var(--ink); }
 .chants-de-tindalos[data-cdt-theme] .arcanes-des-box label { color: var(--label-ink); }
 .chants-de-tindalos[data-cdt-theme="E"] .section-title .drop-hint { color: #ffd98a; }
+
+.chants-de-tindalos[data-cdt-theme][data-cdt-theme] :is(.btn-dm, .btn-ajout-attaque, .btn-suppr-attaque) {
+  background: var(--card-bg); color: var(--ink); border: var(--card-border); border-radius: var(--r); font-family: var(--f-label);
+}
+.chants-de-tindalos[data-cdt-theme] .dm-sep { color: var(--ink); }

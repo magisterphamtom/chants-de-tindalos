@@ -1418,3 +1418,38 @@
   pointer-events: none;
 }
 .chants-de-tindalos.pnj .sheet-header { position: relative; }
+
+/* --- Fiche Créature --- */
+.chants-de-tindalos .btn-attaque-creature {
+  background: #8b0000; color: #f4e8d0; border: 1px solid #600000; border-radius: 4px;
+  padding: 5px 12px; font-size: .85em; font-family: "Georgia", serif; cursor: pointer;
+  margin-left: auto; box-shadow: 0 2px 4px rgba(0,0,0,.2);
+}
+.chants-de-tindalos .btn-attaque-creature:hover { background: #600000; }
+.chants-de-tindalos .creature-select, .chants-de-tindalos .creature-note {
+  width: 100%; box-sizing: border-box; font-size: .8em; text-align: center; min-width: 0;
+}
+.chants-de-tindalos .creature-effet { margin-top: 6px; text-align: left; }
+.chants-de-tindalos .dm-box .dm-ligne { display: flex; align-items: center; justify-content: center; gap: 4px; }
+.chants-de-tindalos .dm-box .dm-ligne input { width: 44px; }
+.chants-de-tindalos .dm-sep { opacity: .9; }
+.chants-de-tindalos .btn-dm, .chants-de-tindalos .btn-ajout-attaque, .chants-de-tindalos .btn-suppr-attaque {
+  background: #fff8e8; color: #5a2a2a; border: 1px solid #8b4513; border-radius: 4px;
+  cursor: pointer; font-weight: bold; line-height: 1.2;
+}
+.chants-de-tindalos .btn-dm { width: 24px; height: 24px; padding: 0; }
+.chants-de-tindalos .btn-ajout-attaque { width: 100%; margin-top: 6px; padding: 6px; }
+.chants-de-tindalos .btn-suppr-attaque { padding: 2px 6px; margin-left: 6px; }
+.chants-de-tindalos .creature-attaque { flex-direction: column; align-items: stretch; }
+.chants-de-tindalos .creature-attaque .arme-infos { display: flex; align-items: center; }
+.chants-de-tindalos .creature-magie { display: flex; gap: 6px; padding: 0 14px; margin-bottom: 6px; }
+.chants-de-tindalos .creature-magie input { flex: 1; min-width: 0; }
+.chants-de-tindalos .creature-magie .btn-arcanes-creature { white-space: nowrap; }
+.chants-de-tindalos.cdt-verrouille :is(.btn-dm, .btn-ajout-attaque, .btn-suppr-attaque) { pointer-events: none; opacity: .5; }
+.chants-de-tindalos.creature .pnj-body > .section-title,
+.chants-de-tindalos.creature .pnj-body > .variables-grid,
+.chants-de-tindalos.creature .pnj-body > .caracteristiques,
+.chants-de-tindalos.creature .pnj-body > .armes-list,
+.chants-de-tindalos.creature .pnj-body > .declencheurs-box,
+.chants-de-tindalos.creature .pnj-body > .notes-box,
+.chants-de-tindalos.creature .pnj-body > .creature-magie { padding-left: 14px; padding-right: 14px; }

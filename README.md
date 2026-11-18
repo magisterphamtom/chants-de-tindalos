@@ -56,6 +56,9 @@ Tous les items se glissent-déposent (**drag & drop**) directement sur la fiche 
 - Stats compactes avec possessions pictogrammes cliquables (toggle ON/OFF)
 - Jet d'attaque intégré avec létalité dans le chat
 
+### Fiche Créature (Bestiaire)
+Type d'acteur **Créature** pour le Bestiaire (Manuel, p.397) : caractéristiques 0–20, **Sensibilité**, **Dés de Mort** (boutons +/−), vitesse, **+ Tension** et **+ XP de Folie** pour les joueurs, **attaques** en nombre libre (jet d'attaque et de létalité dans le chat), magie (dés d'arcanes, sorts). Cadenas 🔒 dans l'en-tête de la fenêtre (toutes les fiches) et 8 thèmes.
+
 ### Jets de dés
 - Jets de caractéristique, compétence, maîtrise, défensif, sommeil, arcanes
 - Jet d'attaque avec létalité (CaC et Distance)
@@ -80,7 +83,7 @@ Le jet de Maîtrise, la carte PLP et les gains d'XP de Folie et d'Espoir ne sont
 ### Wiki intégré
 - **Ouverture automatique** à chaque lancement du monde (désactivable par joueur)
 - **Bouton 📖 Wiki** dans le panneau Acteurs
-- 13 pages couvrant toutes les règles et la personnalisation, habillées en dossier d'enquête / Art Déco
+- 14 pages couvrant toutes les règles, la personnalisation et la fiche Créature, habillées en dossier d'enquête / Art Déco
 
 ### 🖼️ Scène d'accueil
 Une scène « Les Chants de Tindalos — Accueil » (couverture du jeu) est créée et activée au premier lancement du monde par le MJ.

@@ -2,10 +2,12 @@
   "Actor": {
     "types": [
       "personnage",
-      "pnj"
+      "pnj",
+      "creature"
     ],
     "personnage": {},
-    "pnj": {}
+    "pnj": {},
+    "creature": {}
   },
   "Item": {
     "types": [

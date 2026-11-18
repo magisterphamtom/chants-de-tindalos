@@ -50,6 +50,7 @@
   "CDT.Onglets.Notes": "Notes",
   "TYPES.Actor.personnage": "Personnage",
   "TYPES.Actor.pnj": "PNJ",
+  "TYPES.Actor.creature": "Créature",
   "TYPES.Item.arme": "Arme",
   "TYPES.Item.equipement": "Équipement",
   "TYPES.Item.vehicule": "Véhicule",

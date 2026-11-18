@@ -12,7 +12,7 @@ class CaracteristiqueField extends SchemaField {
   constructor(options = {}) {
     super({
       label:   new StringField({ initial: "" }),
-      valeur:  new NumberField({ initial: 2, min: 0, max: 10, integer: true }),
+      valeur:  new NumberField({ initial: 2, min: 0, max: 20, integer: true }),
       cout:    new NumberField({ initial: 3, integer: true }),
       defense: new NumberField({ initial: 1, integer: true }),
     }, options);
@@ -23,7 +23,7 @@ class CaracteristiquePNJField extends SchemaField {
   constructor(options = {}) {
     super({
       label:  new StringField({ initial: "" }),
-      valeur: new NumberField({ initial: 2, min: 0, max: 10, integer: true }),
+      valeur: new NumberField({ initial: 2, min: 0, max: 20, integer: true }),
     }, options);
   }
 }
@@ -269,6 +269,65 @@ class PNJDataModel extends foundry.abstract.TypeDataModel {
   }
 }
 
+
+// ------------------------------------------------
+// DATAMODEL : Créature (Bestiaire, p.397)
+// ------------------------------------------------
+class CreatureDataModel extends foundry.abstract.TypeDataModel {
+
+  static defineSchema() {
+    return {
+      description: new StringField({ initial: "" }),
+      notes:       new StringField({ initial: "" }),
+
+      caracteristiques: new SchemaField({
+        savoir:     new CaracteristiquePNJField(),
+        perception: new CaracteristiquePNJField(),
+        charisme:   new CaracteristiquePNJField(),
+        agilite:    new CaracteristiquePNJField(),
+        vigueur:    new CaracteristiquePNJField(),
+      }),
+
+      // Degré minimal de blessure pour avoir un effet sur la créature
+      sensibilite: new StringField({
+        initial: "Moderee",
+        choices: ["Superficielle", "Legere", "Moderee", "Serieuse"],
+      }),
+      // Dés de Mort : nombre de jets de létalité réussis pour la tuer
+      dm: new SchemaField({
+        valeur: new NumberField({ initial: 2, min: 0, integer: true }),
+        max:    new NumberField({ initial: 2, min: 0, integer: true }),
+      }),
+
+      variables: new SchemaField({
+        vitesse:   new NumberField({ initial: 8, min: 0, integer: true }),
+        intuition: new NumberField({ initial: 0, integer: true }),
+      }),
+      vitesseNote: new StringField({ initial: "" }),   // ex. « 22 en vol »
+
+      // Effet sur la table
+      tensionJoueurs: new NumberField({ initial: 1, min: 0, integer: true }),
+      xpFolie:        new NumberField({ initial: 0, min: 0, integer: true }),
+
+      competences: new StringField({ initial: "" }),
+
+      magie: new SchemaField({
+        des:        new StringField({ initial: "" }),  // ex. « 2d12 »
+        discipline: new StringField({ initial: "" }),  // ex. « Vitalisme +4 »
+      }),
+      sorts: new StringField({ initial: "" }),
+
+      attaques: new ArrayField(new SchemaField({
+        nom:            new StringField({ initial: "" }),
+        caracteristique: new StringField({ initial: "vigueur", choices: ["vigueur", "agilite"] }),
+        blessure:       new StringField({ initial: "Serieuse", choices: ["Superficielle", "Legere", "Moderee", "Serieuse"] }),
+        letalite:       new NumberField({ initial: 15, min: 1, integer: true }),
+        effet:          new StringField({ initial: "" }),
+      }), { initial: [] }),
+    };
+  }
+}
+
 // ------------------------------------------------
 // DATAMODEL : Arme (Item)
 // ------------------------------------------------
@@ -415,6 +474,7 @@ class CompetenceDataModel extends foundry.abstract.TypeDataModel {
 export {
   PersonnageDataModel,
   PNJDataModel,
+  CreatureDataModel,
   ArmeDataModel,
   EquipementDataModel,
   VehiculeDataModel,

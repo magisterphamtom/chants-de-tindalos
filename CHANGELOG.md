@@ -6,7 +6,9 @@
 - La fiche PNJ **suit maintenant les 8 thèmes** (fond, chiffres, libellés, possessions, arme) et dispose du **sélecteur de thème**.
 - **Cadenas 🔒/🔓** dans l'en-tête de la fenêtre (à côté des trois petits points), sur les fiches PJ et PNJ : une fois la fiche réglée, on la verrouille et plus rien ne se modifie par erreur (champs, cases, portrait, retrait d'objets) ; les jets restent possibles.
 
-- **Caractéristiques libres** : le Gardien peut saisir de 0 à 10 (PJ et PNJ) au lieu de 1 à 5 ; Coût et Défense restent calculés sur la table 1–5.
+### Créatures
+- Nouveau type d'acteur **Créature** (Bestiaire, p.397) avec sa fiche : caractéristiques 0–20, Sensibilité, Dés de Mort (+/−), vitesse, + Tension et + XP de Folie pour les joueurs, attaques en nombre libre avec jet d'attaque et de létalité, magie (dés d'arcanes, sorts). Cadenas et 8 thèmes comme les autres fiches. Nouvelle page de wiki « 14. Fiche Créature ».
+- Caractéristiques PJ et PNJ libres de 0 à 20 (Coût et Défense restent calculés sur la table 1–5).
 
 ### Lisibilité des thèmes
 - Contrôle de contraste de tous les textes dans les 9 styles : textes secondaires (aides, « glissez ici », C/D, /20, Dés d'Arcanes…) assombris ou éclaircis selon le thème, zone Notes et boutons lisibles partout.

@@ -1,0 +1,161 @@
+<div class="pnj-body creature-body">
+
+  <!-- EN-TÊTE CRÉATURE -->
+  <header class="sheet-header">
+    <div class="cdt-outils">
+      <select class="cdt-theme-select" title="Thème de la fiche"></select>
+    </div>
+    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+    <div class="header-infos">
+      <input class="name" type="text" name="name" value="{{actor.name}}" />
+    </div>
+  </header>
+
+  <!-- CARACTÉRISTIQUES -->
+  <div class="section-title">Caractéristiques</div>
+  <div class="caracteristiques">
+    <div class="carac-box rollable" data-carac="savoir">
+      <span class="carac-icone">📚</span>
+      <span class="carac-label">Savoir</span>
+      <input type="number" name="system.caracteristiques.savoir.valeur"
+             value="{{system.caracteristiques.savoir.valeur}}" min="0" max="20" />
+    </div>
+    <div class="carac-box rollable" data-carac="perception">
+      <span class="carac-icone">👁️</span>
+      <span class="carac-label">Perception</span>
+      <input type="number" name="system.caracteristiques.perception.valeur"
+             value="{{system.caracteristiques.perception.valeur}}" min="0" max="20" />
+    </div>
+    <div class="carac-box rollable" data-carac="charisme">
+      <span class="carac-icone">🗣️</span>
+      <span class="carac-label">Charisme</span>
+      <input type="number" name="system.caracteristiques.charisme.valeur"
+             value="{{system.caracteristiques.charisme.valeur}}" min="0" max="20" />
+    </div>
+    <div class="carac-box rollable" data-carac="agilite">
+      <span class="carac-icone">⚡</span>
+      <span class="carac-label">Agilité</span>
+      <input type="number" name="system.caracteristiques.agilite.valeur"
+             value="{{system.caracteristiques.agilite.valeur}}" min="0" max="20" />
+    </div>
+    <div class="carac-box rollable" data-carac="vigueur">
+      <span class="carac-icone">💪</span>
+      <span class="carac-label">Vigueur</span>
+      <input type="number" name="system.caracteristiques.vigueur.valeur"
+             value="{{system.caracteristiques.vigueur.valeur}}" min="0" max="20" />
+    </div>
+  </div>
+
+  <!-- RÉSISTANCE -->
+  <div class="section-title">Résistance</div>
+  <div class="variables-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="variable-box">
+      <span class="variable-icone">🛡️</span>
+      <label>Sensibilité</label>
+      <select name="system.sensibilite" class="creature-select">
+        <option value="Superficielle" {{#if (eq system.sensibilite "Superficielle")}}selected{{/if}}>Superficielle</option>
+        <option value="Legere" {{#if (eq system.sensibilite "Legere")}}selected{{/if}}>Légère</option>
+        <option value="Moderee" {{#if (eq system.sensibilite "Moderee")}}selected{{/if}}>Modérée</option>
+        <option value="Serieuse" {{#if (eq system.sensibilite "Serieuse")}}selected{{/if}}>Sérieuse</option>
+      </select>
+    </div>
+    <div class="variable-box dm-box">
+      <span class="variable-icone">💀</span>
+      <label>Dés de Mort (restants / total)</label>
+      <div class="dm-ligne">
+        <button type="button" class="btn-dm" data-delta="-1" title="Une létalité réussie : −1 DM">−</button>
+        <input type="number" name="system.dm.valeur" value="{{system.dm.valeur}}" min="0" />
+        <span class="dm-sep">/</span>
+        <input type="number" name="system.dm.max" value="{{system.dm.max}}" min="0" />
+        <button type="button" class="btn-dm" data-delta="1" title="+1 DM">+</button>
+      </div>
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">🏃</span>
+      <label>Vitesse</label>
+      <input type="number" name="system.variables.vitesse" value="{{system.variables.vitesse}}" min="0" />
+      <input type="text" class="creature-note" name="system.vitesseNote" value="{{system.vitesseNote}}" placeholder="ex. 22 en vol" />
+    </div>
+  </div>
+
+  <!-- EFFET SUR LA TABLE -->
+  <div class="section-title">Effet sur les joueurs</div>
+  <div class="variables-grid" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="variable-box">
+      <span class="variable-icone">⚡</span>
+      <label>+ Tension des joueurs</label>
+      <input type="number" name="system.tensionJoueurs" value="{{system.tensionJoueurs}}" min="0" />
+    </div>
+    <div class="variable-box">
+      <span class="variable-icone">🌀</span>
+      <label>+ XP de Folie</label>
+      <input type="number" name="system.xpFolie" value="{{system.xpFolie}}" min="0" />
+    </div>
+  </div>
+
+  <!-- COMPÉTENCES -->
+  <div class="section-title">Compétences</div>
+  <div class="declencheurs-box">
+    <input type="text" name="system.competences" value="{{system.competences}}"
+           placeholder="Ex: Séduction 2, Autorité 2, Combat à mains nues 2" />
+  </div>
+
+  <!-- ATTAQUES -->
+  <div class="section-title">Attaques</div>
+  <div class="armes-list creature-attaques">
+    {{#each attaques}}
+    <div class="arme-row creature-attaque" data-index="{{@index}}">
+      <div class="arme-infos">
+        <input type="text" class="arme-nom" data-attaque="nom" value="{{this.nom}}" placeholder="Nom (Griffe, Morsure, Souffle…)" />
+        <select class="arme-type" data-attaque="caracteristique">
+          <option value="vigueur" {{#if (eq this.caracteristique "vigueur")}}selected{{/if}}>VIG</option>
+          <option value="agilite" {{#if (eq this.caracteristique "agilite")}}selected{{/if}}>AGI</option>
+        </select>
+        <button type="button" class="btn-suppr-attaque" title="Retirer cette attaque">🗑️</button>
+      </div>
+      <div class="arme-stats">
+        <div class="arme-stat">
+          <label>Létalité</label>
+          <input type="number" data-attaque="letalite" value="{{this.letalite}}" min="1" />
+        </div>
+        <div class="arme-stat">
+          <label>Blessure</label>
+          <select data-attaque="blessure">
+            <option value="Superficielle" {{#if (eq this.blessure "Superficielle")}}selected{{/if}}>Superficielle</option>
+            <option value="Legere" {{#if (eq this.blessure "Legere")}}selected{{/if}}>Légère</option>
+            <option value="Moderee" {{#if (eq this.blessure "Moderee")}}selected{{/if}}>Modérée</option>
+            <option value="Serieuse" {{#if (eq this.blessure "Serieuse")}}selected{{/if}}>Sérieuse</option>
+          </select>
+        </div>
+        <button type="button" class="btn-attaque-creature" data-index="{{@index}}">⚔️ Attaquer</button>
+      </div>
+      <input type="text" class="creature-note creature-effet" data-attaque="effet" value="{{this.effet}}" placeholder="Effet spécial (ex. perd 4 points de Réserve en plus)" />
+    </div>
+    {{/each}}
+    <button type="button" class="btn-ajout-attaque">➕ Ajouter une attaque</button>
+  </div>
+
+  <!-- MAGIE -->
+  <div class="section-title">Magie</div>
+  <div class="creature-magie">
+    <input type="text" name="system.magie.des" value="{{system.magie.des}}" placeholder="Dés d'arcanes (ex. 2d12)" />
+    <input type="text" name="system.magie.discipline" value="{{system.magie.discipline}}" placeholder="Discipline (ex. Vitalisme +4)" />
+    <button type="button" class="btn-jet-arcanes btn-arcanes-creature">🔮 Jet d'arcanes</button>
+  </div>
+  <div class="notes-box">
+    <textarea name="system.sorts" placeholder="Sorts (nom, jet d'arcanes, portée, cible, effet)…">{{system.sorts}}</textarea>
+  </div>
+
+  <!-- DESCRIPTION -->
+  <div class="section-title">Description</div>
+  <div class="notes-box">
+    <textarea name="system.description" placeholder="Description de la créature…">{{system.description}}</textarea>
+  </div>
+
+  <!-- NOTES -->
+  <div class="section-title">Notes</div>
+  <div class="notes-box">
+    <textarea name="system.notes" placeholder="Notes du MJ…">{{system.notes}}</textarea>
+  </div>
+
+</div>

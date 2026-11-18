@@ -3,7 +3,7 @@
 // Développé pour Walpurgis Éditions
 // ================================================
 
-import { PersonnageDataModel, PNJDataModel, ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel, ArtefactDataModel, RevelationDataModel } from "./datamodels.js";
+import { PersonnageDataModel, PNJDataModel, CreatureDataModel, ArmeDataModel, EquipementDataModel, VehiculeDataModel, SubstanceDataModel, ArtefactDataModel, RevelationDataModel } from "./datamodels.js";
 import { regrouperCompetences, calculerDesCompetence, libelleCompetence } from "./competences.js";
 
 const { ActorSheetV2 } = foundry.applications.sheets;
@@ -590,6 +590,7 @@ Hooks.once("init", function () {
   // --- DATAMODELS ---
   CONFIG.Actor.dataModels.personnage  = PersonnageDataModel;
   CONFIG.Actor.dataModels.pnj         = PNJDataModel;
+  CONFIG.Actor.dataModels.creature    = CreatureDataModel;
   CONFIG.Item.dataModels.arme         = ArmeDataModel;
   CONFIG.Item.dataModels.equipement   = EquipementDataModel;
   CONFIG.Item.dataModels.vehicule     = VehiculeDataModel;
@@ -601,6 +602,7 @@ Hooks.once("init", function () {
     CdTActeur,
     CdTFeuillePersonnage,
     CdTFeuillePNJ,
+    CdTFeuilleCreature,
     piocherCartePLP,
     gagnerXPFolie,
     gagnerXPEspoir,
@@ -626,6 +628,11 @@ Hooks.once("init", function () {
     types: ["pnj"],
     makeDefault: true,
     label: "Feuille PNJ CDT",
+  });
+  ActorsCollection.registerSheet("chants-de-tindalos", CdTFeuilleCreature, {
+    types: ["creature"],
+    makeDefault: true,
+    label: "Feuille Créature CDT",
   });
 
   // --- SETTINGS (doivent être enregistrés pendant "init") ---
@@ -714,7 +721,7 @@ class CdTActeur extends Actor {
 
     const agi = system.caracteristiques?.agilite?.valeur ?? 1;
     const vig = system.caracteristiques?.vigueur?.valeur ?? 1;
-    if (system.variables) {
+    if (system.variables && this.type !== "creature") {
       system.variables.vitesse = agi + vig + 2;
     }
 
@@ -2266,6 +2273,164 @@ class CdTFeuillePNJ extends HandlebarsApplicationMixin(ActorSheetV2) {
 }
 
 // ================================================
+// FEUILLE CRÉATURE (Bestiaire)
+// ================================================
+class CdTFeuilleCreature extends CdTFeuillePNJ {
+
+  static DEFAULT_OPTIONS = {
+    classes: ["chants-de-tindalos", "sheet", "actor", "pnj", "creature"],
+    position: { width: 640, height: 780 },
+    window: { resizable: true },
+  };
+
+  static PARTS = {
+    pnj: {
+      template: "systems/chants-de-tindalos/templates/actor/feuille-creature.html",
+    },
+  };
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    context.attaques = this.actor.system.attaques ?? [];
+    return context;
+  }
+
+  async _preparePartContext(partId, context) {
+    context = await super._preparePartContext(partId, context);
+    context.attaques = this.actor.system.attaques ?? [];
+    return context;
+  }
+
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = this.element;
+
+    // Attaques : modification d'un champ (on réécrit le tableau complet)
+    html.querySelectorAll("[data-attaque]").forEach((champ) => {
+      champ.addEventListener("change", async (ev) => {
+        const ligne = ev.currentTarget.closest(".creature-attaque");
+        const i = Number(ligne?.dataset.index);
+        const attaques = foundry.utils.deepClone(this.actor.toObject().system.attaques ?? []);
+        if (!attaques[i]) return;
+        const cle = ev.currentTarget.dataset.attaque;
+        attaques[i][cle] = ev.currentTarget.type === "number"
+          ? Number(ev.currentTarget.value) : ev.currentTarget.value;
+        await this.actor.update({ "system.attaques": attaques });
+      });
+    });
+
+    html.querySelector(".btn-ajout-attaque")?.addEventListener("click", async (ev) => {
+      ev.preventDefault();
+      const attaques = foundry.utils.deepClone(this.actor.toObject().system.attaques ?? []);
+      attaques.push({ nom: "", caracteristique: "vigueur", blessure: "Serieuse", letalite: 15, effet: "" });
+      await this.actor.update({ "system.attaques": attaques });
+    });
+
+    html.querySelectorAll(".btn-suppr-attaque").forEach((b) => {
+      b.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        const i = Number(ev.currentTarget.closest(".creature-attaque")?.dataset.index);
+        const attaques = foundry.utils.deepClone(this.actor.toObject().system.attaques ?? []);
+        attaques.splice(i, 1);
+        await this.actor.update({ "system.attaques": attaques });
+      });
+    });
+
+    html.querySelectorAll(".btn-attaque-creature").forEach((b) => {
+      b.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        this._attaquerCreature(Number(ev.currentTarget.dataset.index));
+      });
+    });
+
+    // Dés de Mort : +/−
+    html.querySelectorAll(".btn-dm").forEach((b) => {
+      b.addEventListener("click", async (ev) => {
+        ev.preventDefault();
+        const dm = this.actor.system.dm;
+        const delta = Number(ev.currentTarget.dataset.delta);
+        const valeur = Math.max(0, Math.min(dm.max, dm.valeur + delta));
+        await this.actor.update({ "system.dm.valeur": valeur });
+      });
+    });
+
+    html.querySelector(".btn-arcanes-creature")?.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      this._jetArcanesCreature();
+    });
+  }
+
+  async _attaquerCreature(index) {
+    const system = this.actor.system;
+    const attaque = system.attaques?.[index];
+    if (!attaque) return;
+
+    const sd = system.seuilDifficulte ?? 3;
+    const caracVal = system.caracteristiques?.[attaque.caracteristique]?.valeur ?? 1;
+    const roll = new Roll(`${Math.max(1, caracVal)}d6`);
+    await roll.evaluate();
+
+    const valeurs = roll.dice[0].results.map((d) => d.result);
+    const reussites = valeurs.filter((v) => v >= sd).length;
+    const desAffichage = valeurs
+      .map((v) => `<span style="color:${v >= sd ? "#2d6a2d" : "#8b0000"};font-weight:bold;">${v}</span>`)
+      .join(" | ");
+
+    let contenuLetalite = "";
+    if (reussites > 0) {
+      const rollLet = new Roll("1d20");
+      await rollLet.evaluate();
+      const totalLet = rollLet.total + reussites;
+      const touche = totalLet >= attaque.letalite;
+      contenuLetalite = `
+        <div style="margin-top:6px;padding-top:6px;border-top:1px solid #8b4513;">
+          🎯 Létalité : <b>${rollLet.total}</b> + ${reussites} réussite(s) = <b>${totalLet}</b>
+          vs <b>${attaque.letalite}</b><br>
+          ${touche
+            ? `<b style="color:#8b0000;">💥 Touché ! Blessure : ${attaque.blessure}</b>`
+            : `<span style="color:#5c3010;">🛡️ Manqué</span>`}
+          ${touche && attaque.effet ? `<br><i>${foundry.utils.escapeHTML(attaque.effet)}</i>` : ""}
+        </div>`;
+    }
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      rolls: [roll],
+      content: `
+        <div style="background:#f4e8d0;border:1px solid #8b4513;padding:8px;border-radius:4px;">
+          <b>⚔️ ${foundry.utils.escapeHTML(attaque.nom || "Attaque")}</b> (SD ${sd}+)<br>
+          Dés : ${desAffichage}<br>
+          ${reussites > 0
+            ? `<b style="color:#2d6a2d;">✅ ${reussites} réussite(s)</b>`
+            : `<b style="color:#8b0000;">❌ Échec</b>`}
+          ${contenuLetalite}
+        </div>`,
+    });
+  }
+
+  async _jetArcanesCreature() {
+    const magie = this.actor.system.magie ?? {};
+    const formule = (magie.des ?? "").trim();
+    if (!formule) { ui.notifications.warn("Renseigne d'abord les dés d'arcanes (ex. 2d12)."); return; }
+    let roll;
+    try { roll = new Roll(formule); await roll.evaluate(); }
+    catch { ui.notifications.warn(`Formule de dés invalide : ${formule}`); return; }
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      rolls: [roll],
+      content: `
+        <div style="background:#f4e8d0;border:1px solid #8b4513;padding:8px;border-radius:4px;">
+          <b>🔮 Jet d'arcanes</b> (${foundry.utils.escapeHTML(formule)})<br>
+          ${magie.discipline ? `${foundry.utils.escapeHTML(magie.discipline)}<br>` : ""}
+          Résultat : <b>${roll.total}</b>
+        </div>`,
+    });
+  }
+}
+
+// ================================================
 // FONCTIONS UTILITAIRES
 // ================================================
 
@@ -2804,6 +2969,24 @@ async function initialiserWiki() {
 <p>Le jet de Maîtrise, la carte PLP et les gains d'XP de Folie et d'Espoir ne sont visibles que par le <strong>joueur concerné</strong> et le <strong>MJ</strong>.</p>
 <h2>🖼️ Scène d'accueil</h2>
 <p>Au premier lancement, le MJ voit une scène « Les Chants de Tindalos — Accueil » (couverture du jeu) se créer et s'activer. Pour la rouvrir : <code>CDT.ouvrirSceneAccueil()</code> dans la console F12, ou cocher <em>Réactiver la scène d'accueil à chaque lancement</em> dans les paramètres.</p>
+        `
+      }
+    },
+    {
+      name: "14. Fiche Créature",
+      text: {
+        content: `
+<h1>🐉 Fiche Créature (Bestiaire)</h1>
+<p>Pour créer une créature du Bestiaire (Manuel, p.397), choisir le type d'acteur <strong>Créature</strong>. Sa fiche est différente de celle d'un PNJ.</p>
+<ul>
+<li><strong>Caractéristiques</strong> libres de 0 à 20 (une créature dépasse souvent celles d'un PJ) ; un clic sur une caractéristique lance le jet.</li>
+<li><strong>Sensibilité</strong> : le degré minimal de blessure qu'une arme doit infliger pour avoir un effet sur la créature.</li>
+<li><strong>Dés de Mort (DM)</strong> : nombre de jets de létalité réussis pour la tuer. Les boutons − et + retirent ou ajoutent un DM. Une blessure qui rate sa létalité est sans effet.</li>
+<li><strong>Vitesse</strong> (avec une note, par exemple « 22 en vol »), <strong>+ Tension des joueurs</strong> et <strong>+ XP de Folie</strong> : ce que la créature fait subir aux joueurs.</li>
+<li><strong>Attaques</strong> en nombre libre (Griffe, Morsure, Souffle…) : caractéristique VIG ou AGI, blessure, létalité, effet spécial. Le bouton ⚔️ Attaquer lance les dés et la létalité dans le chat.</li>
+<li><strong>Magie</strong> : dés d'arcanes (par exemple 2d12), discipline, bouton de jet et zone de texte pour les sorts.</li>
+</ul>
+<p>Le cadenas 🔒 de l'en-tête de la fenêtre, le choix du thème et la confidentialité fonctionnent comme sur les autres fiches.</p>
         `
       }
     },

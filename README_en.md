@@ -78,7 +78,7 @@ The Mastery roll, the PLP card and Madness/Hope XP gains are visible only to **t
 ### Built-in Wiki
 - **Opens automatically** at every world launch (each player can turn it off)
 - **📖 Wiki button** in the Actors panel
-- 13 pages covering all rules and customization, styled as a case file / Art Deco
+- 14 pages covering all rules, customization and the Creature sheet, styled as a case file / Art Deco
 
 ### 🖼️ Welcome Scene
 A "Les Chants de Tindalos — Accueil" scene (game cover) is created and activated by the GM at first launch.
