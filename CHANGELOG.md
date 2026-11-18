@@ -8,7 +8,7 @@
 
 ### Créatures
 - Nouveau type d'acteur **Créature** (Bestiaire, p.397) avec sa fiche : caractéristiques 0–20, Sensibilité, Dés de Mort (+/−), vitesse, + Tension et + XP de Folie pour les joueurs, attaques en nombre libre avec jet d'attaque et de létalité, magie (dés d'arcanes, sorts). Cadenas et 8 thèmes comme les autres fiches. Nouvelle page de wiki « 14. Fiche Créature ».
-- Caractéristiques PJ et PNJ libres de 0 à 20 (Coût et Défense restent calculés sur la table 1–5).
+- Caractéristiques PJ et PNJ libres de 0 à 20 (Coût et Défense restent calculés sur la table 1–5) ; le champ de saisie des caractéristiques redevient cliquable (il ignorait les clics). Verrouillée, la fiche relance le jet au clic.
 
 ### Lisibilité des thèmes
 - Contrôle de contraste de tous les textes dans les 9 styles : textes secondaires (aides, « glissez ici », C/D, /20, Dés d'Arcanes…) assombris ou éclaircis selon le thème, zone Notes et boutons lisibles partout.
