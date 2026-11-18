@@ -420,7 +420,6 @@
 /* ---------- Textes d'aide et zones libres ---------- */
 .chants-de-tindalos[data-cdt-theme] .notes-libre { background: var(--field-bg); color: var(--ink); border: var(--field-border); border-radius: var(--r); font-family: var(--f-body); }
 .chants-de-tindalos[data-cdt-theme][data-cdt-theme] :is(.drop-hint, .inventaire-vide, .aide-milieux, .comp-aide) { color: var(--muted); }
-.chants-de-tindalos[data-cdt-theme] .cdt-verrou { font-family: inherit; }
 
 .chants-de-tindalos[data-cdt-theme="E"] .section-title .tension-valeur-label { color: #ffe45c; }
 .chants-de-tindalos[data-cdt-theme] .arcanes-des-box { background: var(--card-bg); color: var(--ink); border: var(--card-border); border-radius: var(--r); }

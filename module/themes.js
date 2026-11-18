@@ -40,32 +40,46 @@ function appliquerTheme(element) {
   }
 }
 
-// Cadenas : verrouille les caractéristiques, variables (et niveau PNJ) d'une fiche
-const CHAMPS_VERROUILLABLES = ".carac-box input, .variable-box input, .pnj-niveau-box input";
+// Cadenas : verrouille TOUTE la fiche (bouton dans l'en-tête de la fenêtre,
+// à côté des trois petits points). Les jets restent possibles.
+const CHAMPS_TEXTE = "input:not([type=checkbox]):not([type=radio]), textarea";
+const CHAMPS_CHOIX = "select, input[type=checkbox], input[type=radio]";
 
 function appliquerVerrou(app, element) {
   const acteur = app.document ?? app.actor;
-  const bouton = element.querySelector(".cdt-verrou");
-  if (!acteur || !bouton) return;
+  if (!acteur) return;
   const verrouille = !!acteur.getFlag(SYSTEME, "verrou");
   element.classList.toggle("cdt-verrouille", verrouille);
-  bouton.textContent = verrouille ? "🔒" : "🔓";
-  bouton.title = verrouille
-    ? "Caractéristiques verrouillées — cliquer pour déverrouiller"
-    : "Caractéristiques déverrouillées — cliquer pour verrouiller";
-  element.querySelectorAll(CHAMPS_VERROUILLABLES).forEach((champ) => {
-    champ.readOnly = verrouille;
-    champ.tabIndex = verrouille ? -1 : 0;
-  });
-  if (!bouton.dataset.cdtBranche) {
-    bouton.dataset.cdtBranche = "1";
+
+  // Bouton dans l'en-tête de la fenêtre
+  const entete = element.querySelector(".window-header");
+  if (entete) {
+    let bouton = entete.querySelector(".cdt-verrou-fenetre");
+    if (!bouton) {
+      bouton = document.createElement("button");
+      bouton.type = "button";
+      bouton.className = "header-control icon fa-solid cdt-verrou-fenetre";
+      bouton.addEventListener("click", (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        acteur.setFlag(SYSTEME, "verrou", !acteur.getFlag(SYSTEME, "verrou"));
+      });
+      const points = entete.querySelector('[data-action="toggleControls"]')
+        ?? entete.querySelector('[data-action="close"]');
+      if (points) points.before(bouton); else entete.append(bouton);
+    }
+    bouton.classList.toggle("fa-lock", verrouille);
+    bouton.classList.toggle("fa-lock-open", !verrouille);
     bouton.disabled = !acteur.isOwner;
-    bouton.addEventListener("click", (ev) => {
-      ev.preventDefault();
-      ev.stopPropagation();
-      acteur.setFlag(SYSTEME, "verrou", !acteur.getFlag(SYSTEME, "verrou"));
-    });
+    bouton.dataset.tooltip = verrouille
+      ? "Fiche verrouillée — cliquer pour déverrouiller"
+      : "Fiche déverrouillée — cliquer pour verrouiller";
+    bouton.setAttribute("aria-label", bouton.dataset.tooltip);
   }
+
+  // Champs : lecture seule quand la fiche est verrouillée
+  element.querySelectorAll(CHAMPS_TEXTE).forEach((c) => { c.readOnly = verrouille; });
+  element.querySelectorAll(CHAMPS_CHOIX).forEach((c) => { c.disabled = verrouille; });
 }
 
 // Thème des cartes de chat et dialogues : choisi par le MJ pour toute la table

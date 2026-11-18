@@ -4,7 +4,7 @@
 
 ### Fiche PNJ
 - La fiche PNJ **suit maintenant les 8 thèmes** (fond, chiffres, libellés, possessions, arme) et dispose du **sélecteur de thème**.
-- **Cadenas 🔒/🔓** sur les fiches PJ et PNJ : une fois les caractéristiques, variables (et niveau PNJ) réglés, on verrouille la fiche et elles ne bougent plus ; les jets restent possibles.
+- **Cadenas 🔒/🔓** dans l'en-tête de la fenêtre (à côté des trois petits points), sur les fiches PJ et PNJ : une fois la fiche réglée, on la verrouille et plus rien ne se modifie par erreur (champs, cases, portrait, retrait d'objets) ; les jets restent possibles.
 
 ### Lisibilité des thèmes
 - Contrôle de contraste de tous les textes dans les 9 styles : textes secondaires (aides, « glissez ici », C/D, /20, Dés d'Arcanes…) assombris ou éclaircis selon le thème, zone Notes et boutons lisibles partout.

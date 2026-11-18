@@ -2796,8 +2796,8 @@ async function initialiserWiki() {
 </table>
 <h2>💬 Cartes de chat et dialogues (MJ)</h2>
 <p>Dans <em>Configurer les paramètres → Système</em>, le MJ règle le <strong>thème des cartes de chat et des fenêtres de dialogue</strong> pour toute la table : un thème précis, ou « Identique à la fiche de chaque joueur » (valeur par défaut).</p>
-<h2>🔒 Cadenas des caractéristiques</h2>
-<p>Un cadenas, à gauche du sélecteur de thème (fiche de personnage <strong>et</strong> fiche PNJ), permet de <strong>verrouiller</strong> les caractéristiques, les variables et le niveau du PNJ. Déverrouillé 🔓, on règle les valeurs voulues ; verrouillé 🔒, elles ne bougent plus (un clic sur une caractéristique lance toujours le jet). Le cadenas est propre à chaque fiche.</p>
+<h2>🔒 Cadenas de la fiche</h2>
+<p>Un cadenas, dans l'en-tête de la fenêtre à côté des trois petits points (fiche de personnage <strong>et</strong> fiche PNJ), <strong>verrouille toute la fiche</strong>. Déverrouillé 🔓, le joueur ou le Gardien règle librement caractéristiques, variables, jauges, etc. Verrouillé 🔒, plus rien ne se modifie par erreur ; les jets restent possibles. Le cadenas est propre à chaque fiche.</p>
 <h2>🔠 Taille du texte</h2>
 <p>Les fiches de personnage et PNJ utilisent un texte agrandi (18 px), onglets compris.</p>
 <h2>🕵️ Confidentialité</h2>
